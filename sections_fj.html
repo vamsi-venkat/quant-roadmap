@@ -1,0 +1,413 @@
+
+  <!-- ============================================================ -->
+  <!-- SECTION F: RESEARCH & BACKTESTING BEST PRACTICES -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-f">
+    <div class="section-header">
+      <div class="section-letter c1">F</div>
+      <div class="section-title-block">
+        <h2>Research &amp; Backtesting Best-Practice Guide</h2>
+        <p>How professional quantitative research is structured, and why most backtests fail in live trading.</p>
+      </div>
+    </div>
+
+    <h3>The Research Process</h3>
+    <div class="timeline">
+      <div class="tl-step"><div class="tl-num">1</div><div><strong>Form a falsifiable hypothesis.</strong> "Stocks with high trailing 12-month momentum earn positive risk-adjusted returns in the subsequent month" — this is testable and falsifiable. Avoid "the market has patterns I can exploit" — untestable.</div></div>
+      <div class="tl-step"><div class="tl-num">2</div><div><strong>Inspect data before modeling.</strong> Check for outliers, missing observations, corporate actions, survivorship bias, point-in-time availability. Many apparent signals disappear after data cleaning.</div></div>
+      <div class="tl-step"><div class="tl-num">3</div><div><strong>Establish a baseline first.</strong> What does a simple benchmark do? Equal-weight buy-and-hold, market-cap weighted index. Your strategy must clearly beat this, net of costs, in OOS data.</div></div>
+      <div class="tl-step"><div class="tl-num">4</div><div><strong>Choose the model.</strong> Prefer the simplest model that fits the hypothesis. A linear regression with 3 factors is preferable to XGBoost with 50 features if their predictive power is similar — less overfitting risk, more interpretable.</div></div>
+      <div class="tl-step"><div class="tl-num">5</div><div><strong>Run experiments in-sample only.</strong> Log ALL experiments (use MLflow). Make OOS data invisible during model development.</div></div>
+      <div class="tl-step"><div class="tl-num">6</div><div><strong>Validate OOS exactly once.</strong> If you revisit OOS to improve the model, it becomes in-sample. A second OOS period is now contaminated.</div></div>
+      <div class="tl-step"><div class="tl-num">7</div><div><strong>Assess robustness.</strong> Does the strategy work across subperiods? Asset classes? Parameter perturbations? A good strategy is robust; a fit strategy is fragile.</div></div>
+      <div class="tl-step"><div class="tl-num">8</div><div><strong>Document limitations honestly.</strong> All strategies have failure modes. Write them in your research report. Reviewers trust researchers who acknowledge limitations over those who don't.</div></div>
+    </div>
+
+    <h3 style="margin-top:32px;">The Taxonomy of Backtesting Biases</h3>
+    <div class="grid-2">
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 Survivorship Bias</h4>
+        <p style="font-size:13px;">Testing only on currently traded companies excludes delisted, bankrupt, or acquired firms — systematically overestimates returns. <strong>Fix:</strong> Use point-in-time constituent lists. Bloomberg, CRSP, and Compustat provide these; free approximations exist via Wikipedia S&P 500 historical membership.</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 Look-Ahead Bias</h4>
+        <p style="font-size:13px;">Using data that wasn't available at decision time. Common in accounting data (10-K filed 60+ days after quarter end). <strong>Fix:</strong> Use point-in-time financial databases (Compustat); always lag fundamental data by at least 3 months.</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 Data Snooping / Multiple Testing</h4>
+        <p style="font-size:13px;">Testing 100 parameter combinations; 5 will appear significant by chance at α=5%. <strong>Fix:</strong> Apply Bonferroni correction; report all tested parameters, not just the best; compute Probability of Backtest Overfitting (PBO). Harvey, Liu &amp; Zhu (2016) recommend minimum t-stat of 3.0 for new factor claims.</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 In-Sample Overfitting</h4>
+        <p style="font-size:13px;">A model trained on historical data learns noise, not signal. <strong>Fix:</strong> Purged K-fold CV; walk-forward validation; regularization; hold-out test set that is never touched during development.</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 Transaction Cost Underestimation</h4>
+        <p style="font-size:13px;">Using zero or 1bp costs; ignoring market impact for larger positions; ignoring borrow costs for short positions. <strong>Fix:</strong> Use bid-ask midpoint for signals; apply 5–15bps per-side for liquid large-caps; add a market impact model for strategies with large AUM.</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 Non-Stationarity &amp; Regime Changes</h4>
+        <p style="font-size:13px;">Statistical relationships change over time. The value premium that worked 1963–2007 has been largely absent post-2007. <strong>Fix:</strong> Subsample analysis; regime detection; avoid strategies that depend entirely on one period's patterns.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:32px;">Sharpe Ratio — Limitations and Context</h3>
+    <div class="callout warning">
+      <div class="callout-icon">⚠️</div>
+      <div>
+        <p style="font-size:13px;margin:0;">Sharpe ratio assumes returns are i.i.d. Normal. Real returns are: (1) autocorrelated (inflating Sharpe for trend-following), (2) non-normal (fat tails understate risk), (3) estimated with finite samples (a Sharpe of 1.5 over 3 years has wide confidence intervals). <strong>Use Deflated Sharpe Ratio</strong> (Bailey &amp; Lopez de Prado 2012) which adjusts for skewness, kurtosis, and multiple testing. A 3-year monthly Sharpe of 1.5 has a 95% CI of approximately [0.8, 2.2]. Always report the confidence interval.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;">Walk-Forward Validation Protocol</h3>
+    <div class="grid-3" style="gap:12px;">
+      <div class="card" style="padding:14px;">
+        <h4 style="font-size:13px;">❌ Never Do This</h4>
+        <p style="font-size:12px;">Optimize parameters on full dataset, then test on same dataset. Report Sharpe = 2.3. "Our strategy works."</p>
+      </div>
+      <div class="card" style="padding:14px;">
+        <h4 style="font-size:13px;">⚠️ Acceptable But Weak</h4>
+        <p style="font-size:12px;">Single train/test split, 70%/30%. Better, but vulnerable to regime luck — if the test period is a bull market, you get false confidence.</p>
+      </div>
+      <div class="card" style="padding:14px;">
+        <h4 style="font-size:13px;">✅ Do This</h4>
+        <p style="font-size:12px;">Walk-forward: IS=36m, OOS=6m, step=6m, 10+ folds. Each fold optimizes independently. Report aggregate OOS performance across all folds, including the worst fold.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;">Professional Workflow Checklist</h3>
+    <div class="checklist">
+      <label class="check-item"><input type="checkbox"><span>Version control: every experiment is committed with a unique git SHA</span></label>
+      <label class="check-item"><input type="checkbox"><span>Config files: no magic numbers in code; all parameters in YAML/TOML</span></label>
+      <label class="check-item"><input type="checkbox"><span>Reproducible environment: requirements.txt + Docker or conda environment.yml</span></label>
+      <label class="check-item"><input type="checkbox"><span>Logging: log data sources, dates processed, any anomalies encountered</span></label>
+      <label class="check-item"><input type="checkbox"><span>Unit tests: test data pipeline, accounting logic, signal computation</span></label>
+      <label class="check-item"><input type="checkbox"><span>Experiment tracking: MLflow or Weights &amp; Biases; log all runs, not just good ones</span></label>
+      <label class="check-item"><input type="checkbox"><span>Research report: write it even for negative results — null findings are still findings</span></label>
+      <label class="check-item"><input type="checkbox"><span>OOS contamination log: document every time OOS data was viewed and why</span></label>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION G: THREE SCHEDULES -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-g">
+    <div class="section-header">
+      <div class="section-letter c2">G</div>
+      <div class="section-title-block">
+        <h2>Three Study Schedules</h2>
+        <p>3-month, 6-month, and 12-month plans. Ambitious but realistic.</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div><strong>Disclaimer:</strong> These schedules assume the <em>default profile</em> — a beginner with basic Python and pre-calculus math. Adjust aggressively if you have stronger prerequisites. No schedule guarantees employment or profitability.</div>
+    </div>
+
+    <!-- 3 MONTH -->
+    <div class="card" style="padding:20px;margin-bottom:24px;" id="sched-3m">
+      <h3>⚡ 3-Month Accelerated Plan</h3>
+      <p style="font-size:13px;"><strong>Target:</strong> 15–20 hrs/week | <strong>Outcome:</strong> Solid Python/NumPy/pandas, probability fundamentals, financial data literacy, Projects 1–4 completed | <strong>Entry point for:</strong> Internship applications, PhD program prep</p>
+      <div class="schedule-grid">
+        <div class="sched-week"><strong>Weeks 1–2</strong><br>Python fundamentals (loops, functions, classes, list comprehensions, file I/O). NumPy arrays, vectorized operations. pandas DataFrames (indexing, groupby, merge, resample). Complete all exercises in official NumPy and pandas docs.</div>
+        <div class="sched-week"><strong>Weeks 3–4</strong><br>Probability: sample space, conditional probability, Bayes, random variables, expectation, variance, covariance. Common distributions (Normal, Poisson, Binomial, Exponential). Central Limit Theorem. Textbook: Walpole/Myers "Probability &amp; Statistics" Ch.1–5.</div>
+        <div class="sched-week"><strong>Weeks 5–6</strong><br>Statistics: estimation, MLE, confidence intervals, hypothesis testing (t-test, chi-square, Kolmogorov-Smirnov). Linear regression derivation from scratch. Python: scipy.stats, statsmodels. Begin <strong>Project 1</strong>.</div>
+        <div class="sched-week"><strong>Weeks 7–8</strong><br>Financial concepts: prices vs returns, log-returns, compounding, dividends, splits, market cap. Equity data APIs (yfinance, FRED via pandas-datareader). Complete <strong>Project 1</strong>. Begin <strong>Project 2</strong>.</div>
+        <div class="sched-week"><strong>Weeks 9–10</strong><br>Linear algebra: vectors, matrices, matrix multiplication, eigenvalues/eigenvectors (focus on PCA intuition). Calculus: derivatives, chain rule, gradient, Hessian (surface understanding). Complete <strong>Project 2</strong>.</div>
+        <div class="sched-week"><strong>Weeks 11–12</strong><br>Portfolio math: covariance matrix, Markowitz optimization with cvxpy. Complete <strong>Project 3</strong>. Begin architecture planning for <strong>Project 4</strong> (backtesting engine). Write research summaries for Projects 1–3.</div>
+      </div>
+      <div class="pill green" style="display:inline-block;margin-top:12px;">Milestone: 3 complete, documented GitHub repos with README and findings</div>
+    </div>
+
+    <!-- 6 MONTH -->
+    <div class="card" style="padding:20px;margin-bottom:24px;" id="sched-6m">
+      <h3>📈 6-Month Intermediate Plan</h3>
+      <p style="font-size:13px;"><strong>Target:</strong> 15–20 hrs/week | <strong>Outcome:</strong> Time series, GARCH, factor models, backtesting engine, Projects 1–9 | <strong>Entry point for:</strong> Junior quant analyst applications, quant developer roles</p>
+      <div class="schedule-grid">
+        <div class="sched-week"><strong>Month 1</strong><br>Complete 3-month plan (above). Priority: Projects 1–4.</div>
+        <div class="sched-week"><strong>Month 2</strong><br>Time series: stationarity, ADF test, ARIMA, ACF/PACF interpretation. Volatility: EWMA, GARCH(1,1) derivation and MLE. arch library. Complete <strong>Projects 5 &amp; 6</strong> (momentum, mean-reversion). Analyze transaction cost sensitivity.</div>
+        <div class="sched-week"><strong>Month 3</strong><br>Cointegration: Engle-Granger, Johansen tests. Kalman filter basics. Complete <strong>Project 7</strong> (pairs trading). Stochastic processes: Brownian motion, GBM, Itô's lemma (intuitive level). Textbook: Shreve Vol.1 Ch.1–2.</div>
+        <div class="sched-week"><strong>Month 4</strong><br>Cross-sectional asset pricing: CAPM derivation, APT, Fama-French 3- and 5-factor models. Fama-MacBeth procedure. GRS test. Complete <strong>Project 8</strong>. SQL: SELECT, JOIN, GROUP BY, window functions — essential for databases.</div>
+        <div class="sched-week"><strong>Month 5</strong><br>Derivatives: forwards, futures, options. Black-Scholes derivation (risk-neutral pricing). Greeks. IV surface. Complete <strong>Projects 9 &amp; 10</strong>. Git workflow: branching, pull requests, code review practice.</div>
+        <div class="sched-week"><strong>Month 6</strong><br>GARCH forecasting: GJR-GARCH, EGARCH, model selection (AIC/BIC, DM test). Complete <strong>Project 11</strong>. Interview preparation begins: probability puzzles, statistics questions, brainteasers. Update GitHub READMEs to professional standard.</div>
+      </div>
+      <div class="pill blue" style="display:inline-block;margin-top:12px;">Milestone: 9 projects · Factor model knowledge · Derivatives pricing · Professional GitHub portfolio</div>
+    </div>
+
+    <!-- 12 MONTH -->
+    <div class="card" style="padding:20px;margin-bottom:24px;" id="sched-12m">
+      <h3>🎯 12-Month Full Roadmap</h3>
+      <p style="font-size:13px;"><strong>Target:</strong> 15–20 hrs/week | <strong>Outcome:</strong> Advanced quant researcher level, all 15 projects, ML for finance, microstructure, complete research pipeline | <strong>Entry point for:</strong> Quant research analyst, quant developer roles at mid-tier funds</p>
+      <div class="schedule-grid">
+        <div class="sched-week"><strong>Months 1–6</strong><br>Complete the 6-month plan above. You should have Projects 1–11 done with clean code and documentation.</div>
+        <div class="sched-week"><strong>Month 7</strong><br>Market microstructure deep dive: bid-ask spread models (Roll, Corwin-Schultz, Amihud), order flow analysis. Complete <strong>Project 12</strong>. Read O'Hara "Market Microstructure Theory" Ch.1–4.</div>
+        <div class="sched-week"><strong>Month 8</strong><br>Advanced stochastic calculus: Itô's lemma formal treatment, Girsanov theorem, risk-neutral measure, martingales. Shreve Vol.2 Ch.1–4. Statistical arbitrage theory: mean-reverting OU process, optimal thresholds (Bertram 2010). Complete <strong>Project 13</strong>.</div>
+        <div class="sched-week"><strong>Month 9</strong><br>ML for finance: feature engineering with strict time-series discipline. Gradient boosting (XGBoost, LightGBM). Purged K-fold cross-validation. Information coefficient framework. MLflow experiment tracking. Complete <strong>Project 14</strong>.</div>
+        <div class="sched-week"><strong>Month 10</strong><br>Portfolio optimization advanced: risk parity, Black-Litterman model, factor risk models, transaction cost optimization. Begin <strong>Project 15</strong> architecture.</div>
+        <div class="sched-week"><strong>Month 11</strong><br>Complete <strong>Project 15</strong> (full pipeline). Write research report. Deep interview preparation: 2+ hours/day on probability, statistics, finance problems. Practice explaining your projects to a critical audience.</div>
+        <div class="sched-week"><strong>Month 12</strong><br>Polish: refine top 3 GitHub repos to professional standard. Record a 5-minute video walkthrough of your capstone project. Apply to roles. Continue studying — the roadmap continues after employment, not instead of it.</div>
+      </div>
+      <div class="pill purple" style="display:inline-block;margin-top:12px;">Milestone: Full quant research portfolio · Capstone research pipeline · Interview-ready</div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📊</div>
+      <div><strong>Theory-to-Coding Ratio:</strong> Months 1–3: 60% theory, 40% coding. Months 4–6: 40% theory, 60% coding. Months 7–12: 30% theory, 70% coding + research. The shift reflects that you need foundations first, then fluency in applying them.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION H: CAREER PREP -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-h">
+    <div class="section-header">
+      <div class="section-letter c3">H</div>
+      <div class="section-title-block">
+        <h2>Career Preparation &amp; Portfolio Checklist</h2>
+        <p>How to demonstrate quant competence to hiring managers, not just learn it for yourself.</p>
+      </div>
+    </div>
+
+    <div class="grid-3" style="gap:16px;margin-bottom:28px;">
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--accent);">QR Interview Prep</h4>
+        <ul style="font-size:12px;">
+          <li>Probability: Bayes theorem applications, random walk problems, expected value puzzles, coupon collector, Gambler's ruin</li>
+          <li>Statistics: hypothesis testing, confidence intervals, maximum likelihood estimation, regression assumptions, p-value interpretation</li>
+          <li>Stochastic processes: Brownian motion properties, first passage times, Itô's lemma</li>
+          <li>Finance: CAPM derivation, Black-Scholes intuition, no-arbitrage arguments, Greeks</li>
+          <li>Brainteasers: combinatorics, geometric series, quick mental math</li>
+        </ul>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--accent);">QD Interview Prep</h4>
+        <ul style="font-size:12px;">
+          <li>Algorithms: sorting, binary search, graph algorithms (BFS/DFS), dynamic programming</li>
+          <li>Data structures: hash maps, heaps, queues, trees</li>
+          <li>Python performance: vectorization, Cython/numba profiling, pandas anti-patterns</li>
+          <li>Systems: latency concepts, IPC, memory layout, cache effects</li>
+          <li>SQL: complex queries, window functions, explain plans</li>
+          <li>Low-latency concepts: FIX protocol, order routing, co-location</li>
+        </ul>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--accent);">QT Interview Prep</h4>
+        <ul style="font-size:12px;">
+          <li>Market intuition: option pricing under different regimes, spread dynamics, risk transfer</li>
+          <li>Mental math: fast approximation of Black-Scholes, Poisson probabilities</li>
+          <li>Risk management: Greeks aggregation, hedging scenarios, P&amp;L explain</li>
+          <li>Market microstructure: adverse selection, inventory risk, optimal quotes</li>
+          <li>Game theory: Nash equilibria in simple trading games, auction theory basics</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Professional GitHub Repository Standards</h3>
+    <div class="grid-2">
+      <div>
+        <h4>Every Repository Must Have:</h4>
+        <div class="checklist">
+          <label class="check-item"><input type="checkbox"><span>README.md: motivation, methodology, key results (with tables/charts), limitations, how to reproduce</span></label>
+          <label class="check-item"><input type="checkbox"><span>requirements.txt or environment.yml; Docker if possible</span></label>
+          <label class="check-item"><input type="checkbox"><span>Clean directory structure (not one 1000-line notebook)</span></label>
+          <label class="check-item"><input type="checkbox"><span>Unit tests for core logic (pytest)</span></label>
+          <label class="check-item"><input type="checkbox"><span>Reproducible: clone + one command = working code</span></label>
+          <label class="check-item"><input type="checkbox"><span>Honest results section — include failure cases and limitations</span></label>
+          <label class="check-item"><input type="checkbox"><span>References section with real citations</span></label>
+        </div>
+      </div>
+      <div>
+        <h4>What Kills Your Credibility:</h4>
+        <div class="checklist">
+          <label class="check-item"><input type="checkbox"><span>Sharpe ratio &gt; 3.0 with no explanation of OOS methodology</span></label>
+          <label class="check-item"><input type="checkbox"><span>No transaction costs ("future work to add costs")</span></label>
+          <label class="check-item"><input type="checkbox"><span>One enormous notebook with no modularization</span></label>
+          <label class="check-item"><input type="checkbox"><span>Results that perfectly match a tutorial you copied</span></label>
+          <label class="check-item"><input type="checkbox"><span>No discussion of assumptions or limitations</span></label>
+          <label class="check-item"><input type="checkbox"><span>README says "profitable trading system" without statistical significance tests</span></label>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;">Best Interview Prep Resources</h3>
+    <div class="resource-table">
+      <table>
+        <thead><tr><th>Resource</th><th>Type</th><th>Focus</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A Practical Guide to Quantitative Finance Interviews</strong> — Xinfeng Zhou ("Green Book")</td><td>Book</td><td>Probability, brainteasers, options — standard QT/QR prep</td><td>~$25</td></tr>
+          <tr><td><strong>Heard on the Street</strong> — Timothy Crack</td><td>Book</td><td>Finance/quant interview questions; widely used</td><td>~$30</td></tr>
+          <tr><td><strong>Fifty Challenging Problems in Probability</strong> — Frederick Mosteller</td><td>Book</td><td>Probability problems; excellent for building intuition</td><td>~$15</td></tr>
+          <tr><td><strong>LeetCode</strong> (leetcode.com)</td><td>Platform</td><td>Algorithms and data structures for QD roles</td><td>Free/paid</td></tr>
+          <tr><td><strong>Wilmott Forums</strong> (wilmott.com)</td><td>Forum</td><td>Practitioner discussions; classic interview problems</td><td>Free</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION I: FIRST 30-DAY PLAN -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-i">
+    <div class="section-header">
+      <div class="section-letter c4">I</div>
+      <div class="section-title-block">
+        <h2>Your First 30-Day Action Plan</h2>
+        <p>Concrete daily actions — start today. Assumes complete beginner with basic computer skills.</p>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-step">
+        <div class="tl-num">W1</div>
+        <div>
+          <strong>Days 1–7: Setup &amp; Python Foundations</strong>
+          <ul style="font-size:13px;margin-top:8px;">
+            <li><strong>Day 1:</strong> Install Python 3.11+, pip, JupyterLab via pip. Create first notebook. Print "Hello, Quant." Understand kernel, cells, markdown.</li>
+            <li><strong>Day 2–3:</strong> Python fundamentals: variables, lists, dictionaries, for loops, functions. Work through Python official tutorial sections 1–5 (docs.python.org/3/tutorial/).</li>
+            <li><strong>Day 4–5:</strong> NumPy: array creation, slicing, broadcasting, vectorized math (np.dot, np.cumsum). Work through NumPy quickstart guide (numpy.org/doc/stable/user/quickstart.html).</li>
+            <li><strong>Day 6–7:</strong> pandas: DataFrame creation, read_csv, indexing, .groupby(), .rolling(), .resample(). Work through 10 Minutes to pandas (pandas.pydata.org/docs/user_guide/10min.html).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num">W2</div>
+        <div>
+          <strong>Days 8–14: Financial Data &amp; Probability</strong>
+          <ul style="font-size:13px;margin-top:8px;">
+            <li><strong>Day 8:</strong> Install yfinance. Download 5 years of AAPL daily data. Compute log-returns. Plot with matplotlib. Understand what split-adjusted close price means.</li>
+            <li><strong>Day 9–10:</strong> Probability basics: work through MIT OpenCourseWare 6.041 Lecture 1–4 notes (ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/). Solve 5 probability problems daily.</li>
+            <li><strong>Day 11–12:</strong> Statistics: normal distribution, z-scores, t-test. Compute t-test for "is AAPL mean daily return significantly different from zero?" using scipy.stats.ttest_1samp.</li>
+            <li><strong>Day 13–14:</strong> Begin Project 1: download 20 stocks, compute returns, run Jarque-Bera test, plot histogram vs Normal. Write 1-page findings summary.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num">W3</div>
+        <div>
+          <strong>Days 15–21: Deep Dive into Returns Analysis</strong>
+          <ul style="font-size:13px;margin-top:8px;">
+            <li><strong>Day 15–16:</strong> Complete Project 1. Push to GitHub with README explaining what you found. Write it as if explaining to a colleague: "I tested whether returns are normally distributed, because…"</li>
+            <li><strong>Day 17–18:</strong> Linear algebra: vectors, dot products, matrix multiplication, eigenvectors. Use 3Blue1Brown "Essence of Linear Algebra" series on YouTube (youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab). Watch Chapters 1–7.</li>
+            <li><strong>Day 19–21:</strong> Begin Project 2: rolling volatility, EWMA, correlation matrix, maximum drawdown. Focus on getting all computations correct before worrying about plots.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num">W4</div>
+        <div>
+          <strong>Days 22–30: Git, SQL &amp; Project Completion</strong>
+          <ul style="font-size:13px;margin-top:8px;">
+            <li><strong>Day 22–23:</strong> Git: clone, commit, push, branch, merge. Create a proper repository structure. Read "Pro Git" (git-scm.com/book/en/v2) Chapters 1–3 (free online).</li>
+            <li><strong>Day 24–25:</strong> SQL: SELECT, WHERE, GROUP BY, ORDER BY, JOIN. Practice at SQLZoo (sqlzoo.net) — complete the first 6 sections.</li>
+            <li><strong>Day 26–28:</strong> Complete Project 2. Push to GitHub. Write a research summary: 1 paragraph per finding. Ask yourself: "What would change about portfolio management if I took these findings seriously?"</li>
+            <li><strong>Day 29–30:</strong> Self-assessment: can you explain what a fat-tailed return distribution means and why it matters? Can you write a pandas pipeline from scratch without looking at docs? Can you articulate why Markowitz needs a covariance matrix? If yes to all three, you're ready for Week 5.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout success">
+      <div class="callout-icon">✅</div>
+      <div><strong>30-Day Success Criteria:</strong> 2 completed GitHub repos with professional READMEs · Can write a pandas data pipeline from scratch · Understand log-returns, fat tails, volatility clustering at a verbal and mathematical level · Have daily study habit established (minimum 2 hours/day)</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION J: PRIORITIES -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-j">
+    <div class="section-header">
+      <div class="section-letter c5">J</div>
+      <div class="section-title-block">
+        <h2>Prioritized Study, Build, and Avoid List</h2>
+        <p>What to focus on, what to build first, and what to skip or defer.</p>
+      </div>
+    </div>
+
+    <div class="grid-3" style="gap:16px;margin-bottom:28px;">
+      <div class="card" style="padding:16px;border-left:4px solid var(--green);">
+        <h3 style="color:var(--green);font-size:15px;">📚 STUDY FIRST</h3>
+        <ol style="font-size:13px;padding-left:16px;">
+          <li><strong>Python + NumPy + pandas</strong> — the tool you'll use for everything else. No shortcuts here.</li>
+          <li><strong>Probability &amp; statistics</strong> — all quant work is about inference under uncertainty. This is the foundation.</li>
+          <li><strong>Linear regression</strong> — understand OLS, its assumptions, when it fails, and what alternatives exist.</li>
+          <li><strong>Log-returns and their properties</strong> — every equity quant needs this as second nature.</li>
+          <li><strong>Covariance, correlation, PCA</strong> — portfolio construction requires multivariate thinking.</li>
+          <li><strong>Time-series basics: stationarity, ARIMA, GARCH</strong> — essential for volatility and return modeling.</li>
+          <li><strong>Black-Scholes + Greeks</strong> — you will be asked about this in any interview.</li>
+          <li><strong>Fama-French + Fama-MacBeth</strong> — the standard empirical framework for factor research.</li>
+          <li><strong>Backtesting biases</strong> — know these so well you can cite them in your sleep.</li>
+          <li><strong>Git &amp; reproducible workflows</strong> — professional non-negotiable.</li>
+        </ol>
+      </div>
+      <div class="card" style="padding:16px;border-left:4px solid var(--blue);">
+        <h3 style="color:var(--blue);font-size:15px;">🔨 BUILD IN THIS ORDER</h3>
+        <ol style="font-size:13px;padding-left:16px;">
+          <li>Project 1: Financial data pipeline &amp; return analysis</li>
+          <li>Project 2: Volatility, correlation, drawdown</li>
+          <li>Project 3: Markowitz optimization (including 1/N comparison)</li>
+          <li>Project 4: Backtesting engine from scratch</li>
+          <li>Project 5: Momentum with proper OOS testing</li>
+          <li>Project 8: Fama-French factor analysis</li>
+          <li>Project 9: Black-Scholes + IV surface</li>
+          <li>Project 11: GARCH volatility forecasting</li>
+          <li>Project 7: Pairs trading + cointegration</li>
+          <li>Project 14: ML for return prediction</li>
+          <li>Project 15: Full research pipeline (capstone)</li>
+          <li>Projects 6, 10, 12, 13: fill in gaps when relevant</li>
+        </ol>
+      </div>
+      <div class="card" style="padding:16px;border-left:4px solid var(--red);">
+        <h3 style="color:var(--red);font-size:15px;">🚫 AVOID / DEFER</h3>
+        <ol style="font-size:13px;padding-left:16px;">
+          <li><strong>Deep Learning / Neural networks</strong> before mastering linear models — skip-level overfitting guarantees failure</li>
+          <li><strong>Crypto strategies</strong> early on — regime instability, thin microstructure, data quality issues make it harder to learn clean lessons</li>
+          <li><strong>RL for trading</strong> — requires enormous data, non-trivial environment design; defer until year 2+</li>
+          <li><strong>High-frequency trading</strong> without microstructure foundations — requires expensive data and infrastructure</li>
+          <li><strong>Paid courses with no code</strong> — avoid courses that promise "profitable strategies" without teaching statistics</li>
+          <li><strong>Copying tutorial strategies verbatim</strong> — you learn nothing and it's obvious in interviews</li>
+          <li><strong>Over-engineering before understanding</strong> — don't build a distributed backtester before you can run a simple walk-forward correctly</li>
+          <li><strong>Chasing every new paper or method</strong> — go deep before going wide</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="callout success">
+      <div class="callout-icon">🎯</div>
+      <div>
+        <p style="margin:0;font-size:14px;"><strong>Final Principle — From Your Research Supervisor:</strong></p>
+        <p style="margin:8px 0 0 0;font-size:13px;">The most common mistake beginners make is treating quant finance as pattern recognition: find a pattern in historical data, code it up, report the backtest. That approach produces overfit strategies and shallow understanding. The approach that builds real expertise is <em>scientific thinking</em>: form a precise hypothesis about <em>why</em> a pattern should exist (risk premium, behavioral bias, structural friction), design a test that could genuinely falsify it, apply every bias control, accept the result honestly. A strategy that fails a rigorous test is not wasted time — it's a lesson in what the market doesn't reward. That understanding is worth more than any overfit backtest.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SUPERVISOR NOTE -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-supervisor">
+    <div class="section-header">
+      <div class="section-letter c1">★</div>
+      <div class="section-title-block">
+        <h2>A Note from Your Research Supervisor</h2>
+        <p>How this mentorship will work, and what comes next.</p>
+      </div>
+    </div>
+    <div class="callout info">
+      <div class="callout-icon">🎓</div>
+      <div>
+        <p style="font-size:14px;margin:0;"><strong>Assumptions about your background:</strong> I've assumed you are a motivated beginner with basic computer literacy, little to no formal statistics or programming training, and a genuine interest in quantitative finance as a career. If your actual background is different — for example, if you already have Python fluency, a mathematics degree, or specific experience in finance — the roadmap can and should be accelerated. Tell me where you are now, and I'll adjust the starting point.</p>
+        <p style="font-size:13px;margin-top:12px;"><strong>How the mentorship works:</strong> This roadmap is your map. We'll navigate it together, one project at a time. For each project, I will: (1) explain the objective and financial motivation before you start coding; (2) break it into stages with checkpoints; (3) review your reasoning, math, and code; (4) challenge your assumptions and results; (5) assess your work against professional standards; and (6) assign the next project based on your demonstrated strengths and weaknesses — not a predetermined sequence.</p>
+        <p style="font-size:13px;margin-top:12px;"><strong>What I need from you to start:</strong></p>
+        <ol style="font-size:13px;margin-top:4px;">
+          <li>Your current Python and programming level (none / basic / intermediate / advanced)</li>
+          <li>Your mathematics level (pre-calculus / single-variable calculus / multivariable &amp; linear algebra / graduate level)</li>
+          <li>Your finance knowledge (none / conceptual / worked in finance / formal training)</li>
+          <li>Your preferred quant career path (researcher / developer / trader — or undecided)</li>
+          <li>Weekly study time available (hours)</li>
+          <li>Target timeline for job readiness or your current goal</li>
+        </ol>
+        <p style="font-size:13px;margin-top:12px;"><em>If you'd prefer to start immediately without customization, say "start with Project 1" and I'll guide you through it step by step, beginning with the prerequisites and research question, asking you to implement each stage before revealing the next one.</em></p>
+      </div>
+    </div>
+  </div>

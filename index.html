@@ -1,0 +1,2490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quantitative Finance: Complete Learning Roadmap</title>
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2236;
+    --border: #1e2d45;
+    --accent: #00d4ff;
+    --accent2: #7c3aed;
+    --accent3: #10b981;
+    --accent4: #f59e0b;
+    --accent5: #ef4444;
+    --text: #e2e8f0;
+    --text-muted: #94a3b8;
+    --text-dim: #64748b;
+    --heading: #f1f5f9;
+    --code-bg: #0d1117;
+    --tag-bg: #1e3a5f;
+    --tag-text: #60b8ff;
+    --warn: #fef3c7;
+    --warn-border: #f59e0b;
+    --info: #e0f2fe;
+    --info-border: #0284c7;
+    --success: #d1fae5;
+    --success-border: #059669;
+    --danger: #fee2e2;
+    --danger-border: #dc2626;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,14,26,0.97);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    backdrop-filter: blur(8px);
+  }
+  .nav-inner {
+    max-width: 1300px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 54px; gap: 8px;
+  }
+  .nav-logo {
+    font-size: 13px; font-weight: 700;
+    color: var(--accent); white-space: nowrap;
+    letter-spacing: 0.5px;
+  }
+  .nav-links {
+    display: flex; gap: 2px; flex-wrap: wrap;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-muted); text-decoration: none;
+    font-size: 11.5px; padding: 5px 9px; border-radius: 5px;
+    transition: all .15s;
+  }
+  .nav-links a:hover { color: var(--accent); background: var(--surface2); }
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0a0e1a 0%, #0d1b2e 50%, #0f1729 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 20px 50px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: var(--tag-bg); color: var(--accent);
+    font-size: 11px; font-weight: 700; letter-spacing: 1px;
+    padding: 4px 12px; border-radius: 20px; border: 1px solid var(--accent);
+    margin-bottom: 20px; text-transform: uppercase;
+  }
+  .hero h1 {
+    font-size: clamp(26px, 4vw, 44px);
+    color: var(--heading); font-weight: 800;
+    line-height: 1.2; margin-bottom: 16px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-sub {
+    font-size: 16px; color: var(--text-muted);
+    max-width: 700px; margin: 0 auto 30px;
+  }
+  .hero-stats {
+    display: flex; gap: 30px; justify-content: center; flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  .hero-stat { text-align: center; }
+  .hero-stat .val { font-size: 26px; font-weight: 800; color: var(--accent); }
+  .hero-stat .lbl { font-size: 11px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; }
+  /* MAIN LAYOUT */
+  .main { max-width: 1300px; margin: 0 auto; padding: 0 20px 80px; }
+  /* SECTIONS */
+  .section {
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+  .section-header {
+    display: flex; align-items: flex-start; gap: 16px;
+    margin-bottom: 30px;
+  }
+  .section-letter {
+    flex-shrink: 0;
+    width: 48px; height: 48px;
+    background: var(--accent2);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 900; color: #fff;
+    box-shadow: 0 0 20px rgba(124,58,237,0.3);
+  }
+  .section-letter.c1 { background: var(--accent2); box-shadow: 0 0 20px rgba(124,58,237,0.3); }
+  .section-letter.c2 { background: #0284c7; box-shadow: 0 0 20px rgba(2,132,199,0.3); }
+  .section-letter.c3 { background: var(--accent3); box-shadow: 0 0 20px rgba(16,185,129,0.3); }
+  .section-letter.c4 { background: var(--accent4); box-shadow: 0 0 20px rgba(245,158,11,0.3); }
+  .section-letter.c5 { background: var(--accent5); box-shadow: 0 0 20px rgba(239,68,68,0.3); }
+  .section-letter.c6 { background: #db2777; box-shadow: 0 0 20px rgba(219,39,119,0.3); }
+  .section-letter.c7 { background: #7c3aed; box-shadow: 0 0 20px rgba(124,58,237,0.3); }
+  .section-letter.c8 { background: #0891b2; box-shadow: 0 0 20px rgba(8,145,178,0.3); }
+  .section-letter.c9 { background: #059669; box-shadow: 0 0 20px rgba(5,150,105,0.3); }
+  .section-letter.c10 { background: #d97706; box-shadow: 0 0 20px rgba(217,119,6,0.3); }
+  .section-title-block h2 {
+    font-size: 22px; font-weight: 800; color: var(--heading);
+    margin-bottom: 4px;
+  }
+  .section-title-block p { font-size: 13px; color: var(--text-muted); }
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 22px;
+    margin-bottom: 18px;
+  }
+  .card h3 {
+    font-size: 15px; font-weight: 700;
+    color: var(--heading); margin-bottom: 10px;
+  }
+  .card h4 {
+    font-size: 13px; font-weight: 700;
+    color: var(--accent); margin: 12px 0 6px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .card p, .card li { font-size: 14px; color: var(--text); }
+  .card ul, .card ol { padding-left: 20px; }
+  .card ul li, .card ol li { margin-bottom: 5px; }
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: repeat(auto-fill,minmax(560px,1fr)); gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(auto-fill,minmax(360px,1fr)); gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(auto-fill,minmax(260px,1fr)); gap: 14px; }
+  /* ROLE CARDS */
+  .role-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px;
+    position: relative; overflow: hidden;
+  }
+  .role-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .role-card.qr::before { background: var(--accent2); }
+  .role-card.qt::before { background: var(--accent); }
+  .role-card.qd::before { background: var(--accent3); }
+  .role-card.pm::before { background: var(--accent4); }
+  .role-card.fe::before { background: var(--accent5); }
+  .role-title { font-size: 16px; font-weight: 800; color: var(--heading); margin-bottom: 6px; }
+  .role-subtitle { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
+  .role-tag {
+    display: inline-block;
+    background: var(--tag-bg); color: var(--tag-text);
+    font-size: 10.5px; font-weight: 600; padding: 3px 8px; border-radius: 4px;
+    margin: 2px 2px 2px 0;
+  }
+  .role-tag.green { background: #064e3b; color: #6ee7b7; }
+  .role-tag.yellow { background: #451a03; color: #fcd34d; }
+  .role-tag.red { background: #450a0a; color: #fca5a5; }
+  .role-tag.purple { background: #3b0764; color: #c4b5fd; }
+  .role-section { margin-top: 12px; }
+  .role-section strong { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-dim); display: block; margin-bottom: 5px; }
+  /* TABLES */
+  .tbl-wrap { overflow-x: auto; margin: 14px 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.5px; padding: 10px 12px;
+    text-align: left; font-weight: 700;
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--border); color: var(--text); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(255,255,255,0.02); }
+  /* CALLOUT BOXES */
+  .callout {
+    border-radius: 10px; padding: 14px 18px;
+    margin: 14px 0; font-size: 13.5px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .callout-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .callout.warn { background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.3); color: #fcd34d; }
+  .callout.info { background: rgba(0,212,255,0.06); border: 1px solid rgba(0,212,255,0.2); color: #7dd3fc; }
+  .callout.success { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.2); color: #6ee7b7; }
+  .callout.danger { background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; }
+  /* PILL BADGES */
+  .pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 12px; margin: 1px; }
+  .pill.blue { background: rgba(0,212,255,0.12); color: var(--accent); border: 1px solid rgba(0,212,255,0.25); }
+  .pill.green { background: rgba(16,185,129,0.12); color: #34d399; border: 1px solid rgba(16,185,129,0.25); }
+  .pill.yellow { background: rgba(245,158,11,0.12); color: #fcd34d; border: 1px solid rgba(245,158,11,0.25); }
+  .pill.red { background: rgba(239,68,68,0.12); color: #f87171; border: 1px solid rgba(239,68,68,0.25); }
+  .pill.purple { background: rgba(124,58,237,0.12); color: #c4b5fd; border: 1px solid rgba(124,58,237,0.25); }
+  .pill.gray { background: rgba(100,116,139,0.15); color: var(--text-muted); border: 1px solid rgba(100,116,139,0.3); }
+  /* SKILL MATRIX */
+  .skill-cell { padding: 8px 10px; }
+  .depth-bar {
+    display: flex; gap: 3px; margin-top: 4px;
+  }
+  .depth-dot {
+    width: 10px; height: 10px; border-radius: 2px;
+    background: var(--border);
+  }
+  .depth-dot.filled { background: var(--accent); }
+  .depth-dot.filled.m { background: var(--accent3); }
+  .depth-dot.filled.h { background: var(--accent4); }
+  .depth-dot.filled.v { background: var(--accent5); }
+  /* PROGRESS INDICATOR */
+  .stage-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 12px; border-radius: 6px; font-size: 12px; font-weight: 700;
+  }
+  .stage-badge.s1 { background: rgba(16,185,129,0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+  .stage-badge.s2 { background: rgba(0,212,255,0.1); color: var(--accent); border: 1px solid rgba(0,212,255,0.3); }
+  .stage-badge.s3 { background: rgba(124,58,237,0.1); color: #c4b5fd; border: 1px solid rgba(124,58,237,0.3); }
+  .stage-badge.s4 { background: rgba(245,158,11,0.1); color: #fcd34d; border: 1px solid rgba(245,158,11,0.3); }
+  /* INLINE CODE */
+  code { background: var(--code-bg); padding: 1px 6px; border-radius: 4px; font-family: 'Consolas', 'Fira Code', monospace; font-size: 12.5px; color: #7dd3fc; border: 1px solid #1e3a5f; }
+  pre {
+    background: var(--code-bg); padding: 16px 18px; border-radius: 10px;
+    overflow-x: auto; font-size: 12.5px;
+    border: 1px solid var(--border);
+    color: #a5f3fc; line-height: 1.6;
+    font-family: 'Consolas', 'Fira Code', monospace;
+    margin: 12px 0;
+  }
+  /* DIVIDER */
+  hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+  /* OVERLAP MATRIX */
+  .overlap-grid {
+    display: grid;
+    grid-template-columns: 160px repeat(5, 1fr);
+    gap: 1px; background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px; overflow: hidden;
+    font-size: 12px;
+  }
+  .overlap-cell {
+    background: var(--surface); padding: 8px 10px;
+    text-align: center;
+  }
+  .overlap-cell.header { background: var(--surface2); font-weight: 700; color: var(--text-muted); font-size: 11px; }
+  .overlap-cell.label { text-align: left; font-weight: 600; color: var(--text); }
+  .overlap-cell.full { background: rgba(16,185,129,0.18); color: #34d399; font-weight: 700; }
+  .overlap-cell.high { background: rgba(0,212,255,0.12); color: var(--accent); }
+  .overlap-cell.med { background: rgba(245,158,11,0.1); color: #fcd34d; }
+  .overlap-cell.low { background: rgba(239,68,68,0.08); color: #f87171; }
+  .overlap-cell.none { background: var(--surface); color: var(--text-dim); }
+  /* responsive */
+  @media(max-width:768px){
+    .grid-2,.grid-3,.grid-4 { grid-template-columns: 1fr; }
+    .overlap-grid { grid-template-columns: 100px repeat(5,1fr); font-size: 10px; }
+    .nav-links { display: none; }
+  }
+  /* anchor offset for sticky nav */
+  [id] { scroll-margin-top: 70px; }
+  /* FOOTNOTE */
+  .fn { font-size: 11.5px; color: var(--text-dim); font-style: italic; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .toc-list { columns: 2; gap: 30px; list-style: none; padding: 0; }
+  .toc-list li { padding: 4px 0; font-size: 13.5px; }
+  .toc-list li a { color: var(--text-muted); }
+  .toc-list li a:hover { color: var(--accent); }
+  .toc-list li span { color: var(--text-dim); font-size: 11px; margin-right: 6px; }
+
+  /* ---- Timeline ---- */
+  .timeline { display:flex; flex-direction:column; gap:0; margin-top:16px; }
+  .tl-step { display:flex; gap:16px; padding:14px 0; border-bottom:1px solid var(--border); }
+  .tl-step:last-child { border-bottom:none; }
+  .tl-num { min-width:36px; height:36px; border-radius:50%; background:var(--accent); color:#000; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+  .tl-step > div { font-size:13px; line-height:1.6; }
+  .tl-step ul { margin:6px 0 0 16px; padding:0; }
+  .tl-step li { margin-bottom:4px; }
+
+  /* ---- Schedule Grid ---- */
+  .schedule-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:12px; margin-top:16px; }
+  .sched-week { background:var(--bg-dark); border:1px solid var(--border); border-radius:8px; padding:14px 16px; font-size:13px; line-height:1.6; }
+  .sched-week strong { display:block; color:var(--accent); margin-bottom:4px; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+
+  /* ---- Checklist ---- */
+  .checklist { display:flex; flex-direction:column; gap:8px; margin-top:10px; }
+  .check-item { display:flex; align-items:flex-start; gap:10px; font-size:13px; cursor:pointer; padding:8px 10px; border-radius:6px; transition:background .15s; }
+  .check-item:hover { background:var(--bg-dark); }
+  .check-item input[type=checkbox] { margin-top:2px; flex-shrink:0; accent-color:var(--accent); width:15px; height:15px; cursor:pointer; }
+  .check-item span { line-height:1.5; }
+  .check-item input:checked + span { text-decoration:line-through; color:var(--muted); }
+
+  /* ---- Resource Table ---- */
+  .resource-table { overflow-x:auto; margin-top:16px; }
+  .resource-table table { width:100%; border-collapse:collapse; font-size:13px; }
+  .resource-table th { background:var(--bg-dark); color:var(--accent); text-align:left; padding:10px 14px; border-bottom:2px solid var(--border); font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .resource-table td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
+  .resource-table tr:last-child td { border-bottom:none; }
+  .resource-table tr:hover td { background:rgba(0,212,255,.04); }
+
+  /* ---- Callout variants ---- */
+  .callout.success { border-color:var(--green); }
+  .callout.success .callout-icon { color:var(--green); }
+  .callout.danger { border-color:var(--red); }
+  .callout.danger .callout-icon { color:var(--red); }
+  .callout.warning { border-color:#f59e0b; }
+  .callout.warning .callout-icon { color:#f59e0b; }
+
+  /* ---- Section-color helpers used in color classes c1–c5 ---- */
+  .section-letter.c1{background:linear-gradient(135deg,#06b6d4,#0891b2);}
+  .section-letter.c2{background:linear-gradient(135deg,#8b5cf6,#6d28d9);}
+  .section-letter.c3{background:linear-gradient(135deg,#10b981,#059669);}
+  .section-letter.c4{background:linear-gradient(135deg,#f59e0b,#d97706);}
+  .section-letter.c5{background:linear-gradient(135deg,#ef4444,#dc2626);}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">⚡ QUANT ROADMAP</div>
+    <ul class="nav-links">
+      <li><a href="#section-a">A. Industry</a></li>
+      <li><a href="#section-b">B. Prerequisites</a></li>
+      <li><a href="#section-c">C. Curriculum</a></li>
+      <li><a href="#section-d">D. Resources</a></li>
+      <li><a href="#section-e">E. Projects</a></li>
+      <li><a href="#section-f">F. Research</a></li>
+      <li><a href="#section-g">G. Schedules</a></li>
+      <li><a href="#section-h">H. Career</a></li>
+      <li><a href="#section-i">I. 30-Day Plan</a></li>
+      <li><a href="#section-j">J. Priorities</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">Quantitative Finance · Complete Roadmap</div>
+  <h1>From Beginner to <span>Project-Ready Quant</span></h1>
+  <p class="hero-sub">A rigorous, evidence-based learning roadmap covering the mathematics, programming, research methods, and projects needed for quantitative finance careers. Prepared from the perspective of a senior quantitative researcher and mentor.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="val">10</div><div class="lbl">Sections</div></div>
+    <div class="hero-stat"><div class="val">15+</div><div class="lbl">Projects</div></div>
+    <div class="hero-stat"><div class="val">80+</div><div class="lbl">Resources</div></div>
+    <div class="hero-stat"><div class="val">4</div><div class="lbl">Career Paths</div></div>
+    <div class="hero-stat"><div class="val">12mo</div><div class="lbl">Full Roadmap</div></div>
+  </div>
+</div>
+
+<!-- ASSUMPTIONS BOX -->
+<div class="main">
+  <div class="callout info" style="margin-top:30px;">
+    <div class="callout-icon">📋</div>
+    <div>
+      <strong>Assumed Starting Profile (Default — adjust as needed)</strong><br>
+      You have basic computer literacy and some exposure to Python or programming. Your calculus and linear algebra may be rusty or introductory. You have little to no formal finance education. Your goal is to build genuine quantitative research and development skills, not surface-level familiarity. <em>Weekly commitment assumed: 15–20 hrs. Timeline: 12 months to project-ready.</em><br><br>
+      <strong>Key questions to personalize further:</strong> (1) What is your calculus/linear algebra level? (2) How much Python do you know? (3) Do you have a preferred quant path — research, trading, or development? (4) How many hours per week can you commit?
+    </div>
+  </div>
+
+  <div style="margin-top:24px;" class="card">
+    <h3>📑 Table of Contents</h3>
+    <ul class="toc-list">
+      <li><span>A</span><a href="#section-a">Quant Industry Map — Roles, Skills, Overlap</a></li>
+      <li><span>B</span><a href="#section-b">Prerequisites &amp; Skills Matrix</a></li>
+      <li><span>C</span><a href="#section-c">Ordered Curriculum with Milestones</a></li>
+      <li><span>D</span><a href="#section-d">Annotated Resource Library</a></li>
+      <li><span>E</span><a href="#section-e">Project Ladder — 15 Detailed Projects</a></li>
+      <li><span>F</span><a href="#section-f">Research Workflow &amp; Backtesting Best Practices</a></li>
+      <li><span>G</span><a href="#section-g">3-, 6-, and 12-Month Schedules</a></li>
+      <li><span>H</span><a href="#section-h">Career Preparation &amp; Portfolio Checklist</a></li>
+      <li><span>I</span><a href="#section-i">First 30-Day Action Plan</a></li>
+      <li><span>J</span><a href="#section-j">Priorities — What to Study, Build, Avoid</a></li>
+    </ul>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION A: INDUSTRY MAP -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-a">
+    <div class="section-header">
+      <div class="section-letter c1">A</div>
+      <div class="section-title-block">
+        <h2>Quant Industry Map</h2>
+        <p>Roles, daily work, required skills, hiring expectations, and how they overlap</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">🏢</div>
+      <div>Quantitative finance spans several distinct roles that are often confused. The boundaries vary by firm type: at a small prop firm a quant may do everything; at Goldman Sachs or Two Sigma, roles are highly specialized. Understanding this matters because <strong>what you study should depend on which role(s) you are targeting.</strong></div>
+    </div>
+
+    <div class="grid-2">
+      <!-- QR -->
+      <div class="role-card qr">
+        <div class="role-title">⚗️ Quantitative Researcher (QR)</div>
+        <div class="role-subtitle">Generates and validates trading signals and models from data</div>
+        <div class="role-section">
+          <strong>Daily Work</strong>
+          <p style="font-size:13.5px;">Literature review, data sourcing and cleaning, feature engineering, hypothesis testing, backtesting, factor analysis, model validation, writing research reports, and presenting findings to portfolio managers.</p>
+        </div>
+        <div class="role-section">
+          <strong>Core Skills</strong><br>
+          <span class="role-tag purple">Statistics &amp; ML</span>
+          <span class="role-tag purple">Time Series</span>
+          <span class="role-tag purple">Factor Models</span>
+          <span class="role-tag">Python / R</span>
+          <span class="role-tag">Stochastic Processes</span>
+          <span class="role-tag green">Research Design</span>
+          <span class="role-tag green">Hypothesis Testing</span>
+        </div>
+        <div class="role-section">
+          <strong>Hiring Bar</strong>
+          <p style="font-size:13px;">PhD in mathematics, statistics, physics, or CS strongly preferred at top funds. MSc increasingly common. Must demonstrate rigorous research process, awareness of biases, and genuine curiosity.</p>
+        </div>
+        <div class="role-section">
+          <strong>Typical Employers</strong>
+          <p style="font-size:13px;">Two Sigma, AQR, D.E. Shaw, Renaissance Technologies, Citadel, Millennium, Man Group, Bridgewater.</p>
+        </div>
+      </div>
+      <!-- QT -->
+      <div class="role-card qt">
+        <div class="role-title">📈 Quantitative Trader (QT)</div>
+        <div class="role-subtitle">Executes and manages systematic trading strategies in live markets</div>
+        <div class="role-section">
+          <strong>Daily Work</strong>
+          <p style="font-size:13.5px;">Monitor live strategy P&amp;L, investigate drawdowns, adjust position limits and risk parameters, review execution quality, work on alpha decay, and conduct intraday research. At HFT firms: extensive latency and execution optimization.</p>
+        </div>
+        <div class="role-section">
+          <strong>Core Skills</strong><br>
+          <span class="role-tag">Market Microstructure</span>
+          <span class="role-tag">Execution Algorithms</span>
+          <span class="role-tag green">Real-Time Systems</span>
+          <span class="role-tag yellow">Risk Management</span>
+          <span class="role-tag purple">Statistics</span>
+          <span class="role-tag">P&amp;L Attribution</span>
+        </div>
+        <div class="role-section">
+          <strong>Hiring Bar</strong>
+          <p style="font-size:13px;">Strong probability and statistics. Mental math. Market intuition. Brainteasers are common in interviews. HFT firms expect C++ and systems knowledge. Fast decision-making under uncertainty.</p>
+        </div>
+        <div class="role-section">
+          <strong>Typical Employers</strong>
+          <p style="font-size:13px;">Jane Street, Optiver, IMC Trading, Susquehanna (SIG), Jump Trading, Virtu Financial, Akuna Capital, DRW.</p>
+        </div>
+      </div>
+      <!-- QD -->
+      <div class="role-card qd">
+        <div class="role-title">💻 Quantitative Developer (QDev)</div>
+        <div class="role-subtitle">Builds the infrastructure that quants research and trade on</div>
+        <div class="role-section">
+          <strong>Daily Work</strong>
+          <p style="font-size:13.5px;">Build backtesting frameworks, data pipelines, portfolio construction systems, risk engines, execution management systems (EMS), and APIs. Translate research code into production systems. Performance profiling and optimization.</p>
+        </div>
+        <div class="role-section">
+          <strong>Core Skills</strong><br>
+          <span class="role-tag green">Python / C++ / Java</span>
+          <span class="role-tag green">System Design</span>
+          <span class="role-tag green">Databases / SQL</span>
+          <span class="role-tag">Algorithms &amp; DS</span>
+          <span class="role-tag">Distributed Systems</span>
+          <span class="role-tag yellow">Quant Finance Concepts</span>
+        </div>
+        <div class="role-section">
+          <strong>Hiring Bar</strong>
+          <p style="font-size:13px;">Software engineering interviews (LeetCode-style), system design, and quant-specific questions about market data, order types, and financial calculations. CS degree or equivalent demonstrated ability.</p>
+        </div>
+        <div class="role-section">
+          <strong>Typical Employers</strong>
+          <p style="font-size:13px;">Same as QR/QT; also Bloomberg, Refinitiv, brokerage quantitative technology teams.</p>
+        </div>
+      </div>
+      <!-- PM -->
+      <div class="role-card pm">
+        <div class="role-title">📊 Systematic Portfolio Manager (SPM)</div>
+        <div class="role-subtitle">Manages a book using systematic, rules-based strategies at scale</div>
+        <div class="role-section">
+          <strong>Daily Work</strong>
+          <p style="font-size:13.5px;">Manage capital allocation across strategies, define risk budgets, evaluate new research for live deployment, monitor factor exposures and drawdowns, and interface with investors/management on performance attribution.</p>
+        </div>
+        <div class="role-section">
+          <strong>Core Skills</strong><br>
+          <span class="role-tag yellow">Portfolio Construction</span>
+          <span class="role-tag yellow">Risk Budgeting</span>
+          <span class="role-tag purple">Factor Models</span>
+          <span class="role-tag">Performance Attribution</span>
+          <span class="role-tag green">Leadership</span>
+          <span class="role-tag">Capital Markets</span>
+        </div>
+        <div class="role-section">
+          <strong>Note</strong>
+          <p style="font-size:13px;">Usually reached after years as a QR or QT. Not a direct entry-level role. Understanding it helps you understand what QR/QT careers lead toward.</p>
+        </div>
+      </div>
+      <!-- FE -->
+      <div class="role-card fe">
+        <div class="role-title">🧮 Financial Engineer / Derivatives Quant</div>
+        <div class="role-subtitle">Prices and hedges derivatives; models structured products</div>
+        <div class="role-section">
+          <strong>Daily Work</strong>
+          <p style="font-size:13.5px;">Develop and calibrate pricing models (Black-Scholes, local vol, stochastic vol), compute Greeks, build risk management systems for derivatives books, and work on exotic products for structured finance desks.</p>
+        </div>
+        <div class="role-section">
+          <strong>Core Skills</strong><br>
+          <span class="role-tag red">Stochastic Calculus</span>
+          <span class="role-tag red">PDE methods</span>
+          <span class="role-tag red">Monte Carlo</span>
+          <span class="role-tag">C++ / Python</span>
+          <span class="role-tag yellow">Risk Management</span>
+          <span class="role-tag purple">Numerical Methods</span>
+        </div>
+        <div class="role-section">
+          <strong>Hiring Bar</strong>
+          <p style="font-size:13px;">MSc/PhD in financial mathematics, mathematical finance, or applied math. Ito's lemma, Girsanov's theorem, risk-neutral pricing, and numerical PDEs are table stakes. Banks are primary employers.</p>
+        </div>
+        <div class="role-section">
+          <strong>Typical Employers</strong>
+          <p style="font-size:13px;">Goldman Sachs Strats, Morgan Stanley Quant Research, JP Morgan FICC Quant, Barclays Quant Analytics, BAML.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+    <h3 style="color:var(--heading); margin-bottom:16px;">Skill Overlap Matrix — How Much Each Role Shares</h3>
+    <div class="overlap-grid">
+      <div class="overlap-cell header label">Skill Area</div>
+      <div class="overlap-cell header">QR</div>
+      <div class="overlap-cell header">QT</div>
+      <div class="overlap-cell header">QDev</div>
+      <div class="overlap-cell header">SPM</div>
+      <div class="overlap-cell header">FE</div>
+
+      <div class="overlap-cell label">Python / NumPy / pandas</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell high">■ High</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell high">■ High</div>
+
+      <div class="overlap-cell label">C++ / Systems</div>
+      <div class="overlap-cell low">◎ Low</div>
+      <div class="overlap-cell high">■ High (HFT)</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell none">— None</div>
+      <div class="overlap-cell med">◑ Med</div>
+
+      <div class="overlap-cell label">Statistics &amp; Probability</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell high">■ High</div>
+      <div class="overlap-cell high">■ High</div>
+
+      <div class="overlap-cell label">Time Series Analysis</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell high">■ High</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell high">■ High</div>
+      <div class="overlap-cell med">◑ Med</div>
+
+      <div class="overlap-cell label">Stochastic Calculus</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell low">◎ Low</div>
+      <div class="overlap-cell low">◎ Low</div>
+      <div class="overlap-cell low">◎ Low</div>
+      <div class="overlap-cell full">■ Core</div>
+
+      <div class="overlap-cell label">Factor Models</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell low">◎ Low</div>
+
+      <div class="overlap-cell label">Portfolio Optimization</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell low">◎ Low</div>
+
+      <div class="overlap-cell label">Market Microstructure</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell high">■ High</div>
+      <div class="overlap-cell low">◎ Low</div>
+      <div class="overlap-cell low">◎ Low</div>
+
+      <div class="overlap-cell label">Derivatives Pricing</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell low">◎ Low</div>
+      <div class="overlap-cell full">■ Core</div>
+
+      <div class="overlap-cell label">Machine Learning</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell high">■ High</div>
+      <div class="overlap-cell high">■ High</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell low">◎ Low</div>
+
+      <div class="overlap-cell label">SQL / Databases</div>
+      <div class="overlap-cell high">■ High</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell med">◑ Med</div>
+      <div class="overlap-cell med">◑ Med</div>
+
+      <div class="overlap-cell label">Backtesting / Sim</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell full">■ Core</div>
+      <div class="overlap-cell high">■ High</div>
+      <div class="overlap-cell med">◑ Med</div>
+    </div>
+
+    <div class="callout warn" style="margin-top:20px;">
+      <div class="callout-icon">⚠️</div>
+      <div><strong>Key insight:</strong> The first 60% of this roadmap — Python, statistics, time series, and factor models — is relevant to <em>all</em> roles. Specialize only after you have this foundation. A QR with weak statistics is more dangerous than a generalist; a QDev with zero quant knowledge writes the wrong systems.</div>
+    </div>
+
+    <hr>
+    <h3 style="color:var(--heading); margin-bottom:14px;">Quant Methods — Established vs. Speculative</h3>
+    <div class="card">
+      <h4>Established Methods (Strong Empirical and Theoretical Support)</h4>
+      <div class="grid-3">
+        <div>
+          <strong style="color:var(--accent3);font-size:12px;">Pricing &amp; Derivatives</strong>
+          <ul style="font-size:13px;padding-left:16px;margin-top:6px;">
+            <li>Black-Scholes-Merton (1973) — theoretical foundation</li>
+            <li>Risk-neutral pricing via martingale measures</li>
+            <li>Local volatility (Dupire 1994)</li>
+            <li>Greeks computation and hedging</li>
+            <li>Monte Carlo for path-dependent options</li>
+          </ul>
+        </div>
+        <div>
+          <strong style="color:var(--accent3);font-size:12px;">Portfolio &amp; Risk</strong>
+          <ul style="font-size:13px;padding-left:16px;margin-top:6px;">
+            <li>Mean-variance optimization (Markowitz 1952)</li>
+            <li>CAPM — descriptive, not prescriptive</li>
+            <li>Fama-French 3-factor, 5-factor models</li>
+            <li>VaR, CVaR, and risk decomposition</li>
+            <li>Black-Litterman model</li>
+          </ul>
+        </div>
+        <div>
+          <strong style="color:var(--accent3);font-size:12px;">Statistical Arbitrage</strong>
+          <ul style="font-size:13px;padding-left:16px;margin-top:6px;">
+            <li>Cointegration (Engle-Granger, Johansen)</li>
+            <li>Cross-sectional momentum (Jegadeesh-Titman 1993)</li>
+            <li>Value and low-volatility factors</li>
+            <li>Ornstein-Uhlenbeck mean reversion</li>
+            <li>GARCH family for volatility</li>
+          </ul>
+        </div>
+      </div>
+      <h4>Methods Requiring Extreme Caution (Heavily Backtested, Mixed Live Evidence)</h4>
+      <ul style="font-size:13.5px;padding-left:20px;">
+        <li>Deep learning for return prediction — high parameter count, low signal-to-noise, prone to overfitting. Requires massive datasets and extreme validation rigor.</li>
+        <li>Alternative data strategies — often proprietary; public descriptions rarely contain the real edge.</li>
+        <li>Retail-level "AI trading bots" — typically marketing, not research. No peer-reviewed validation.</li>
+        <li>Classic academic anomalies post-publication — many decay significantly after discovery (McLean &amp; Pontiff 2016).</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION B: PREREQUISITES / SKILLS MATRIX -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-b">
+    <div class="section-header">
+      <div class="section-letter c2">B</div>
+      <div class="section-title-block">
+        <h2>Prerequisites &amp; Skills Matrix</h2>
+        <p>Every skill you need, why it matters in quant finance, depth required, and mastery tests</p>
+      </div>
+    </div>
+
+    <div class="callout success">
+      <div class="callout-icon">✅</div>
+      <div>The table below uses depth levels: <span class="pill blue">1 = Awareness</span> <span class="pill green">2 = Working Knowledge</span> <span class="pill yellow">3 = Proficient</span> <span class="pill red">4 = Expert</span>. Depth shown is the minimum for a generalist QR/QDev role. FE roles require deeper stochastic calculus; HFT requires deeper C++ and systems.</div>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Skill Area</th>
+            <th>Topic</th>
+            <th>Why It Matters</th>
+            <th>Min Depth</th>
+            <th>Mastery Test</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="4" style="color:var(--accent);font-weight:700;">Python &amp; Scientific Computing</td>
+            <td>Python Core (data types, OOP, generators, decorators)</td>
+            <td>Primary language for research; everything else builds on it</td>
+            <td><span class="pill green">3</span></td>
+            <td>Write a backtesting engine with OOP design; no bugs under edge cases</td>
+          </tr>
+          <tr>
+            <td>NumPy (vectorized ops, broadcasting, linalg)</td>
+            <td>Replaces loops; critical for speed in simulations and matrix ops</td>
+            <td><span class="pill green">3</span></td>
+            <td>Compute covariance matrix from raw returns without loops; benchmark vs loop</td>
+          </tr>
+          <tr>
+            <td>pandas (time-indexed series, resampling, groupby)</td>
+            <td>Primary tool for financial data manipulation; 80% of quant work lives here</td>
+            <td><span class="pill green">3</span></td>
+            <td>Clean 10 years of OHLCV data; handle corporate actions, splits, missing dates</td>
+          </tr>
+          <tr>
+            <td>Matplotlib / Seaborn / Plotly</td>
+            <td>Research communication — plots are how you present findings</td>
+            <td><span class="pill blue">2</span></td>
+            <td>Produce publication-quality equity curve, drawdown, and rolling stats charts</td>
+          </tr>
+          <tr>
+            <td rowspan="2" style="color:var(--accent3);font-weight:700;">Data Engineering</td>
+            <td>SQL (SELECT, JOIN, window functions, aggregations)</td>
+            <td>Financial databases are relational; tick data is often stored in SQL</td>
+            <td><span class="pill green">3</span></td>
+            <td>Write queries to compute rolling average daily volume and rank stocks by momentum using window functions</td>
+          </tr>
+          <tr>
+            <td>Git, GitHub, version control</td>
+            <td>Reproducibility; collaboration; interviewer expects a clean GitHub</td>
+            <td><span class="pill green">3</span></td>
+            <td>Branch-and-PR workflow; write meaningful commit messages; revert mistakes</td>
+          </tr>
+          <tr>
+            <td rowspan="2" style="color:var(--accent4);font-weight:700;">Systems</td>
+            <td>Linux command line (bash, scripting, cron, SSH)</td>
+            <td>Prod research environments are Linux; scheduling data jobs requires shell</td>
+            <td><span class="pill blue">2</span></td>
+            <td>Write a bash script to download, unzip, and organize daily price data</td>
+          </tr>
+          <tr>
+            <td>Jupyter Lab / Notebooks</td>
+            <td>Standard research environment; reproducible analysis</td>
+            <td><span class="pill blue">2</span></td>
+            <td>Maintain a notebook that reruns cleanly top-to-bottom with no hidden state</td>
+          </tr>
+          <tr>
+            <td rowspan="4" style="color:var(--accent5);font-weight:700;">Mathematics: Core</td>
+            <td>Calculus (differentiation, integration, multivariable)</td>
+            <td>Optimization, derivatives pricing, gradient descent</td>
+            <td><span class="pill green">3</span></td>
+            <td>Derive the Black-Scholes PDE from first principles using Ito's lemma</td>
+          </tr>
+          <tr>
+            <td>Linear Algebra (eigenvectors, PCA, matrix decomposition)</td>
+            <td>PCA for factor models; covariance matrices; portfolio math</td>
+            <td><span class="pill green">3</span></td>
+            <td>Implement PCA from scratch using eigendecomposition; explain variance explained</td>
+          </tr>
+          <tr>
+            <td>Probability Theory (distributions, expectations, conditioning)</td>
+            <td>Every model in quant is a probabilistic model; interviews test this heavily</td>
+            <td><span class="pill yellow">4</span></td>
+            <td>Solve classic probability puzzles; derive Central Limit Theorem; derive Black-Scholes via risk-neutral expectations</td>
+          </tr>
+          <tr>
+            <td>Optimization (convex, Lagrange multipliers, gradient methods)</td>
+            <td>Portfolio construction is an optimization problem; ML requires it</td>
+            <td><span class="pill green">3</span></td>
+            <td>Solve mean-variance optimization analytically and numerically; verify results match</td>
+          </tr>
+          <tr>
+            <td rowspan="3" style="color:var(--accent2);font-weight:700;">Statistics</td>
+            <td>Classical Statistics (MLE, hypothesis testing, regression)</td>
+            <td>Every alpha signal needs a statistical test; regression is the workhorse</td>
+            <td><span class="pill yellow">4</span></td>
+            <td>Run Fama-MacBeth cross-sectional regression; interpret t-statistics correctly under HAC errors</td>
+          </tr>
+          <tr>
+            <td>Time Series (ARIMA, GARCH, stationarity, cointegration)</td>
+            <td>Financial returns are temporal; mean-reversion relies on cointegration</td>
+            <td><span class="pill green">3</span></td>
+            <td>Test for unit roots, fit GARCH(1,1) to equity returns, validate out-of-sample</td>
+          </tr>
+          <tr>
+            <td>Bayesian Inference</td>
+            <td>Black-Litterman, Bayesian regression, parameter uncertainty</td>
+            <td><span class="pill blue">2</span></td>
+            <td>Implement Black-Litterman model; explain prior vs posterior in the context of expected returns</td>
+          </tr>
+          <tr>
+            <td rowspan="2" style="color:#db2777;font-weight:700;">Advanced Math</td>
+            <td>Stochastic Calculus (Ito's lemma, SDEs, Brownian motion)</td>
+            <td>GBM underlies most asset price models; required for derivatives</td>
+            <td><span class="pill blue">2</span></td>
+            <td>Derive GBM solution; simulate GBM paths; price European option by expectation</td>
+          </tr>
+          <tr>
+            <td>Numerical Methods (finite difference, root finding, quadrature)</td>
+            <td>Closed-form solutions rarely exist; numerical methods fill the gap</td>
+            <td><span class="pill blue">2</span></td>
+            <td>Price barrier option via finite difference PDE solver; verify vs Monte Carlo</td>
+          </tr>
+          <tr>
+            <td rowspan="3" style="color:#0891b2;font-weight:700;">Machine Learning</td>
+            <td>Supervised Learning (regression, trees, ensembles)</td>
+            <td>Return prediction, factor construction, signal combination</td>
+            <td><span class="pill green">3</span></td>
+            <td>Predict next-month returns with gradient boosting; implement proper temporal cross-validation</td>
+          </tr>
+          <tr>
+            <td>Unsupervised Learning (PCA, clustering, autoencoders)</td>
+            <td>Factor discovery, market regime detection, dimensionality reduction</td>
+            <td><span class="pill blue">2</span></td>
+            <td>Apply PCA to daily returns; reconstruct correlation structure; identify latent factors</td>
+          </tr>
+          <tr>
+            <td>ML Validation for Financial Data (no-leak CV, walk-forward)</td>
+            <td>Standard cross-validation is <em>wrong</em> for time series; must understand why</td>
+            <td><span class="pill yellow">4</span></td>
+            <td>Explain and implement purged cross-validation (Lopez de Prado 2018)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+    <h3 style="color:var(--heading);margin-bottom:16px;">Alternative Path: Starting from Weak Mathematics</h3>
+    <div class="grid-2">
+      <div class="card">
+        <h3>🔢 If Your Calculus / Linear Algebra Is Weak</h3>
+        <p style="font-size:13.5px;">Do not attempt financial mathematics without first strengthening the foundations. Spend 6–8 weeks on these before touching quant-specific content:</p>
+        <ol style="margin-top:10px;font-size:13.5px;">
+          <li>Khan Academy: Calculus 1 &amp; 2 (free) — derivatives, integrals, chain rule</li>
+          <li>3Blue1Brown: <em>Essence of Linear Algebra</em> (YouTube, free) — visual intuition</li>
+          <li>3Blue1Brown: <em>Essence of Calculus</em> (YouTube, free)</li>
+          <li>Gilbert Strang MIT OCW 18.06 — Linear Algebra (free)</li>
+          <li>Practice: solve all exercises in chapters 1–5 of Strang before advancing</li>
+        </ol>
+        <div class="callout warn" style="margin-top:12px;">
+          <div class="callout-icon">⚠️</div>
+          <div style="font-size:12.5px;">There is no shortcut here. Quant finance is applied mathematics. A researcher who cannot differentiate a function or decompose a matrix will consistently misapply models without knowing it.</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>🐍 If Your Python Is Weak</h3>
+        <p style="font-size:13.5px;">Spend 3–4 weeks on Python fundamentals before financial applications:</p>
+        <ol style="margin-top:10px;font-size:13.5px;">
+          <li><em>Automate the Boring Stuff</em> — Al Sweigart (free online) — practical Python</li>
+          <li>Official Python Tutorial (docs.python.org) — understand data types deeply</li>
+          <li>Codecademy Python 3 course — guided exercises</li>
+          <li>Implement a Monte Carlo pi estimator from scratch</li>
+          <li>Implement matrix multiplication without NumPy; then benchmark with NumPy</li>
+          <li>Read <em>Fluent Python</em> chapters 1–7 (Ramalho) — idiomatic Python</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION C: CURRICULUM -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-c">
+    <div class="section-header">
+      <div class="section-letter c3">C</div>
+      <div class="section-title-block">
+        <h2>Ordered Curriculum with Milestones</h2>
+        <p>Four stages, sequenced by dependency — not popularity. Each stage has objectives, topics, and measurable completion criteria.</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">🗺️</div>
+      <div><strong>How to use this curriculum:</strong> Complete each stage before advancing. The stages are dependency-ordered: factor models require statistics, statistics requires calculus and probability, a backtester requires Python. Resist the urge to skip ahead.</div>
+    </div>
+
+    <!-- STAGE 1 -->
+    <div class="card" style="border-left: 3px solid var(--accent3);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <span class="stage-badge s1">Stage 1 — Foundation</span>
+        <span style="color:var(--text-muted);font-size:13px;">Weeks 1–8 · ~120 hrs</span>
+      </div>
+      <p style="font-size:13.5px;margin-bottom:14px;"><strong>Objective:</strong> Build the mathematical and programming substrate. By the end you will manipulate financial data, implement basic statistical tests, and write clean testable Python.</p>
+      <div class="grid-2">
+        <div>
+          <h4>Mathematics Track</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Calculus:</strong> limits, derivatives, chain rule, partial derivatives, integration, Taylor series. Needed for MLE, Black-Scholes, gradient descent.</li>
+            <li><strong>Linear Algebra:</strong> vectors, matrix ops, inverse, eigenvalues, positive semi-definiteness, SVD. Needed for covariance, PCA, regression.</li>
+            <li><strong>Probability:</strong> sample spaces, random variables, PMF/PDF/CDF, expectation, variance, key distributions (Normal, Lognormal, t, Binomial).</li>
+            <li><em>Exercises:</em> Prove variance-of-sum formula. Derive OLS estimator with calculus. Compute eigendecomposition of 3×3 covariance matrix by hand.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Programming Track</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Python Core:</strong> data structures, OOP, file I/O, list comprehensions, generators, error handling.</li>
+            <li><strong>NumPy:</strong> ndarray, broadcasting, vectorized ops, linalg module.</li>
+            <li><strong>pandas:</strong> Series/DataFrame, time-indexing, merge, groupby, resample, missing data.</li>
+            <li><strong>Git:</strong> commit, branch, merge, pull request, .gitignore.</li>
+            <li><em>Project:</em> Download SPY prices via <code>yfinance</code>. Compute log-returns. Plot cumulative return and rolling 30-day volatility. Commit to GitHub.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:14px;">
+        <table>
+          <thead><tr><th>Completion Criterion</th><th>Essential / Optional</th></tr></thead>
+          <tbody>
+            <tr><td>Compute OLS β from scratch using NumPy; verify vs sklearn.LinearRegression</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Clean 10 years of OHLCV data; document all corporate action handling</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Solve 20 exercises from Sheldon Ross <em>A First Course in Probability</em> Ch. 1–4</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Public GitHub repo with Stage 1 work and a proper README</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>MIT OCW 18.06 Linear Algebra Lectures 1–15</td><td><span class="pill yellow">Optional</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STAGE 2 -->
+    <div class="card" style="border-left: 3px solid var(--accent);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <span class="stage-badge s2">Stage 2 — Quantitative Methods</span>
+        <span style="color:var(--text-muted);font-size:13px;">Weeks 9–20 · ~200 hrs</span>
+      </div>
+      <p style="font-size:13.5px;margin-bottom:14px;"><strong>Objective:</strong> Master core quant tools: statistical inference, time series, portfolio math, and derivatives intro. Build your first real projects.</p>
+      <div class="grid-2">
+        <div>
+          <h4>Statistics &amp; Econometrics</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Inference:</strong> MLE, hypothesis tests (t, F, χ²), p-values and misuse, multiple testing correction (Bonferroni, BH).</li>
+            <li><strong>Regression:</strong> OLS, Gauss-Markov, heteroskedasticity, HAC standard errors (Newey-West), ridge, LASSO.</li>
+            <li><strong>Time Series:</strong> stationarity, ACF/PACF, ARIMA, unit root tests (ADF/KPSS), ARCH effects, GARCH(1,1), cointegration (Engle-Granger, Johansen).</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Portfolio Theory &amp; Finance</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Return Math:</strong> arithmetic vs log returns, compounding, Sharpe, Sortino, max drawdown, Calmar.</li>
+            <li><strong>Markowitz Optimization:</strong> efficient frontier, min-variance and tangency portfolios, constraints, numerical solution with <code>cvxpy</code>.</li>
+            <li><strong>CAPM &amp; Factor Models:</strong> beta, alpha, Fama-French 3-factor and 5-factor models, time-series regression.</li>
+            <li><strong>Derivatives Intro:</strong> option payoffs, put-call parity, binomial tree, Black-Scholes formula, Greeks, implied volatility.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:14px;">
+        <table>
+          <thead><tr><th>Completion Criterion</th><th>Essential / Optional</th></tr></thead>
+          <tbody>
+            <tr><td>Build Markowitz optimizer; plot efficient frontier; explain why it fails in practice (estimation error)</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Fit GARCH(1,1) to S&amp;P 500 returns; forecast 30-day vol; evaluate with Mincer-Zarnowitz regression</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Run Fama-MacBeth regression to estimate factor premiums using Ken French data</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Price a European call via Black-Scholes and Monte Carlo; verify they match; compute all Greeks</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Implement Engle-Granger cointegration test from scratch; test on 3 stock pairs</td><td><span class="pill green">Essential</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STAGE 3 -->
+    <div class="card" style="border-left: 3px solid var(--accent2);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <span class="stage-badge s3">Stage 3 — Advanced Research Methods</span>
+        <span style="color:var(--text-muted);font-size:13px;">Weeks 21–36 · ~280 hrs</span>
+      </div>
+      <p style="font-size:13.5px;margin-bottom:14px;"><strong>Objective:</strong> Professional-level research: rigorous backtesting, ML for finance, market microstructure, execution costs, and complete research workflows. Build 3+ portfolio-quality projects.</p>
+      <div class="grid-2">
+        <div>
+          <h4>Backtesting &amp; Strategy Research</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Backtesting Engine:</strong> event-driven architecture, portfolio accounting, transaction costs, slippage, position sizing, risk limits, performance attribution.</li>
+            <li><strong>Bias Elimination:</strong> survivorship bias correction, look-ahead bias prevention, data snooping, walk-forward validation, regime analysis.</li>
+            <li><strong>Strategy Classes:</strong> cross-sectional momentum, time-series momentum, mean reversion, pairs trading, factor investing. Each must be tested rigorously.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>ML for Finance</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Features:</strong> technical indicators, fundamental ratios, volatility features — all with strict look-ahead controls.</li>
+            <li><strong>Models:</strong> gradient boosting (XGBoost, LightGBM), random forests, ridge/LASSO. Understand when each fails.</li>
+            <li><strong>Validation:</strong> purged k-fold CV, embargo periods (Lopez de Prado 2018). Standard CV is wrong for time series — know why.</li>
+            <li><strong>Signals:</strong> Information coefficient (IC), IC Information Ratio (ICIR), transfer coefficient.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:14px;">
+        <table>
+          <thead><tr><th>Completion Criterion</th><th>Essential / Optional</th></tr></thead>
+          <tbody>
+            <tr><td>Build event-driven backtester from scratch handling splits, dividends, delisted stocks</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Implement purged walk-forward validation; show standard CV overfits on time series</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Build cross-sectional momentum strategy with transaction costs; assess Sharpe statistical significance</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Train gradient boosting for return prediction; compute IC and ICIR; show OOS degradation</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Implement Almgren-Chriss optimal execution model</td><td><span class="pill yellow">Optional — essential for QT path</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STAGE 4 -->
+    <div class="card" style="border-left: 3px solid var(--accent4);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <span class="stage-badge s4">Stage 4 — Specialization</span>
+        <span style="color:var(--text-muted);font-size:13px;">Weeks 37–52 · ~300 hrs</span>
+      </div>
+      <p style="font-size:13.5px;margin-bottom:14px;"><strong>Objective:</strong> Deep expertise in your target quant path. Build 3–5 publication-quality projects. Prepare for technical interviews.</p>
+      <div class="grid-3">
+        <div>
+          <h4>QR Track</h4>
+          <ul style="font-size:13.5px;">
+            <li>Alternative data signal construction</li>
+            <li>High-dim factor models (PCA, sparse factors)</li>
+            <li>Hierarchical Risk Parity</li>
+            <li>Regime-switching models (HMM)</li>
+            <li>Deep learning for sequences (with extreme validation rigor)</li>
+            <li>Research report writing to professional standards</li>
+          </ul>
+        </div>
+        <div>
+          <h4>QT Track</h4>
+          <ul style="font-size:13.5px;">
+            <li>Order book dynamics and LOB analysis</li>
+            <li>Optimal execution (TWAP, VWAP, Almgren-Chriss)</li>
+            <li>Market making (Avellaneda-Stoikov model)</li>
+            <li>High-frequency data cleaning and analysis</li>
+            <li>Latency and slippage modeling</li>
+            <li>Real-time systems design concepts</li>
+          </ul>
+        </div>
+        <div>
+          <h4>FE Track</h4>
+          <ul style="font-size:13.5px;">
+            <li>Stochastic calculus (Ito integral, Girsanov, martingales)</li>
+            <li>Risk-neutral pricing framework</li>
+            <li>Local vol (Dupire) and stochastic vol (Heston)</li>
+            <li>Finite difference PDE methods (Crank-Nicolson)</li>
+            <li>Interest rate models (Vasicek, CIR, HJM)</li>
+            <li>Model calibration to market data</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION D: RESOURCE LIBRARY -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-d">
+    <div class="section-header">
+      <div class="section-letter c4">D</div>
+      <div class="section-title-block">
+        <h2>Annotated Resource Library</h2>
+        <p>Verified, authoritative resources with URL, level, prerequisites, purpose, and cost. No fabricated authors or titles.</p>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div><strong>Honesty note:</strong> All books, papers, and authors listed here are real. Course URLs point to canonical domains; individual page URLs change. Some papers are freely available on SSRN or authors' websites.</div>
+    </div>
+
+    <h3 style="color:var(--heading);margin:20px 0 14px;">📚 Core Textbooks</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Title &amp; Author(s)</th><th>Level</th><th>Topics</th><th>Cost</th><th>Why Essential</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Options, Futures, and Other Derivatives</strong><br><span class="fn">John C. Hull (11th ed., 2022)</span></td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Derivatives pricing, Greeks, Black-Scholes, interest rate models</td>
+            <td>~$60–180; older eds fine</td>
+            <td>Standard derivatives textbook across universities and banks globally. Every derivatives quant has read this.</td>
+          </tr>
+          <tr>
+            <td><strong>Stochastic Calculus for Finance I &amp; II</strong><br><span class="fn">Steven Shreve (2004)</span></td>
+            <td><span class="pill purple">Advanced</span></td>
+            <td>Discrete/continuous-time, Ito calculus, risk-neutral pricing, rigorous Black-Scholes</td>
+            <td>~$40–80 per volume</td>
+            <td>Gold standard for rigorous mathematical treatment. Required on FE path.</td>
+          </tr>
+          <tr>
+            <td><strong>Active Portfolio Management</strong><br><span class="fn">Grinold &amp; Kahn (2nd ed., 1999)</span></td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Information ratio, Fundamental Law of Active Management, factor models, portfolio construction</td>
+            <td>~$60–100</td>
+            <td>The intellectual foundation of quantitative equity investing. IR = IC × √BR is cited in virtually every quant research meeting.</td>
+          </tr>
+          <tr>
+            <td><strong>Advances in Financial Machine Learning</strong><br><span class="fn">Marcos Lopez de Prado (2018)</span></td>
+            <td><span class="pill blue">Intermediate–Advanced</span></td>
+            <td>ML for finance, purged CV, labeling, feature importance, backtesting biases</td>
+            <td>~$50–80</td>
+            <td>Most practically useful modern book for quant researchers applying ML. Purged cross-validation is now standard practice.</td>
+          </tr>
+          <tr>
+            <td><strong>The Econometrics of Financial Markets</strong><br><span class="fn">Campbell, Lo &amp; MacKinlay (1997)</span></td>
+            <td><span class="pill purple">Advanced</span></td>
+            <td>Return predictability, factor models, market microstructure, derivative pricing, term structure</td>
+            <td>~$80–120</td>
+            <td>Academic reference for financial econometrics. Chapter 2 on returns is required reading for any serious quant.</td>
+          </tr>
+          <tr>
+            <td><strong>Quantitative Risk Management</strong><br><span class="fn">McNeil, Frey &amp; Embrechts (2nd ed., 2015)</span></td>
+            <td><span class="pill blue">Intermediate–Advanced</span></td>
+            <td>VaR, CVaR, copulas, extreme value theory, credit risk</td>
+            <td>~$60–90</td>
+            <td>Authoritative risk measurement text. Introduces copulas and EVT which go well beyond VaR limitations.</td>
+          </tr>
+          <tr>
+            <td><strong>Analysis of Financial Time Series</strong><br><span class="fn">Ruey S. Tsay (3rd ed., 2010)</span></td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>ARIMA, GARCH, multivariate time series, high-frequency data, nonlinear models</td>
+            <td>~$50–80</td>
+            <td>Practical and thorough treatment of financial time series. Best GARCH coverage in any textbook.</td>
+          </tr>
+          <tr>
+            <td><strong>Machine Learning for Asset Managers</strong><br><span class="fn">Marcos Lopez de Prado (2020)</span></td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Hierarchical Risk Parity, denoising covariance matrices, feature selection, entropy features</td>
+            <td>~$40–60</td>
+            <td>Compact, practical companion to AFML. Denoising and detoning of correlation matrices is particularly valuable.</td>
+          </tr>
+          <tr>
+            <td><strong>Python for Finance</strong><br><span class="fn">Yves Hilpisch (2nd ed., 2019)</span></td>
+            <td><span class="pill green">Beginner–Intermediate</span></td>
+            <td>Python for finance, NumPy/pandas, derivatives pricing, algorithmic trading intro</td>
+            <td>~$50–80 / O'Reilly subscription</td>
+            <td>Bridges Python and finance concepts. Good first project book before diving into pure quant material.</td>
+          </tr>
+          <tr>
+            <td><strong>A First Course in Probability</strong><br><span class="fn">Sheldon Ross (10th ed., 2019)</span></td>
+            <td><span class="pill green">Beginner–Intermediate</span></td>
+            <td>Probability fundamentals, distributions, expectation, conditioning, CLT</td>
+            <td>~$50–90</td>
+            <td>Standard probability textbook. Foundation for every statistical method in quant finance. Interview questions draw heavily from this material.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:var(--heading);margin:24px 0 14px;">🎓 University Courses (Free)</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Course &amp; Institution</th><th>Level</th><th>Topics</th><th>URL</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>18.06 Linear Algebra</strong> — MIT OCW (Gilbert Strang)</td>
+            <td><span class="pill green">Foundation</span></td>
+            <td>Matrices, eigenvalues, SVD, orthogonality</td>
+            <td><a href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/">ocw.mit.edu</a></td>
+          </tr>
+          <tr>
+            <td><strong>18.650 Statistics for Applications</strong> — MIT OCW (Rigollet)</td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>MLE, hypothesis testing, regression, Bayesian statistics</td>
+            <td><a href="https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/">ocw.mit.edu</a></td>
+          </tr>
+          <tr>
+            <td><strong>Stat 110: Probability</strong> — Harvard (Joe Blitzstein)</td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Probability theory, distributions, conditioning, expectation, limit theorems</td>
+            <td><a href="https://projects.iq.harvard.edu/stat110/">projects.iq.harvard.edu/stat110</a></td>
+          </tr>
+          <tr>
+            <td><strong>Essence of Linear Algebra</strong> — 3Blue1Brown (YouTube)</td>
+            <td><span class="pill green">Foundation</span></td>
+            <td>Visual intuition for vectors, matrices, eigenvalues, determinants</td>
+            <td><a href="https://www.youtube.com/@3blue1brown">youtube.com/@3blue1brown</a></td>
+          </tr>
+          <tr>
+            <td><strong>Financial Theory</strong> — Yale / Coursera (John Geanakoplos)</td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Asset pricing, risk, derivatives, financial equilibrium</td>
+            <td><a href="https://www.coursera.org/learn/financial-theory">coursera.org</a></td>
+          </tr>
+          <tr>
+            <td><strong>Introduction to Computational Finance and Financial Econometrics</strong> — U Washington / Coursera (Eric Zivot)</td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Time series, portfolio statistics, risk, R-based but concepts transfer</td>
+            <td><a href="https://www.coursera.org/instructor/ericzivot">coursera.org</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:var(--heading);margin:24px 0 14px;">📄 Essential Academic Papers</h3>
+    <div class="callout danger">
+      <div class="callout-icon">🚨</div>
+      <div><strong>Critical caveat:</strong> McLean &amp; Pontiff (2016) show that ~50% of published anomalies significantly decay after publication. Read anomaly papers as starting hypotheses, not proven strategies. The replication crisis in finance is real.</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Paper</th><th>Authors &amp; Year</th><th>Why It Matters</th><th>Access</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>The Pricing of Options and Corporate Liabilities</td>
+            <td>Black &amp; Scholes (1973)</td>
+            <td>Foundational options pricing — every FE has read this</td>
+            <td>JSTOR; university access</td>
+          </tr>
+          <tr>
+            <td>Portfolio Selection</td>
+            <td>Markowitz (1952), <em>Journal of Finance</em></td>
+            <td>Origin of mean-variance optimization and the efficient frontier</td>
+            <td><a href="https://www.jstor.org/stable/2975974">JSTOR</a></td>
+          </tr>
+          <tr>
+            <td>Returns to Buying Winners and Selling Losers</td>
+            <td>Jegadeesh &amp; Titman (1993), <em>JoF</em></td>
+            <td>Seminal momentum paper; 12-1 momentum factor still extensively studied</td>
+            <td>SSRN / JSTOR</td>
+          </tr>
+          <tr>
+            <td>Common Risk Factors in Returns on Stocks and Bonds</td>
+            <td>Fama &amp; French (1993), <em>JFE</em></td>
+            <td>3-factor model (market, size, value) — basis for all subsequent factor research</td>
+            <td><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html">French Data Library</a></td>
+          </tr>
+          <tr>
+            <td>A Five-Factor Asset Pricing Model</td>
+            <td>Fama &amp; French (2015), <em>JFE</em></td>
+            <td>Extends 3-factor with profitability and investment factors</td>
+            <td>French Data Library (same link)</td>
+          </tr>
+          <tr>
+            <td>Generalized Autoregressive Conditional Heteroskedasticity</td>
+            <td>Bollerslev (1986), <em>Journal of Econometrics</em></td>
+            <td>Introduces GARCH — the standard model for volatility clustering</td>
+            <td>JSTOR / ScienceDirect</td>
+          </tr>
+          <tr>
+            <td>Optimal Control of Execution Costs</td>
+            <td>Almgren &amp; Chriss (2001), <em>Journal of Risk</em></td>
+            <td>Framework for optimal trade execution; essential for understanding market impact</td>
+            <td><a href="https://www.math.nyu.edu/~almgren/">NYU Almgren page</a></td>
+          </tr>
+          <tr>
+            <td>Does Academic Research Destroy Stock Return Predictability?</td>
+            <td>McLean &amp; Pontiff (2016), <em>JoF</em></td>
+            <td>Must-read: shows anomalies decay after publication. Read before trusting any backtest.</td>
+            <td>SSRN / Journal of Finance</td>
+          </tr>
+          <tr>
+            <td>Backtest Overfitting in Financial Research (Probability of Backtest Overfitting)</td>
+            <td>Bailey, Borwein, Lopez de Prado, Zhu (2017)</td>
+            <td>Quantifies how multiple testing inflates Sharpe ratios; introduces MinTRL formula</td>
+            <td><a href="https://ssrn.com/abstract=2308659">SSRN</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:var(--heading);margin:24px 0 14px;">📊 Free Financial Data Sources</h3>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Price &amp; Market Data</h3>
+        <ul style="font-size:13px;padding-left:16px;">
+          <li><a href="https://pypi.org/project/yfinance/"><strong>yfinance</strong></a> — Yahoo Finance; OHLCV; adjusted; free</li>
+          <li><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html"><strong>Fama-French Data Library</strong></a> — factor returns, portfolios; free</li>
+          <li><a href="https://data.nasdaq.com"><strong>Nasdaq Data Link</strong></a> — various datasets, some free</li>
+          <li><a href="https://www.alphavantage.co"><strong>Alpha Vantage</strong></a> — free tier for daily prices</li>
+          <li><a href="https://polygon.io"><strong>Polygon.io</strong></a> — equities, options; free tier</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Fundamentals &amp; Macro</h3>
+        <ul style="font-size:13px;padding-left:16px;">
+          <li><a href="https://fred.stlouisfed.org"><strong>FRED</strong></a> — Federal Reserve macro data; completely free</li>
+          <li><a href="https://www.sec.gov/edgar"><strong>SEC EDGAR</strong></a> — 10-K/10-Q filings; free</li>
+          <li><a href="https://simfin.com"><strong>Simfin</strong></a> — standardized fundamentals; free tier</li>
+          <li><a href="https://data.worldbank.org"><strong>World Bank Open Data</strong></a> — global macro; free</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Derivatives &amp; Tools</h3>
+        <ul style="font-size:13px;padding-left:16px;">
+          <li><a href="https://www.cboe.com"><strong>CBOE</strong></a> — VIX history, options stats; free</li>
+          <li><a href="https://iexcloud.io"><strong>IEX Cloud</strong></a> — US equity data; free sandbox</li>
+          <li><strong>CRSP</strong> — gold-standard survivorship-bias-free data; university access required</li>
+          <li><a href="https://pypi.org/project/arch/"><strong>arch (Python)</strong></a> — GARCH modeling package</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="color:var(--heading);margin:24px 0 14px;">🔧 Essential Python Libraries</h3>
+    <div class="grid-4">
+      <div class="card" style="padding:14px;">
+        <h3 style="font-size:13px;">Data &amp; Computation</h3>
+        <div style="font-size:12px;line-height:2;">
+          <code>numpy</code> · <code>pandas</code> · <code>scipy</code><br>
+          <code>statsmodels</code> · <code>polars</code>
+        </div>
+      </div>
+      <div class="card" style="padding:14px;">
+        <h3 style="font-size:13px;">Finance-Specific</h3>
+        <div style="font-size:12px;line-height:2;">
+          <code>yfinance</code> · <code>arch</code><br>
+          <code>pyfolio</code> · <code>vectorbt</code>
+        </div>
+      </div>
+      <div class="card" style="padding:14px;">
+        <h3 style="font-size:13px;">ML &amp; Optimization</h3>
+        <div style="font-size:12px;line-height:2;">
+          <code>scikit-learn</code> · <code>xgboost</code><br>
+          <code>lightgbm</code> · <code>cvxpy</code>
+        </div>
+      </div>
+      <div class="card" style="padding:14px;">
+        <h3 style="font-size:13px;">Workflow</h3>
+        <div style="font-size:12px;line-height:2;">
+          <code>jupyterlab</code> · <code>mlflow</code><br>
+          <code>plotly</code> · <code>pytest</code>
+        </div>
+      </div>
+    </div><!-- /grid-4 -->
+  </div><!-- /section-d -->
+
+  <!-- ============================================================ -->
+  <!-- SECTION E: PROJECT LADDER -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-e">
+    <div class="section-header">
+      <div class="section-letter c5">E</div>
+      <div class="section-title-block">
+        <h2>Project Ladder</h2>
+        <p>15 projects in increasing difficulty. Each includes research question, prerequisites, data, methodology, evaluation, and what makes it credible to a quant interviewer.</p>
+      </div>
+    </div>
+
+    <div class="callout danger">
+      <div class="callout-icon">🚨</div>
+      <div><strong>What separates real research from tutorial clones:</strong> A tutorial clone reproduces results from a blog post. Real research asks "Is this effect statistically robust after adjusting for multiple testing, transaction costs, and out-of-sample data?" Every project here should answer that question honestly — even if the answer is "No, the strategy doesn't work."</div>
+    </div>
+
+    <!-- PROJECT 1 -->
+    <div class="card project-card" id="proj-1">
+      <div class="project-header">
+        <span class="proj-num">01</span>
+        <div>
+          <h3>Financial Data Pipeline &amp; Exploratory Analysis</h3>
+          <div class="proj-tags">
+            <span class="pill green">Beginner</span>
+            <span class="pill">Python · pandas · yfinance</span>
+            <span class="pill blue">~15 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> What are the empirical statistical properties of daily equity returns, and how do they differ from the Gaussian assumption underlying classical finance theory?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Download 10+ years of OHLCV data for 20 large-cap stocks plus SPY using <code>yfinance</code></li>
+            <li>Handle splits, dividends, and missing data explicitly</li>
+            <li>Compute log-returns: <code>r_t = ln(P_t/P_{t-1})</code></li>
+            <li>Statistical description: mean, std, skewness, excess kurtosis, Jarque-Bera test for normality</li>
+            <li>Plot: histogram vs fitted Normal vs fitted Student-t, QQ-plot, rolling volatility</li>
+            <li>Autocorrelation of returns (ACF) vs autocorrelation of |returns|</li>
+            <li>Measure maximum drawdown, rolling Sharpe ratio</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Expected Findings &amp; Why They Matter</h4>
+          <ul style="font-size:13px;">
+            <li>Fat tails: kurtosis &gt; 3 — Black-Scholes underprices OTM options</li>
+            <li>Negative skewness in equity indices — asymmetric risk</li>
+            <li>Near-zero autocorrelation in returns (consistent with weak-form EMH) but strong autocorrelation in |returns| (volatility clustering)</li>
+            <li>Student-t distribution (ν ≈ 3–5 df) fits much better than Normal</li>
+          </ul>
+          <h4>What Makes It Interview-Credible</h4>
+          <ul style="font-size:13px;">
+            <li>State the Jarque-Bera test statistic and its p-value; explain what it tests</li>
+            <li>Discuss the <em>implications</em> of fat tails for risk management (VaR underestimation)</li>
+            <li>Include a proper data provenance section — where data came from, adjustments made</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <strong>Deliverables:</strong> GitHub repo · Jupyter notebook with reproducible code · README explaining statistical findings · All charts as PNG
+      </div>
+    </div>
+
+    <!-- PROJECT 2 -->
+    <div class="card project-card" id="proj-2">
+      <div class="project-header">
+        <span class="proj-num">02</span>
+        <div>
+          <h3>Return, Volatility, Correlation, and Drawdown Analysis</h3>
+          <div class="proj-tags">
+            <span class="pill green">Beginner–Intermediate</span>
+            <span class="pill">NumPy · pandas · scipy</span>
+            <span class="pill blue">~20 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> How do volatility, correlation, and drawdowns behave across different market regimes, and what are the practical implications for portfolio construction?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Realized volatility: rolling 21-day std × √252; rolling 63-day</li>
+            <li>Compare realized vol, EWMA vol (λ = 0.94, RiskMetrics), and implied vol (VIX proxy)</li>
+            <li>Rolling correlation matrix: 60-day, 252-day windows — animate how correlations spike in crises</li>
+            <li>Compute maximum drawdown, drawdown duration, underwater curve</li>
+            <li>Conditional distributions: return distributions conditioned on VIX quintiles</li>
+            <li>Volatility-of-volatility measure (standard deviation of rolling vol)</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Key Insight to Demonstrate</h4>
+          <ul style="font-size:13px;">
+            <li>Correlation instability: correlations are high in stress — diversification fails when you need it most (Ang &amp; Chen 2002 finding)</li>
+            <li>Volatility mean-reversion: vol tends to revert; show it empirically via autocorrelation of vol^2</li>
+            <li>Drawdown analysis: duration and severity; difference between average and maximum drawdown</li>
+          </ul>
+          <h4>Pitfalls</h4>
+          <ul style="font-size:13px;">
+            <li>Using overlapping windows without Newey-West corrections inflates t-statistics</li>
+            <li>Reporting only maximum drawdown; also report recovery time</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-meta"><strong>Extension:</strong> Compute conditional Value-at-Risk (CVaR/ES) using historical simulation; compare to Gaussian VaR for 2008 and 2020 crash periods</div>
+    </div>
+
+    <!-- PROJECT 3 -->
+    <div class="card project-card" id="proj-3">
+      <div class="project-header">
+        <span class="proj-num">03</span>
+        <div>
+          <h3>Portfolio Construction and Risk Decomposition</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate</span>
+            <span class="pill">cvxpy · NumPy · statsmodels</span>
+            <span class="pill blue">~25 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Does Markowitz mean-variance optimization produce better out-of-sample portfolios than the 1/N equal-weight benchmark, and what drives the performance difference?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Select 30 stocks from different sectors; 15 years of data</li>
+            <li>Implement Markowitz optimizer with <code>cvxpy</code>: min-variance, tangency, maximum Diversification ratio</li>
+            <li>Apply shrinkage estimators for covariance: Ledoit-Wolf (scikit-learn); compare to sample covariance</li>
+            <li>Rolling walk-forward evaluation: 36-month estimation window, 1-month rebalance</li>
+            <li>Risk decomposition: marginal risk contribution, factor risk (market β, sector exposure)</li>
+            <li>Compare: MVO, equal-weight, inverse-vol weighted, maximum Sharpe</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Key Lesson (Don't Skip This)</h4>
+          <ul style="font-size:13px;">
+            <li>DeMiguel, Garlappi &amp; Uppal (2009) show 1/N beats MVO on many datasets — demonstrate why (estimation error)</li>
+            <li>Show how extreme Markowitz weights arise from small changes in expected return estimates</li>
+            <li>Ledoit-Wolf shrinkage reduces extreme weights; explain the bias-variance tradeoff</li>
+          </ul>
+          <h4>Evaluation Metrics</h4>
+          <ul style="font-size:13px;">
+            <li>OOS Sharpe, Sortino, Calmar, max drawdown, turnover, information ratio vs SPY</li>
+            <li>Bootstrap confidence intervals on the Sharpe ratio difference</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-meta"><strong>Reference:</strong> DeMiguel, Garlappi &amp; Uppal, "Optimal Versus Naive Diversification," RFS 2009 (SSRN freely available)</div>
+    </div>
+
+    <!-- PROJECT 4 -->
+    <div class="card project-card" id="proj-4">
+      <div class="project-header">
+        <span class="proj-num">04</span>
+        <div>
+          <h3>Backtesting Engine Built From Scratch</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate</span>
+            <span class="pill">Python OOP · pandas · pytest</span>
+            <span class="pill blue">~40 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> How do transaction costs, slippage, and position sizing assumptions alter strategy performance, and how can a backtesting framework prevent the most common biases?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Architecture</h4>
+          <ul style="font-size:13px;">
+            <li><strong>Event-driven design:</strong> DataHandler → SignalEngine → RiskManager → PortfolioManager → ExecutionHandler → Performance</li>
+            <li><strong>Cost model:</strong> fixed commission per trade, percentage bid-ask spread (configurable), market-impact model (linear price impact)</li>
+            <li><strong>Position sizing:</strong> equal-weight, volatility-scaled, Kelly criterion (fractional)</li>
+            <li><strong>Accounting:</strong> cash tracking, long/short positions, daily P&amp;L, unrealized vs realized, drawdown tracking</li>
+            <li><strong>Bias prevention:</strong> price arrays only accessible up to current timestamp; no peeking at future prices</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Tests to Write</h4>
+          <ul style="font-size:13px;">
+            <li>Buy-and-hold test: verify P&amp;L = (end price / start price - 1) minus costs</li>
+            <li>Look-ahead bias test: shift all signals by 1 day and verify performance degrades appropriately</li>
+            <li>Transaction cost test: zero-cost run vs 10bp cost run; measure performance delta</li>
+            <li>Survivorship bias test: run on S&amp;P 500 current constituents only vs historical constituents</li>
+          </ul>
+          <h4>Repository Structure</h4>
+          <pre style="font-size:11px;background:var(--bg-dark);padding:10px;border-radius:6px;">backtester/
+├── engine/
+│   ├── data_handler.py
+│   ├── portfolio.py
+│   ├── execution.py
+│   └── performance.py
+├── strategies/
+│   └── base_strategy.py
+├── tests/
+│   ├── test_accounting.py
+│   └── test_bias_prevention.py
+└── notebooks/</pre>
+        </div>
+      </div>
+      <div class="proj-meta"><strong>Why it's educationally essential:</strong> Building the engine yourself forces you to face every implicit assumption. Using Zipline or Backtrader hides these decisions. Interview question: "What assumptions does your backtester make?" — you should have 10 answers.</div>
+    </div>
+
+    <!-- PROJECT 5 -->
+    <div class="card project-card" id="proj-5">
+      <div class="project-header">
+        <span class="proj-num">05</span>
+        <div>
+          <h3>Momentum Strategy with Rigorous OOS Testing</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate</span>
+            <span class="pill">backtester (Project 4) · pandas</span>
+            <span class="pill blue">~30 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Does the 12-1 cross-sectional momentum anomaly (Jegadeesh &amp; Titman 1993) persist in recent data after transaction costs, and does it survive out-of-sample validation?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Implementation</h4>
+          <ul style="font-size:13px;">
+            <li>Universe: S&amp;P 500 historical constituents (handle survivorship bias — use point-in-time data from Wikipedia or Tiingo)</li>
+            <li>Signal: 12-month trailing return skipping the last month (12-1)</li>
+            <li>Portfolio: top and bottom quintile; long-short; monthly rebalance</li>
+            <li>Transaction costs: 10 bps one-way; measure annual turnover</li>
+            <li>OOS split: train 2000–2015, test 2016–present (strict date cutoff)</li>
+            <li>Variation study: test 6-1, 3-1, 12-3 formations; report ALL results (multiple testing!)</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Statistical Rigor</h4>
+          <ul style="font-size:13px;">
+            <li>Compute Newey-West t-statistic for mean monthly return (autocorrelation-corrected)</li>
+            <li>Bootstrap confidence intervals on Sharpe ratio (1000 block bootstrap samples)</li>
+            <li>Report: IS Sharpe, OOS Sharpe, t-stat, p-value, max drawdown, Calmar, annual turnover</li>
+            <li>Subsample stability: show performance by decade — is it stable?</li>
+            <li>Apply Bonferroni correction if testing multiple formation periods</li>
+          </ul>
+          <h4>Expected Honest Findings</h4>
+          <p style="font-size:13px;">Momentum has been weaker post-2010; crashes severely in reversals (2009, 2020). Be honest in your write-up about these limitations.</p>
+        </div>
+      </div>
+      <div class="proj-meta"><strong>Reference:</strong> Jegadeesh &amp; Titman (1993). Also read Israel &amp; Moskowitz (2013) "The Role of Shorting, Firm Size, and Time on Market Anomalies" for a realistic cost-adjusted analysis.</div>
+    </div>
+
+    <!-- PROJECT 6 -->
+    <div class="card project-card" id="proj-6">
+      <div class="project-header">
+        <span class="proj-num">06</span>
+        <div>
+          <h3>Mean Reversion Strategy</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate</span>
+            <span class="pill">statsmodels · backtester</span>
+            <span class="pill blue">~25 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Do short-term return reversals (Lehmann 1990; Lo &amp; MacKinlay 1990) produce tradable alpha after realistic transaction costs?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Weekly cross-sectional reversal: short last-week's winners, long losers</li>
+            <li>Test on US large-cap universe (Russell 1000 proxied by SPDR sector ETFs or individual stocks)</li>
+            <li>Vary holding periods: 1-week, 2-week reversal</li>
+            <li>Apply realistic bid-ask spreads (proportional to daily volume using Corwin-Schultz estimator or constant 5bps for large-caps)</li>
+            <li>Decompose: is alpha driven by bid-ask bounce, lead-lag, or true mispricing?</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Key Insight</h4>
+          <ul style="font-size:13px;">
+            <li>Short-term reversal is highly sensitive to transaction costs — this is the lesson</li>
+            <li>The gross signal is real; the net-of-cost signal is much smaller and regime-dependent</li>
+            <li>Discuss market impact: the more capital deployed, the worse execution quality</li>
+          </ul>
+          <h4>Pitfalls to Avoid</h4>
+          <ul style="font-size:13px;">
+            <li>Using closing prices for both signal and execution — use next open or TWAP estimate</li>
+            <li>Ignoring turnover — this strategy turns over portfolio every 1–2 weeks</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 7 -->
+    <div class="card project-card" id="proj-7">
+      <div class="project-header">
+        <span class="proj-num">07</span>
+        <div>
+          <h3>Pairs Trading with Cointegration Testing</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate–Advanced</span>
+            <span class="pill">statsmodels · arch · backtester</span>
+            <span class="pill blue">~35 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Can cointegrated stock pairs identified in-sample generate statistically significant risk-adjusted returns OOS, and what is the role of hedge ratio estimation error?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Universe: sector-matched pairs (e.g., XOM/CVX, KO/PEP, GS/MS)</li>
+            <li>Cointegration tests: Engle-Granger 2-step, Johansen trace test — implement both</li>
+            <li>Estimate hedge ratio via OLS; compare to Kalman filter dynamic hedge ratio</li>
+            <li>Spread: z_t = log(P1) - β·log(P2); standardize to z-score with rolling mean/std</li>
+            <li>Entry/exit: ±2σ entry, 0 exit; with stop at ±3σ</li>
+            <li>IS: 2010–2018 | OOS: 2019–present</li>
+            <li>Correct for multiple comparisons: if testing 100 pairs, apply FDR correction</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Critical Analysis</h4>
+          <ul style="font-size:13px;">
+            <li>How stable is cointegration? Test rolling cointegration over 2-year windows</li>
+            <li>What happens when the cointegrating relationship breaks? (thesis risk)</li>
+            <li>Transaction cost analysis: pairs trading requires frequent rebalancing</li>
+            <li>Report: number of trades, average holding period, OOS Sharpe, max drawdown per pair</li>
+          </ul>
+          <h4>Extensions</h4>
+          <ul style="font-size:13px;">
+            <li>Kalman filter for dynamic hedge ratio estimation</li>
+            <li>Extend to 3-asset cointegrating systems (Johansen vectors)</li>
+            <li>Ornstein-Uhlenbeck model for the spread: calibrate θ, μ, σ and compute optimal entry threshold analytically</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 8 -->
+    <div class="card project-card" id="proj-8">
+      <div class="project-header">
+        <span class="proj-num">08</span>
+        <div>
+          <h3>Fama–French Factor Analysis and Fama-MacBeth Regression</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate–Advanced</span>
+            <span class="pill">pandas · statsmodels · scipy</span>
+            <span class="pill blue">~30 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Do size, value, profitability, and investment factor exposures explain cross-sectional variation in expected stock returns, and what is the marginal contribution of each factor?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Implementation</h4>
+          <ul style="font-size:13px;">
+            <li>Download FF3 and FF5 factor returns from <a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html">Ken French Data Library</a></li>
+            <li>Time-series regression: Rᵢ − Rf = α + β₁MKT + β₂SMB + β₃HML + εᵢ for each of 25 stock portfolios (FF25)</li>
+            <li>Fama-MacBeth 2-stage regression: (1) cross-sectional β estimation; (2) monthly cross-sectional return regression on β estimates; (3) time-series mean and t-stat of λ coefficients</li>
+            <li>Newey-West standard errors on λ (lags = 3)</li>
+            <li>Spanning test: does adding a new factor improve GRS test statistic?</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Analysis</h4>
+          <ul style="font-size:13px;">
+            <li>GRS (1989) test: joint test that all intercepts (alphas) are zero — implement and interpret</li>
+            <li>Compare FF3 vs FF5: does profitability and investment improve the model?</li>
+            <li>Check: is SMB premium stable across subperiods?</li>
+            <li>Discuss: value (HML) has been weak post-2007 — discuss structural vs sample variation explanation</li>
+          </ul>
+          <h4>Why This Is Interview-Essential</h4>
+          <p style="font-size:13px;">Fama-MacBeth regression is the standard procedure for cross-sectional asset pricing tests. Any QR role interviewer may ask: "How does Fama-MacBeth correct for cross-sectional correlation in the errors?" You should have a precise answer.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 9 -->
+    <div class="card project-card" id="proj-9">
+      <div class="project-header">
+        <span class="proj-num">09</span>
+        <div>
+          <h3>Black-Scholes Pricing, Greeks, and Implied Volatility Surface</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate–Advanced</span>
+            <span class="pill">scipy · numpy · matplotlib</span>
+            <span class="pill blue">~30 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> How does the market's implied volatility surface differ from the constant-volatility assumption of Black-Scholes, and what does this tell us about the model's limitations?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Implementation</h4>
+          <ul style="font-size:13px;">
+            <li>Implement Black-Scholes from scratch: C = S·N(d₁) − K·e^{−rT}·N(d₂)</li>
+            <li>Compute all Greeks analytically: Δ, Γ, Θ, ν (Vega), ρ</li>
+            <li>Numerical Greeks: finite difference; verify they match analytical values</li>
+            <li>Implied volatility solver: Newton-Raphson using Vega; handle edge cases (deep ITM/OTM)</li>
+            <li>Download SPY options chain via yfinance or Polygon; construct IV surface</li>
+            <li>Visualize volatility smile and term structure</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Key Analysis</h4>
+          <ul style="font-size:13px;">
+            <li>Volatility smile: OTM puts have higher IV than ATM — implies market prices large negative jumps</li>
+            <li>Term structure: short-dated IV vs long-dated IV; behavior around macro events</li>
+            <li>Put-call parity check: verify it holds numerically in your data</li>
+            <li>Discuss: what does a non-flat IV surface imply about the adequacy of GBM as a model for stock prices?</li>
+          </ul>
+          <h4>Extensions</h4>
+          <ul style="font-size:13px;">
+            <li>Implement Heston model variance swap formula</li>
+            <li>Dupire local vol surface extraction from market prices</li>
+            <li>Delta-hedging simulation: P&amp;L under real vs implied vol</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 10 -->
+    <div class="card project-card" id="proj-10">
+      <div class="project-header">
+        <span class="proj-num">10</span>
+        <div>
+          <h3>Monte Carlo Option Pricing and Variance Reduction</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate–Advanced</span>
+            <span class="pill">numpy · scipy</span>
+            <span class="pill blue">~25 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> How do different Monte Carlo variance reduction techniques affect the speed-accuracy tradeoff for option pricing, and when does MC have advantages over analytical solutions?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Implementation</h4>
+          <ul style="font-size:13px;">
+            <li>GBM path simulation: S(T) = S₀·exp((r − σ²/2)T + σ√T·Z), Z∼N(0,1)</li>
+            <li>European call/put pricing; verify against Black-Scholes closed-form</li>
+            <li>Variance reduction: (1) Antithetic variates; (2) Control variates; (3) Importance sampling</li>
+            <li>Convergence analysis: RMSE vs N_simulations; plot convergence curves for each method</li>
+            <li>Asian option (arithmetic average): MC is needed — no closed form</li>
+            <li>Barrier option pricing: up-and-out call</li>
+            <li>American option: Longstaff-Schwartz least-squares MC for early exercise</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Key Lessons</h4>
+          <ul style="font-size:13px;">
+            <li>MC error scales as 1/√N — to halve error, need 4× more simulations</li>
+            <li>Antithetic variates roughly halves variance for free; always use it</li>
+            <li>Control variate using geometric Asian as control for arithmetic Asian is textbook and powerful</li>
+            <li>Longstaff-Schwartz shows how to handle path-dependent early exercise — foundational for American options</li>
+          </ul>
+          <h4>Performance Testing</h4>
+          <ul style="font-size:13px;">
+            <li>Time your implementations; explore NumPy vectorization vs Python loops</li>
+            <li>Profile with <code>cProfile</code> to find bottlenecks</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 11 -->
+    <div class="card project-card" id="proj-11">
+      <div class="project-header">
+        <span class="proj-num">11</span>
+        <div>
+          <h3>Volatility Forecasting with GARCH Models</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate–Advanced</span>
+            <span class="pill">arch · statsmodels · scipy</span>
+            <span class="pill blue">~30 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Which volatility model — realized volatility, EWMA, GARCH(1,1), GJR-GARCH, or EGARCH — produces the most accurate 1-day and 22-day ahead volatility forecasts?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Models to Implement</h4>
+          <ul style="font-size:13px;">
+            <li><strong>RV:</strong> rolling 21-day realized variance</li>
+            <li><strong>EWMA:</strong> σ²_t = λσ²_{t-1} + (1-λ)r²_{t-1}; tune λ via MLE</li>
+            <li><strong>GARCH(1,1):</strong> σ²_t = ω + αε²_{t-1} + βσ²_{t-1}; MLE estimation</li>
+            <li><strong>GJR-GARCH:</strong> adds asymmetric leverage effect (γ coefficient on negative innovations)</li>
+            <li><strong>EGARCH:</strong> Nelson (1991) — log specification ensures positive variance without constraints</li>
+            <li>Use <code>arch</code> library; then implement GARCH(1,1) MLE from scratch to understand it</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Evaluation Framework</h4>
+          <ul style="font-size:13px;">
+            <li>True volatility proxy: realized variance from 5-minute intraday returns (if available) or absolute daily returns squared</li>
+            <li>Forecast evaluation: MSE, QLIKE loss (preferred for volatility: asymmetric), Mincer-Zarnowitz regression</li>
+            <li>Diebold-Mariano test for forecast comparison</li>
+            <li>Rolling OOS evaluation: expand window, forecast 1 step ahead</li>
+          </ul>
+          <h4>Key Financial Result</h4>
+          <p style="font-size:13px;">GJR-GARCH typically outperforms GARCH(1,1) for equities due to leverage effect (negative returns increase future vol more than positive returns of same magnitude — Black 1976).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 12 -->
+    <div class="card project-card" id="proj-12">
+      <div class="project-header">
+        <span class="proj-num">12</span>
+        <div>
+          <h3>Market Microstructure and Limit Order Book Analysis</h3>
+          <div class="proj-tags">
+            <span class="pill purple">Advanced</span>
+            <span class="pill">Python · pandas · LOB data</span>
+            <span class="pill blue">~35 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> What empirical regularities exist in limit order book dynamics, and how do bid-ask spreads, order imbalance, and trade clustering relate to short-term price movements?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Data: Nasdaq BBO data via LOBSTER (<a href="https://lobsterdata.com">lobsterdata.com</a>) or IEX TOPS feed (free)</li>
+            <li>Bid-ask spread estimation if only daily data: Corwin-Schultz (2012) high-low estimator</li>
+            <li>Roll (1984) implied spread from return autocorrelation</li>
+            <li>Order flow imbalance: OFI = (bid volume change − ask volume change)</li>
+            <li>Regression: price change ~ OFI + lagged OFI (Cont, Kukanov &amp; Stoikov 2014)</li>
+            <li>Intraday patterns: spreads, volume, volatility by time of day</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Models</h4>
+          <ul style="font-size:13px;">
+            <li>Amihud (2002) illiquidity ratio: |r_t|/Volume_t — cross-sectional and time-series analysis</li>
+            <li>Kyle (1985) λ estimation: regress price change on signed volume</li>
+            <li>Hasbrouck (1991) VAR model for quote revisions and trades</li>
+          </ul>
+          <h4>What Makes This Credible</h4>
+          <p style="font-size:13px;">Most quant candidates skip microstructure. Demonstrating knowledge of Kyle's lambda, the Amihud ratio, and order flow imbalance immediately signals that you understand execution costs — a key concern for any live strategy.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 13 -->
+    <div class="card project-card" id="proj-13">
+      <div class="project-header">
+        <span class="proj-num">13</span>
+        <div>
+          <h3>Statistical Arbitrage with Strict Out-of-Sample Discipline</h3>
+          <div class="proj-tags">
+            <span class="pill purple">Advanced</span>
+            <span class="pill">sklearn · statsmodels · backtester</span>
+            <span class="pill blue">~45 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Can a multi-factor statistical arbitrage strategy using PCA-extracted latent factors generate statistically significant OOS alpha with realistic execution assumptions?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Universe: S&amp;P 500 constituents; 15 years daily data; handle survivorship bias</li>
+            <li>PCA on return matrix: extract top K factors; residual = idiosyncratic return</li>
+            <li>Mean-reverting signal: standardized residual (z-score) over rolling 60-day window</li>
+            <li>Portfolio: long top decile by positive z-score, short bottom decile</li>
+            <li>Risk constraints: sector-neutral, β-neutral (market exposure &lt; 0.1), position limits</li>
+            <li>Strict OOS: IS 2005–2018, OOS 2019–present; never touch OOS until final evaluation</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Rigor Requirements</h4>
+          <ul style="font-size:13px;">
+            <li>Walk-forward validation within IS period first</li>
+            <li>Report probability of backtest overfitting (PBO) using combinatorially symmetric cross-validation (Bailey et al. 2017)</li>
+            <li>Transaction costs: 5bps per side; measure monthly turnover</li>
+            <li>Deflated Sharpe Ratio (DSR) — adjust Sharpe for skewness, kurtosis, and multiple testing</li>
+            <li>Honest OOS assessment: IS Sharpe 1.2, OOS Sharpe 0.6 — still a realistic finding</li>
+          </ul>
+          <h4>Common Failure Mode</h4>
+          <p style="font-size:13px;">PCA factors are not stable over time. Regime changes cause factor rotations. Use rolling PCA or retrain periodically within walk-forward loop.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 14 -->
+    <div class="card project-card" id="proj-14">
+      <div class="project-header">
+        <span class="proj-num">14</span>
+        <div>
+          <h3>Machine Learning for Return Prediction with Leakage Controls</h3>
+          <div class="proj-tags">
+            <span class="pill purple">Advanced</span>
+            <span class="pill">xgboost · lightgbm · sklearn · mlflow</span>
+            <span class="pill blue">~50 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Can gradient-boosted trees trained on lagged financial features generate statistically significant Information Coefficient (IC) for next-month stock returns, and does the IC survive purged walk-forward validation?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Features (All Strictly Lagged)</h4>
+          <ul style="font-size:13px;">
+            <li>Momentum: 1m, 3m, 6m, 12m return</li>
+            <li>Reversal: 1w, 2w return</li>
+            <li>Volatility: 21-day realized vol; GARCH vol estimate</li>
+            <li>Value: P/E, P/B, dividend yield (from EDGAR via simfin)</li>
+            <li>Quality: ROE, ROA, gross profitability, debt/equity</li>
+            <li>Technical: RSI-14, MACD, Bollinger band position</li>
+            <li>Each feature must be computable at time T using only data available at T</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Validation Discipline</h4>
+          <ul style="font-size:13px;">
+            <li><strong>Purged K-Fold CV:</strong> drop observations overlapping the test fold ± embargo period (Lopez de Prado Ch.7)</li>
+            <li><strong>Feature engineering leakage:</strong> rolling means computed only on past data; verify with shifted data test</li>
+            <li><strong>Target:</strong> 1-month forward return (realized next month, not available at prediction time)</li>
+            <li><strong>IC:</strong> Spearman rank correlation between predicted and realized returns; ICIR = mean(IC)/std(IC)</li>
+            <li>Compare: ICIR in IS vs ICIR in OOS; if OOS ICIR &lt; 0.3, signal is likely too weak</li>
+          </ul>
+          <h4>MLflow Experiment Tracking</h4>
+          <ul style="font-size:13px;">
+            <li>Log every hyperparameter, training window, OOS IC, and Sharpe to <code>mlflow</code></li>
+            <li>This prevents p-hacking and gives you an honest audit trail</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 15 -->
+    <div class="card project-card" id="proj-15">
+      <div class="project-header">
+        <span class="proj-num">15</span>
+        <div>
+          <h3>Complete Research Pipeline: Systematic Equity Strategy</h3>
+          <div class="proj-tags">
+            <span class="pill purple">Advanced — Capstone</span>
+            <span class="pill">Full stack: data → signal → portfolio → execution → report</span>
+            <span class="pill blue">~80+ hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Can a systematic equity strategy combining momentum, quality, and low-volatility factors achieve a risk-adjusted excess return (Deflated Sharpe &gt; 1.0) after all costs in out-of-sample data?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Pipeline Architecture</h4>
+          <ol style="font-size:13px;">
+            <li><strong>Universe construction:</strong> S&amp;P 500 historical constituents; liquidity filters; point-in-time</li>
+            <li><strong>Signal generation:</strong> each factor z-scored cross-sectionally; composite signal = weighted average</li>
+            <li><strong>Portfolio optimizer:</strong> mean-variance with signal as alpha input; risk model = Ledoit-Wolf covariance; constraints: long-only, max weight 3%, sector ±5% from benchmark</li>
+            <li><strong>Transaction cost model:</strong> linear market impact + proportional spread; turnover budget constraint</li>
+            <li><strong>Risk limits:</strong> stop-loss at −8% monthly, max β = 0.15 from neutral, max sector weight 20%</li>
+            <li><strong>Execution model:</strong> TWAP over first 2 hours of day; partial fills</li>
+            <li><strong>Walk-forward engine:</strong> 36-month IS window, 3-month OOS, refit every 6 months</li>
+          </ol>
+        </div>
+        <div>
+          <h4>Performance Attribution</h4>
+          <ul style="font-size:13px;">
+            <li>Brinson-Hood-Beebower attribution: allocation effect, selection effect, interaction</li>
+            <li>Factor attribution: how much of alpha is explained by FF5 factors?</li>
+            <li>Sharpe, Sortino, Calmar, max drawdown, avg drawdown duration, turnover, information ratio</li>
+            <li>Deflated Sharpe Ratio (Bailey &amp; Lopez de Prado 2012) — adjusts for multiple testing</li>
+          </ul>
+          <h4>Research Report Requirements</h4>
+          <ul style="font-size:13px;">
+            <li>1-page executive summary with hypothesis, method, key results (not cherry-picked)</li>
+            <li>Honest OOS assessment: where did it underperform? Why?</li>
+            <li>Regime analysis: performance during risk-off vs risk-on periods</li>
+            <li>Limitations section: data quality, survivorship bias mitigation, capacity estimate</li>
+            <li>All code reproducible with one command: <code>make backtest</code></li>
+          </ul>
+          <h4>Why This Is Capstone-Quality</h4>
+          <p style="font-size:13px;">This project integrates everything: econometrics, optimization, execution, risk management, and scientific reporting. A well-executed version of this — with honest OOS results — is more impressive to quant interviewers than any result that looks too good.</p>
+        </div>
+      </div>
+      <div class="proj-meta"><strong>Target deliverable:</strong> Public GitHub repo · Full research report PDF · Reproducible Docker environment · Presentation deck (5 slides max: hypothesis, methodology, results, risks, next steps)</div>
+    </div><!-- /project-card proj-15 -->
+
+  </div><!-- /section-e -->
+
+  <!-- ============================================================ -->
+  <!-- SECTION F: RESEARCH & BACKTESTING BEST PRACTICES -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-f">
+    <div class="section-header">
+      <div class="section-letter c1">F</div>
+      <div class="section-title-block">
+        <h2>Research &amp; Backtesting Best-Practice Guide</h2>
+        <p>How professional quantitative research is structured, and why most backtests fail in live trading.</p>
+      </div>
+    </div>
+
+    <h3>The Research Process</h3>
+    <div class="timeline">
+      <div class="tl-step"><div class="tl-num">1</div><div><strong>Form a falsifiable hypothesis.</strong> "Stocks with high trailing 12-month momentum earn positive risk-adjusted returns in the subsequent month" — this is testable and falsifiable. Avoid "the market has patterns I can exploit" — untestable.</div></div>
+      <div class="tl-step"><div class="tl-num">2</div><div><strong>Inspect data before modeling.</strong> Check for outliers, missing observations, corporate actions, survivorship bias, point-in-time availability. Many apparent signals disappear after data cleaning.</div></div>
+      <div class="tl-step"><div class="tl-num">3</div><div><strong>Establish a baseline first.</strong> What does a simple benchmark do? Equal-weight buy-and-hold, market-cap weighted index. Your strategy must clearly beat this, net of costs, in OOS data.</div></div>
+      <div class="tl-step"><div class="tl-num">4</div><div><strong>Choose the model.</strong> Prefer the simplest model that fits the hypothesis. A linear regression with 3 factors is preferable to XGBoost with 50 features if their predictive power is similar — less overfitting risk, more interpretable.</div></div>
+      <div class="tl-step"><div class="tl-num">5</div><div><strong>Run experiments in-sample only.</strong> Log ALL experiments (use MLflow). Make OOS data invisible during model development.</div></div>
+      <div class="tl-step"><div class="tl-num">6</div><div><strong>Validate OOS exactly once.</strong> If you revisit OOS to improve the model, it becomes in-sample. A second OOS period is now contaminated.</div></div>
+      <div class="tl-step"><div class="tl-num">7</div><div><strong>Assess robustness.</strong> Does the strategy work across subperiods? Asset classes? Parameter perturbations? A good strategy is robust; a fit strategy is fragile.</div></div>
+      <div class="tl-step"><div class="tl-num">8</div><div><strong>Document limitations honestly.</strong> All strategies have failure modes. Write them in your research report. Reviewers trust researchers who acknowledge limitations over those who don't.</div></div>
+    </div>
+
+    <h3 style="margin-top:32px;">The Taxonomy of Backtesting Biases</h3>
+    <div class="grid-2">
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 Survivorship Bias</h4>
+        <p style="font-size:13px;">Testing only on currently traded companies excludes delisted, bankrupt, or acquired firms — systematically overestimates returns. <strong>Fix:</strong> Use point-in-time constituent lists. Bloomberg, CRSP, and Compustat provide these; free approximations exist via Wikipedia S&P 500 historical membership.</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 Look-Ahead Bias</h4>
+        <p style="font-size:13px;">Using data that wasn't available at decision time. Common in accounting data (10-K filed 60+ days after quarter end). <strong>Fix:</strong> Use point-in-time financial databases (Compustat); always lag fundamental data by at least 3 months.</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 Data Snooping / Multiple Testing</h4>
+        <p style="font-size:13px;">Testing 100 parameter combinations; 5 will appear significant by chance at α=5%. <strong>Fix:</strong> Apply Bonferroni correction; report all tested parameters, not just the best; compute Probability of Backtest Overfitting (PBO). Harvey, Liu &amp; Zhu (2016) recommend minimum t-stat of 3.0 for new factor claims.</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 In-Sample Overfitting</h4>
+        <p style="font-size:13px;">A model trained on historical data learns noise, not signal. <strong>Fix:</strong> Purged K-fold CV; walk-forward validation; regularization; hold-out test set that is never touched during development.</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 Transaction Cost Underestimation</h4>
+        <p style="font-size:13px;">Using zero or 1bp costs; ignoring market impact for larger positions; ignoring borrow costs for short positions. <strong>Fix:</strong> Use bid-ask midpoint for signals; apply 5–15bps per-side for liquid large-caps; add a market impact model for strategies with large AUM.</p>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--red);">🚫 Non-Stationarity &amp; Regime Changes</h4>
+        <p style="font-size:13px;">Statistical relationships change over time. The value premium that worked 1963–2007 has been largely absent post-2007. <strong>Fix:</strong> Subsample analysis; regime detection; avoid strategies that depend entirely on one period's patterns.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:32px;">Sharpe Ratio — Limitations and Context</h3>
+    <div class="callout warning">
+      <div class="callout-icon">⚠️</div>
+      <div>
+        <p style="font-size:13px;margin:0;">Sharpe ratio assumes returns are i.i.d. Normal. Real returns are: (1) autocorrelated (inflating Sharpe for trend-following), (2) non-normal (fat tails understate risk), (3) estimated with finite samples (a Sharpe of 1.5 over 3 years has wide confidence intervals). <strong>Use Deflated Sharpe Ratio</strong> (Bailey &amp; Lopez de Prado 2012) which adjusts for skewness, kurtosis, and multiple testing. A 3-year monthly Sharpe of 1.5 has a 95% CI of approximately [0.8, 2.2]. Always report the confidence interval.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;">Walk-Forward Validation Protocol</h3>
+    <div class="grid-3" style="gap:12px;">
+      <div class="card" style="padding:14px;">
+        <h4 style="font-size:13px;">❌ Never Do This</h4>
+        <p style="font-size:12px;">Optimize parameters on full dataset, then test on same dataset. Report Sharpe = 2.3. "Our strategy works."</p>
+      </div>
+      <div class="card" style="padding:14px;">
+        <h4 style="font-size:13px;">⚠️ Acceptable But Weak</h4>
+        <p style="font-size:12px;">Single train/test split, 70%/30%. Better, but vulnerable to regime luck — if the test period is a bull market, you get false confidence.</p>
+      </div>
+      <div class="card" style="padding:14px;">
+        <h4 style="font-size:13px;">✅ Do This</h4>
+        <p style="font-size:12px;">Walk-forward: IS=36m, OOS=6m, step=6m, 10+ folds. Each fold optimizes independently. Report aggregate OOS performance across all folds, including the worst fold.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;">Professional Workflow Checklist</h3>
+    <div class="checklist">
+      <label class="check-item"><input type="checkbox"><span>Version control: every experiment is committed with a unique git SHA</span></label>
+      <label class="check-item"><input type="checkbox"><span>Config files: no magic numbers in code; all parameters in YAML/TOML</span></label>
+      <label class="check-item"><input type="checkbox"><span>Reproducible environment: requirements.txt + Docker or conda environment.yml</span></label>
+      <label class="check-item"><input type="checkbox"><span>Logging: log data sources, dates processed, any anomalies encountered</span></label>
+      <label class="check-item"><input type="checkbox"><span>Unit tests: test data pipeline, accounting logic, signal computation</span></label>
+      <label class="check-item"><input type="checkbox"><span>Experiment tracking: MLflow or Weights &amp; Biases; log all runs, not just good ones</span></label>
+      <label class="check-item"><input type="checkbox"><span>Research report: write it even for negative results — null findings are still findings</span></label>
+      <label class="check-item"><input type="checkbox"><span>OOS contamination log: document every time OOS data was viewed and why</span></label>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION G: THREE SCHEDULES -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-g">
+    <div class="section-header">
+      <div class="section-letter c2">G</div>
+      <div class="section-title-block">
+        <h2>Three Study Schedules</h2>
+        <p>3-month, 6-month, and 12-month plans. Ambitious but realistic.</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📌</div>
+      <div><strong>Disclaimer:</strong> These schedules assume the <em>default profile</em> — a beginner with basic Python and pre-calculus math. Adjust aggressively if you have stronger prerequisites. No schedule guarantees employment or profitability.</div>
+    </div>
+
+    <!-- 3 MONTH -->
+    <div class="card" style="padding:20px;margin-bottom:24px;" id="sched-3m">
+      <h3>⚡ 3-Month Accelerated Plan</h3>
+      <p style="font-size:13px;"><strong>Target:</strong> 15–20 hrs/week | <strong>Outcome:</strong> Solid Python/NumPy/pandas, probability fundamentals, financial data literacy, Projects 1–4 completed | <strong>Entry point for:</strong> Internship applications, PhD program prep</p>
+      <div class="schedule-grid">
+        <div class="sched-week"><strong>Weeks 1–2</strong><br>Python fundamentals (loops, functions, classes, list comprehensions, file I/O). NumPy arrays, vectorized operations. pandas DataFrames (indexing, groupby, merge, resample). Complete all exercises in official NumPy and pandas docs.</div>
+        <div class="sched-week"><strong>Weeks 3–4</strong><br>Probability: sample space, conditional probability, Bayes, random variables, expectation, variance, covariance. Common distributions (Normal, Poisson, Binomial, Exponential). Central Limit Theorem. Textbook: Walpole/Myers "Probability &amp; Statistics" Ch.1–5.</div>
+        <div class="sched-week"><strong>Weeks 5–6</strong><br>Statistics: estimation, MLE, confidence intervals, hypothesis testing (t-test, chi-square, Kolmogorov-Smirnov). Linear regression derivation from scratch. Python: scipy.stats, statsmodels. Begin <strong>Project 1</strong>.</div>
+        <div class="sched-week"><strong>Weeks 7–8</strong><br>Financial concepts: prices vs returns, log-returns, compounding, dividends, splits, market cap. Equity data APIs (yfinance, FRED via pandas-datareader). Complete <strong>Project 1</strong>. Begin <strong>Project 2</strong>.</div>
+        <div class="sched-week"><strong>Weeks 9–10</strong><br>Linear algebra: vectors, matrices, matrix multiplication, eigenvalues/eigenvectors (focus on PCA intuition). Calculus: derivatives, chain rule, gradient, Hessian (surface understanding). Complete <strong>Project 2</strong>.</div>
+        <div class="sched-week"><strong>Weeks 11–12</strong><br>Portfolio math: covariance matrix, Markowitz optimization with cvxpy. Complete <strong>Project 3</strong>. Begin architecture planning for <strong>Project 4</strong> (backtesting engine). Write research summaries for Projects 1–3.</div>
+      </div>
+      <div class="pill green" style="display:inline-block;margin-top:12px;">Milestone: 3 complete, documented GitHub repos with README and findings</div>
+    </div>
+
+    <!-- 6 MONTH -->
+    <div class="card" style="padding:20px;margin-bottom:24px;" id="sched-6m">
+      <h3>📈 6-Month Intermediate Plan</h3>
+      <p style="font-size:13px;"><strong>Target:</strong> 15–20 hrs/week | <strong>Outcome:</strong> Time series, GARCH, factor models, backtesting engine, Projects 1–9 | <strong>Entry point for:</strong> Junior quant analyst applications, quant developer roles</p>
+      <div class="schedule-grid">
+        <div class="sched-week"><strong>Month 1</strong><br>Complete 3-month plan (above). Priority: Projects 1–4.</div>
+        <div class="sched-week"><strong>Month 2</strong><br>Time series: stationarity, ADF test, ARIMA, ACF/PACF interpretation. Volatility: EWMA, GARCH(1,1) derivation and MLE. arch library. Complete <strong>Projects 5 &amp; 6</strong> (momentum, mean-reversion). Analyze transaction cost sensitivity.</div>
+        <div class="sched-week"><strong>Month 3</strong><br>Cointegration: Engle-Granger, Johansen tests. Kalman filter basics. Complete <strong>Project 7</strong> (pairs trading). Stochastic processes: Brownian motion, GBM, Itô's lemma (intuitive level). Textbook: Shreve Vol.1 Ch.1–2.</div>
+        <div class="sched-week"><strong>Month 4</strong><br>Cross-sectional asset pricing: CAPM derivation, APT, Fama-French 3- and 5-factor models. Fama-MacBeth procedure. GRS test. Complete <strong>Project 8</strong>. SQL: SELECT, JOIN, GROUP BY, window functions — essential for databases.</div>
+        <div class="sched-week"><strong>Month 5</strong><br>Derivatives: forwards, futures, options. Black-Scholes derivation (risk-neutral pricing). Greeks. IV surface. Complete <strong>Projects 9 &amp; 10</strong>. Git workflow: branching, pull requests, code review practice.</div>
+        <div class="sched-week"><strong>Month 6</strong><br>GARCH forecasting: GJR-GARCH, EGARCH, model selection (AIC/BIC, DM test). Complete <strong>Project 11</strong>. Interview preparation begins: probability puzzles, statistics questions, brainteasers. Update GitHub READMEs to professional standard.</div>
+      </div>
+      <div class="pill blue" style="display:inline-block;margin-top:12px;">Milestone: 9 projects · Factor model knowledge · Derivatives pricing · Professional GitHub portfolio</div>
+    </div>
+
+    <!-- 12 MONTH -->
+    <div class="card" style="padding:20px;margin-bottom:24px;" id="sched-12m">
+      <h3>🎯 12-Month Full Roadmap</h3>
+      <p style="font-size:13px;"><strong>Target:</strong> 15–20 hrs/week | <strong>Outcome:</strong> Advanced quant researcher level, all 15 projects, ML for finance, microstructure, complete research pipeline | <strong>Entry point for:</strong> Quant research analyst, quant developer roles at mid-tier funds</p>
+      <div class="schedule-grid">
+        <div class="sched-week"><strong>Months 1–6</strong><br>Complete the 6-month plan above. You should have Projects 1–11 done with clean code and documentation.</div>
+        <div class="sched-week"><strong>Month 7</strong><br>Market microstructure deep dive: bid-ask spread models (Roll, Corwin-Schultz, Amihud), order flow analysis. Complete <strong>Project 12</strong>. Read O'Hara "Market Microstructure Theory" Ch.1–4.</div>
+        <div class="sched-week"><strong>Month 8</strong><br>Advanced stochastic calculus: Itô's lemma formal treatment, Girsanov theorem, risk-neutral measure, martingales. Shreve Vol.2 Ch.1–4. Statistical arbitrage theory: mean-reverting OU process, optimal thresholds (Bertram 2010). Complete <strong>Project 13</strong>.</div>
+        <div class="sched-week"><strong>Month 9</strong><br>ML for finance: feature engineering with strict time-series discipline. Gradient boosting (XGBoost, LightGBM). Purged K-fold cross-validation. Information coefficient framework. MLflow experiment tracking. Complete <strong>Project 14</strong>.</div>
+        <div class="sched-week"><strong>Month 10</strong><br>Portfolio optimization advanced: risk parity, Black-Litterman model, factor risk models, transaction cost optimization. Begin <strong>Project 15</strong> architecture.</div>
+        <div class="sched-week"><strong>Month 11</strong><br>Complete <strong>Project 15</strong> (full pipeline). Write research report. Deep interview preparation: 2+ hours/day on probability, statistics, finance problems. Practice explaining your projects to a critical audience.</div>
+        <div class="sched-week"><strong>Month 12</strong><br>Polish: refine top 3 GitHub repos to professional standard. Record a 5-minute video walkthrough of your capstone project. Apply to roles. Continue studying — the roadmap continues after employment, not instead of it.</div>
+      </div>
+      <div class="pill purple" style="display:inline-block;margin-top:12px;">Milestone: Full quant research portfolio · Capstone research pipeline · Interview-ready</div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">📊</div>
+      <div><strong>Theory-to-Coding Ratio:</strong> Months 1–3: 60% theory, 40% coding. Months 4–6: 40% theory, 60% coding. Months 7–12: 30% theory, 70% coding + research. The shift reflects that you need foundations first, then fluency in applying them.</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION H: CAREER PREP -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-h">
+    <div class="section-header">
+      <div class="section-letter c3">H</div>
+      <div class="section-title-block">
+        <h2>Career Preparation &amp; Portfolio Checklist</h2>
+        <p>How to demonstrate quant competence to hiring managers, not just learn it for yourself.</p>
+      </div>
+    </div>
+
+    <div class="grid-3" style="gap:16px;margin-bottom:28px;">
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--accent);">QR Interview Prep</h4>
+        <ul style="font-size:12px;">
+          <li>Probability: Bayes theorem applications, random walk problems, expected value puzzles, coupon collector, Gambler's ruin</li>
+          <li>Statistics: hypothesis testing, confidence intervals, maximum likelihood estimation, regression assumptions, p-value interpretation</li>
+          <li>Stochastic processes: Brownian motion properties, first passage times, Itô's lemma</li>
+          <li>Finance: CAPM derivation, Black-Scholes intuition, no-arbitrage arguments, Greeks</li>
+          <li>Brainteasers: combinatorics, geometric series, quick mental math</li>
+        </ul>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--accent);">QD Interview Prep</h4>
+        <ul style="font-size:12px;">
+          <li>Algorithms: sorting, binary search, graph algorithms (BFS/DFS), dynamic programming</li>
+          <li>Data structures: hash maps, heaps, queues, trees</li>
+          <li>Python performance: vectorization, Cython/numba profiling, pandas anti-patterns</li>
+          <li>Systems: latency concepts, IPC, memory layout, cache effects</li>
+          <li>SQL: complex queries, window functions, explain plans</li>
+          <li>Low-latency concepts: FIX protocol, order routing, co-location</li>
+        </ul>
+      </div>
+      <div class="card" style="padding:16px;">
+        <h4 style="color:var(--accent);">QT Interview Prep</h4>
+        <ul style="font-size:12px;">
+          <li>Market intuition: option pricing under different regimes, spread dynamics, risk transfer</li>
+          <li>Mental math: fast approximation of Black-Scholes, Poisson probabilities</li>
+          <li>Risk management: Greeks aggregation, hedging scenarios, P&amp;L explain</li>
+          <li>Market microstructure: adverse selection, inventory risk, optimal quotes</li>
+          <li>Game theory: Nash equilibria in simple trading games, auction theory basics</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Professional GitHub Repository Standards</h3>
+    <div class="grid-2">
+      <div>
+        <h4>Every Repository Must Have:</h4>
+        <div class="checklist">
+          <label class="check-item"><input type="checkbox"><span>README.md: motivation, methodology, key results (with tables/charts), limitations, how to reproduce</span></label>
+          <label class="check-item"><input type="checkbox"><span>requirements.txt or environment.yml; Docker if possible</span></label>
+          <label class="check-item"><input type="checkbox"><span>Clean directory structure (not one 1000-line notebook)</span></label>
+          <label class="check-item"><input type="checkbox"><span>Unit tests for core logic (pytest)</span></label>
+          <label class="check-item"><input type="checkbox"><span>Reproducible: clone + one command = working code</span></label>
+          <label class="check-item"><input type="checkbox"><span>Honest results section — include failure cases and limitations</span></label>
+          <label class="check-item"><input type="checkbox"><span>References section with real citations</span></label>
+        </div>
+      </div>
+      <div>
+        <h4>What Kills Your Credibility:</h4>
+        <div class="checklist">
+          <label class="check-item"><input type="checkbox"><span>Sharpe ratio &gt; 3.0 with no explanation of OOS methodology</span></label>
+          <label class="check-item"><input type="checkbox"><span>No transaction costs ("future work to add costs")</span></label>
+          <label class="check-item"><input type="checkbox"><span>One enormous notebook with no modularization</span></label>
+          <label class="check-item"><input type="checkbox"><span>Results that perfectly match a tutorial you copied</span></label>
+          <label class="check-item"><input type="checkbox"><span>No discussion of assumptions or limitations</span></label>
+          <label class="check-item"><input type="checkbox"><span>README says "profitable trading system" without statistical significance tests</span></label>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:28px;">Best Interview Prep Resources</h3>
+    <div class="resource-table">
+      <table>
+        <thead><tr><th>Resource</th><th>Type</th><th>Focus</th><th>Cost</th></tr></thead>
+        <tbody>
+          <tr><td><strong>A Practical Guide to Quantitative Finance Interviews</strong> — Xinfeng Zhou ("Green Book")</td><td>Book</td><td>Probability, brainteasers, options — standard QT/QR prep</td><td>~$25</td></tr>
+          <tr><td><strong>Heard on the Street</strong> — Timothy Crack</td><td>Book</td><td>Finance/quant interview questions; widely used</td><td>~$30</td></tr>
+          <tr><td><strong>Fifty Challenging Problems in Probability</strong> — Frederick Mosteller</td><td>Book</td><td>Probability problems; excellent for building intuition</td><td>~$15</td></tr>
+          <tr><td><strong>LeetCode</strong> (leetcode.com)</td><td>Platform</td><td>Algorithms and data structures for QD roles</td><td>Free/paid</td></tr>
+          <tr><td><strong>Wilmott Forums</strong> (wilmott.com)</td><td>Forum</td><td>Practitioner discussions; classic interview problems</td><td>Free</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION I: FIRST 30-DAY PLAN -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-i">
+    <div class="section-header">
+      <div class="section-letter c4">I</div>
+      <div class="section-title-block">
+        <h2>Your First 30-Day Action Plan</h2>
+        <p>Concrete daily actions — start today. Assumes complete beginner with basic computer skills.</p>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-step">
+        <div class="tl-num">W1</div>
+        <div>
+          <strong>Days 1–7: Setup &amp; Python Foundations</strong>
+          <ul style="font-size:13px;margin-top:8px;">
+            <li><strong>Day 1:</strong> Install Python 3.11+, pip, JupyterLab via pip. Create first notebook. Print "Hello, Quant." Understand kernel, cells, markdown.</li>
+            <li><strong>Day 2–3:</strong> Python fundamentals: variables, lists, dictionaries, for loops, functions. Work through Python official tutorial sections 1–5 (docs.python.org/3/tutorial/).</li>
+            <li><strong>Day 4–5:</strong> NumPy: array creation, slicing, broadcasting, vectorized math (np.dot, np.cumsum). Work through NumPy quickstart guide (numpy.org/doc/stable/user/quickstart.html).</li>
+            <li><strong>Day 6–7:</strong> pandas: DataFrame creation, read_csv, indexing, .groupby(), .rolling(), .resample(). Work through 10 Minutes to pandas (pandas.pydata.org/docs/user_guide/10min.html).</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num">W2</div>
+        <div>
+          <strong>Days 8–14: Financial Data &amp; Probability</strong>
+          <ul style="font-size:13px;margin-top:8px;">
+            <li><strong>Day 8:</strong> Install yfinance. Download 5 years of AAPL daily data. Compute log-returns. Plot with matplotlib. Understand what split-adjusted close price means.</li>
+            <li><strong>Day 9–10:</strong> Probability basics: work through MIT OpenCourseWare 6.041 Lecture 1–4 notes (ocw.mit.edu/courses/6-041-probabilistic-systems-analysis-and-applied-probability-fall-2010/). Solve 5 probability problems daily.</li>
+            <li><strong>Day 11–12:</strong> Statistics: normal distribution, z-scores, t-test. Compute t-test for "is AAPL mean daily return significantly different from zero?" using scipy.stats.ttest_1samp.</li>
+            <li><strong>Day 13–14:</strong> Begin Project 1: download 20 stocks, compute returns, run Jarque-Bera test, plot histogram vs Normal. Write 1-page findings summary.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num">W3</div>
+        <div>
+          <strong>Days 15–21: Deep Dive into Returns Analysis</strong>
+          <ul style="font-size:13px;margin-top:8px;">
+            <li><strong>Day 15–16:</strong> Complete Project 1. Push to GitHub with README explaining what you found. Write it as if explaining to a colleague: "I tested whether returns are normally distributed, because…"</li>
+            <li><strong>Day 17–18:</strong> Linear algebra: vectors, dot products, matrix multiplication, eigenvectors. Use 3Blue1Brown "Essence of Linear Algebra" series on YouTube (youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab). Watch Chapters 1–7.</li>
+            <li><strong>Day 19–21:</strong> Begin Project 2: rolling volatility, EWMA, correlation matrix, maximum drawdown. Focus on getting all computations correct before worrying about plots.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tl-step">
+        <div class="tl-num">W4</div>
+        <div>
+          <strong>Days 22–30: Git, SQL &amp; Project Completion</strong>
+          <ul style="font-size:13px;margin-top:8px;">
+            <li><strong>Day 22–23:</strong> Git: clone, commit, push, branch, merge. Create a proper repository structure. Read "Pro Git" (git-scm.com/book/en/v2) Chapters 1–3 (free online).</li>
+            <li><strong>Day 24–25:</strong> SQL: SELECT, WHERE, GROUP BY, ORDER BY, JOIN. Practice at SQLZoo (sqlzoo.net) — complete the first 6 sections.</li>
+            <li><strong>Day 26–28:</strong> Complete Project 2. Push to GitHub. Write a research summary: 1 paragraph per finding. Ask yourself: "What would change about portfolio management if I took these findings seriously?"</li>
+            <li><strong>Day 29–30:</strong> Self-assessment: can you explain what a fat-tailed return distribution means and why it matters? Can you write a pandas pipeline from scratch without looking at docs? Can you articulate why Markowitz needs a covariance matrix? If yes to all three, you're ready for Week 5.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout success">
+      <div class="callout-icon">✅</div>
+      <div><strong>30-Day Success Criteria:</strong> 2 completed GitHub repos with professional READMEs · Can write a pandas data pipeline from scratch · Understand log-returns, fat tails, volatility clustering at a verbal and mathematical level · Have daily study habit established (minimum 2 hours/day)</div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION J: PRIORITIES -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-j">
+    <div class="section-header">
+      <div class="section-letter c5">J</div>
+      <div class="section-title-block">
+        <h2>Prioritized Study, Build, and Avoid List</h2>
+        <p>What to focus on, what to build first, and what to skip or defer.</p>
+      </div>
+    </div>
+
+    <div class="grid-3" style="gap:16px;margin-bottom:28px;">
+      <div class="card" style="padding:16px;border-left:4px solid var(--green);">
+        <h3 style="color:var(--green);font-size:15px;">📚 STUDY FIRST</h3>
+        <ol style="font-size:13px;padding-left:16px;">
+          <li><strong>Python + NumPy + pandas</strong> — the tool you'll use for everything else. No shortcuts here.</li>
+          <li><strong>Probability &amp; statistics</strong> — all quant work is about inference under uncertainty. This is the foundation.</li>
+          <li><strong>Linear regression</strong> — understand OLS, its assumptions, when it fails, and what alternatives exist.</li>
+          <li><strong>Log-returns and their properties</strong> — every equity quant needs this as second nature.</li>
+          <li><strong>Covariance, correlation, PCA</strong> — portfolio construction requires multivariate thinking.</li>
+          <li><strong>Time-series basics: stationarity, ARIMA, GARCH</strong> — essential for volatility and return modeling.</li>
+          <li><strong>Black-Scholes + Greeks</strong> — you will be asked about this in any interview.</li>
+          <li><strong>Fama-French + Fama-MacBeth</strong> — the standard empirical framework for factor research.</li>
+          <li><strong>Backtesting biases</strong> — know these so well you can cite them in your sleep.</li>
+          <li><strong>Git &amp; reproducible workflows</strong> — professional non-negotiable.</li>
+        </ol>
+      </div>
+      <div class="card" style="padding:16px;border-left:4px solid var(--blue);">
+        <h3 style="color:var(--blue);font-size:15px;">🔨 BUILD IN THIS ORDER</h3>
+        <ol style="font-size:13px;padding-left:16px;">
+          <li>Project 1: Financial data pipeline &amp; return analysis</li>
+          <li>Project 2: Volatility, correlation, drawdown</li>
+          <li>Project 3: Markowitz optimization (including 1/N comparison)</li>
+          <li>Project 4: Backtesting engine from scratch</li>
+          <li>Project 5: Momentum with proper OOS testing</li>
+          <li>Project 8: Fama-French factor analysis</li>
+          <li>Project 9: Black-Scholes + IV surface</li>
+          <li>Project 11: GARCH volatility forecasting</li>
+          <li>Project 7: Pairs trading + cointegration</li>
+          <li>Project 14: ML for return prediction</li>
+          <li>Project 15: Full research pipeline (capstone)</li>
+          <li>Projects 6, 10, 12, 13: fill in gaps when relevant</li>
+        </ol>
+      </div>
+      <div class="card" style="padding:16px;border-left:4px solid var(--red);">
+        <h3 style="color:var(--red);font-size:15px;">🚫 AVOID / DEFER</h3>
+        <ol style="font-size:13px;padding-left:16px;">
+          <li><strong>Deep Learning / Neural networks</strong> before mastering linear models — skip-level overfitting guarantees failure</li>
+          <li><strong>Crypto strategies</strong> early on — regime instability, thin microstructure, data quality issues make it harder to learn clean lessons</li>
+          <li><strong>RL for trading</strong> — requires enormous data, non-trivial environment design; defer until year 2+</li>
+          <li><strong>High-frequency trading</strong> without microstructure foundations — requires expensive data and infrastructure</li>
+          <li><strong>Paid courses with no code</strong> — avoid courses that promise "profitable strategies" without teaching statistics</li>
+          <li><strong>Copying tutorial strategies verbatim</strong> — you learn nothing and it's obvious in interviews</li>
+          <li><strong>Over-engineering before understanding</strong> — don't build a distributed backtester before you can run a simple walk-forward correctly</li>
+          <li><strong>Chasing every new paper or method</strong> — go deep before going wide</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="callout success">
+      <div class="callout-icon">🎯</div>
+      <div>
+        <p style="margin:0;font-size:14px;"><strong>Final Principle — From Your Research Supervisor:</strong></p>
+        <p style="margin:8px 0 0 0;font-size:13px;">The most common mistake beginners make is treating quant finance as pattern recognition: find a pattern in historical data, code it up, report the backtest. That approach produces overfit strategies and shallow understanding. The approach that builds real expertise is <em>scientific thinking</em>: form a precise hypothesis about <em>why</em> a pattern should exist (risk premium, behavioral bias, structural friction), design a test that could genuinely falsify it, apply every bias control, accept the result honestly. A strategy that fails a rigorous test is not wasted time — it's a lesson in what the market doesn't reward. That understanding is worth more than any overfit backtest.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SUPERVISOR NOTE -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-supervisor">
+    <div class="section-header">
+      <div class="section-letter c1">★</div>
+      <div class="section-title-block">
+        <h2>A Note from Your Research Supervisor</h2>
+        <p>How this mentorship will work, and what comes next.</p>
+      </div>
+    </div>
+    <div class="callout info">
+      <div class="callout-icon">🎓</div>
+      <div>
+        <p style="font-size:14px;margin:0;"><strong>Assumptions about your background:</strong> I've assumed you are a motivated beginner with basic computer literacy, little to no formal statistics or programming training, and a genuine interest in quantitative finance as a career. If your actual background is different — for example, if you already have Python fluency, a mathematics degree, or specific experience in finance — the roadmap can and should be accelerated. Tell me where you are now, and I'll adjust the starting point.</p>
+        <p style="font-size:13px;margin-top:12px;"><strong>How the mentorship works:</strong> This roadmap is your map. We'll navigate it together, one project at a time. For each project, I will: (1) explain the objective and financial motivation before you start coding; (2) break it into stages with checkpoints; (3) review your reasoning, math, and code; (4) challenge your assumptions and results; (5) assess your work against professional standards; and (6) assign the next project based on your demonstrated strengths and weaknesses — not a predetermined sequence.</p>
+        <p style="font-size:13px;margin-top:12px;"><strong>What I need from you to start:</strong></p>
+        <ol style="font-size:13px;margin-top:4px;">
+          <li>Your current Python and programming level (none / basic / intermediate / advanced)</li>
+          <li>Your mathematics level (pre-calculus / single-variable calculus / multivariable &amp; linear algebra / graduate level)</li>
+          <li>Your finance knowledge (none / conceptual / worked in finance / formal training)</li>
+          <li>Your preferred quant career path (researcher / developer / trader — or undecided)</li>
+          <li>Weekly study time available (hours)</li>
+          <li>Target timeline for job readiness or your current goal</li>
+        </ol>
+        <p style="font-size:13px;margin-top:12px;"><em>If you'd prefer to start immediately without customization, say "start with Project 1" and I'll guide you through it step by step, beginning with the prerequisites and research question, asking you to implement each stage before revealing the next one.</em></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="background:var(--bg-card);border-top:1px solid var(--border);padding:24px 32px;margin-top:40px;font-size:12px;color:var(--muted);">
+    <div style="max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div><strong>Quantitative Finance Roadmap</strong><br>Built as a living reference. Supplement with primary sources.</div>
+      <div>All cited books, papers, and authors are real.<br>Verify URLs independently — web content changes.</div>
+      <div>No strategy, backtest, or resource guarantees profitability.<br>This is educational material, not investment advice.</div>
+    </div>
+  </div>
+
+</div><!-- end .main -->
+
+<script>
+// Navigation active state
+const navLinks = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('.section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(l => l.classList.remove('active'));
+      const id = e.target.getAttribute('id');
+      const active = document.querySelector(`.nav-link[href="#${id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.15 });
+sections.forEach(s => observer.observe(s));
+
+// Smooth scroll
+navLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(link.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+// Progress bar
+window.addEventListener('scroll', () => {
+  const el = document.getElementById('progress-bar');
+  if (el) {
+    const scrolled = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    el.style.width = scrolled + '%';
+  }
+});
+
+// Checkbox persistence
+document.querySelectorAll('.check-item input').forEach((cb, i) => {
+  const key = 'quant-cb-' + i;
+  cb.checked = localStorage.getItem(key) === '1';
+  cb.addEventListener('change', () => localStorage.setItem(key, cb.checked ? '1' : '0'));
+});
+</script>
+</body>
+</html>

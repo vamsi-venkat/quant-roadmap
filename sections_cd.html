@@ -1,0 +1,457 @@
+
+  <!-- ============================================================ -->
+  <!-- SECTION C: CURRICULUM -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-c">
+    <div class="section-header">
+      <div class="section-letter c3">C</div>
+      <div class="section-title-block">
+        <h2>Ordered Curriculum with Milestones</h2>
+        <p>Four stages, sequenced by dependency — not popularity. Each stage has objectives, topics, and measurable completion criteria.</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <div class="callout-icon">🗺️</div>
+      <div><strong>How to use this curriculum:</strong> Complete each stage before advancing. The stages are dependency-ordered: factor models require statistics, statistics requires calculus and probability, a backtester requires Python. Resist the urge to skip ahead.</div>
+    </div>
+
+    <!-- STAGE 1 -->
+    <div class="card" style="border-left: 3px solid var(--accent3);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <span class="stage-badge s1">Stage 1 — Foundation</span>
+        <span style="color:var(--text-muted);font-size:13px;">Weeks 1–8 · ~120 hrs</span>
+      </div>
+      <p style="font-size:13.5px;margin-bottom:14px;"><strong>Objective:</strong> Build the mathematical and programming substrate. By the end you will manipulate financial data, implement basic statistical tests, and write clean testable Python.</p>
+      <div class="grid-2">
+        <div>
+          <h4>Mathematics Track</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Calculus:</strong> limits, derivatives, chain rule, partial derivatives, integration, Taylor series. Needed for MLE, Black-Scholes, gradient descent.</li>
+            <li><strong>Linear Algebra:</strong> vectors, matrix ops, inverse, eigenvalues, positive semi-definiteness, SVD. Needed for covariance, PCA, regression.</li>
+            <li><strong>Probability:</strong> sample spaces, random variables, PMF/PDF/CDF, expectation, variance, key distributions (Normal, Lognormal, t, Binomial).</li>
+            <li><em>Exercises:</em> Prove variance-of-sum formula. Derive OLS estimator with calculus. Compute eigendecomposition of 3×3 covariance matrix by hand.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Programming Track</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Python Core:</strong> data structures, OOP, file I/O, list comprehensions, generators, error handling.</li>
+            <li><strong>NumPy:</strong> ndarray, broadcasting, vectorized ops, linalg module.</li>
+            <li><strong>pandas:</strong> Series/DataFrame, time-indexing, merge, groupby, resample, missing data.</li>
+            <li><strong>Git:</strong> commit, branch, merge, pull request, .gitignore.</li>
+            <li><em>Project:</em> Download SPY prices via <code>yfinance</code>. Compute log-returns. Plot cumulative return and rolling 30-day volatility. Commit to GitHub.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:14px;">
+        <table>
+          <thead><tr><th>Completion Criterion</th><th>Essential / Optional</th></tr></thead>
+          <tbody>
+            <tr><td>Compute OLS β from scratch using NumPy; verify vs sklearn.LinearRegression</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Clean 10 years of OHLCV data; document all corporate action handling</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Solve 20 exercises from Sheldon Ross <em>A First Course in Probability</em> Ch. 1–4</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Public GitHub repo with Stage 1 work and a proper README</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>MIT OCW 18.06 Linear Algebra Lectures 1–15</td><td><span class="pill yellow">Optional</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STAGE 2 -->
+    <div class="card" style="border-left: 3px solid var(--accent);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <span class="stage-badge s2">Stage 2 — Quantitative Methods</span>
+        <span style="color:var(--text-muted);font-size:13px;">Weeks 9–20 · ~200 hrs</span>
+      </div>
+      <p style="font-size:13.5px;margin-bottom:14px;"><strong>Objective:</strong> Master core quant tools: statistical inference, time series, portfolio math, and derivatives intro. Build your first real projects.</p>
+      <div class="grid-2">
+        <div>
+          <h4>Statistics &amp; Econometrics</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Inference:</strong> MLE, hypothesis tests (t, F, χ²), p-values and misuse, multiple testing correction (Bonferroni, BH).</li>
+            <li><strong>Regression:</strong> OLS, Gauss-Markov, heteroskedasticity, HAC standard errors (Newey-West), ridge, LASSO.</li>
+            <li><strong>Time Series:</strong> stationarity, ACF/PACF, ARIMA, unit root tests (ADF/KPSS), ARCH effects, GARCH(1,1), cointegration (Engle-Granger, Johansen).</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Portfolio Theory &amp; Finance</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Return Math:</strong> arithmetic vs log returns, compounding, Sharpe, Sortino, max drawdown, Calmar.</li>
+            <li><strong>Markowitz Optimization:</strong> efficient frontier, min-variance and tangency portfolios, constraints, numerical solution with <code>cvxpy</code>.</li>
+            <li><strong>CAPM &amp; Factor Models:</strong> beta, alpha, Fama-French 3-factor and 5-factor models, time-series regression.</li>
+            <li><strong>Derivatives Intro:</strong> option payoffs, put-call parity, binomial tree, Black-Scholes formula, Greeks, implied volatility.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:14px;">
+        <table>
+          <thead><tr><th>Completion Criterion</th><th>Essential / Optional</th></tr></thead>
+          <tbody>
+            <tr><td>Build Markowitz optimizer; plot efficient frontier; explain why it fails in practice (estimation error)</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Fit GARCH(1,1) to S&amp;P 500 returns; forecast 30-day vol; evaluate with Mincer-Zarnowitz regression</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Run Fama-MacBeth regression to estimate factor premiums using Ken French data</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Price a European call via Black-Scholes and Monte Carlo; verify they match; compute all Greeks</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Implement Engle-Granger cointegration test from scratch; test on 3 stock pairs</td><td><span class="pill green">Essential</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STAGE 3 -->
+    <div class="card" style="border-left: 3px solid var(--accent2);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <span class="stage-badge s3">Stage 3 — Advanced Research Methods</span>
+        <span style="color:var(--text-muted);font-size:13px;">Weeks 21–36 · ~280 hrs</span>
+      </div>
+      <p style="font-size:13.5px;margin-bottom:14px;"><strong>Objective:</strong> Professional-level research: rigorous backtesting, ML for finance, market microstructure, execution costs, and complete research workflows. Build 3+ portfolio-quality projects.</p>
+      <div class="grid-2">
+        <div>
+          <h4>Backtesting &amp; Strategy Research</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Backtesting Engine:</strong> event-driven architecture, portfolio accounting, transaction costs, slippage, position sizing, risk limits, performance attribution.</li>
+            <li><strong>Bias Elimination:</strong> survivorship bias correction, look-ahead bias prevention, data snooping, walk-forward validation, regime analysis.</li>
+            <li><strong>Strategy Classes:</strong> cross-sectional momentum, time-series momentum, mean reversion, pairs trading, factor investing. Each must be tested rigorously.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>ML for Finance</h4>
+          <ul style="font-size:13.5px;">
+            <li><strong>Features:</strong> technical indicators, fundamental ratios, volatility features — all with strict look-ahead controls.</li>
+            <li><strong>Models:</strong> gradient boosting (XGBoost, LightGBM), random forests, ridge/LASSO. Understand when each fails.</li>
+            <li><strong>Validation:</strong> purged k-fold CV, embargo periods (Lopez de Prado 2018). Standard CV is wrong for time series — know why.</li>
+            <li><strong>Signals:</strong> Information coefficient (IC), IC Information Ratio (ICIR), transfer coefficient.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tbl-wrap" style="margin-top:14px;">
+        <table>
+          <thead><tr><th>Completion Criterion</th><th>Essential / Optional</th></tr></thead>
+          <tbody>
+            <tr><td>Build event-driven backtester from scratch handling splits, dividends, delisted stocks</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Implement purged walk-forward validation; show standard CV overfits on time series</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Build cross-sectional momentum strategy with transaction costs; assess Sharpe statistical significance</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Train gradient boosting for return prediction; compute IC and ICIR; show OOS degradation</td><td><span class="pill green">Essential</span></td></tr>
+            <tr><td>Implement Almgren-Chriss optimal execution model</td><td><span class="pill yellow">Optional — essential for QT path</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- STAGE 4 -->
+    <div class="card" style="border-left: 3px solid var(--accent4);">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+        <span class="stage-badge s4">Stage 4 — Specialization</span>
+        <span style="color:var(--text-muted);font-size:13px;">Weeks 37–52 · ~300 hrs</span>
+      </div>
+      <p style="font-size:13.5px;margin-bottom:14px;"><strong>Objective:</strong> Deep expertise in your target quant path. Build 3–5 publication-quality projects. Prepare for technical interviews.</p>
+      <div class="grid-3">
+        <div>
+          <h4>QR Track</h4>
+          <ul style="font-size:13.5px;">
+            <li>Alternative data signal construction</li>
+            <li>High-dim factor models (PCA, sparse factors)</li>
+            <li>Hierarchical Risk Parity</li>
+            <li>Regime-switching models (HMM)</li>
+            <li>Deep learning for sequences (with extreme validation rigor)</li>
+            <li>Research report writing to professional standards</li>
+          </ul>
+        </div>
+        <div>
+          <h4>QT Track</h4>
+          <ul style="font-size:13.5px;">
+            <li>Order book dynamics and LOB analysis</li>
+            <li>Optimal execution (TWAP, VWAP, Almgren-Chriss)</li>
+            <li>Market making (Avellaneda-Stoikov model)</li>
+            <li>High-frequency data cleaning and analysis</li>
+            <li>Latency and slippage modeling</li>
+            <li>Real-time systems design concepts</li>
+          </ul>
+        </div>
+        <div>
+          <h4>FE Track</h4>
+          <ul style="font-size:13.5px;">
+            <li>Stochastic calculus (Ito integral, Girsanov, martingales)</li>
+            <li>Risk-neutral pricing framework</li>
+            <li>Local vol (Dupire) and stochastic vol (Heston)</li>
+            <li>Finite difference PDE methods (Crank-Nicolson)</li>
+            <li>Interest rate models (Vasicek, CIR, HJM)</li>
+            <li>Model calibration to market data</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION D: RESOURCE LIBRARY -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-d">
+    <div class="section-header">
+      <div class="section-letter c4">D</div>
+      <div class="section-title-block">
+        <h2>Annotated Resource Library</h2>
+        <p>Verified, authoritative resources with URL, level, prerequisites, purpose, and cost. No fabricated authors or titles.</p>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <div class="callout-icon">⚠️</div>
+      <div><strong>Honesty note:</strong> All books, papers, and authors listed here are real. Course URLs point to canonical domains; individual page URLs change. Some papers are freely available on SSRN or authors' websites.</div>
+    </div>
+
+    <h3 style="color:var(--heading);margin:20px 0 14px;">📚 Core Textbooks</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Title &amp; Author(s)</th><th>Level</th><th>Topics</th><th>Cost</th><th>Why Essential</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Options, Futures, and Other Derivatives</strong><br><span class="fn">John C. Hull (11th ed., 2022)</span></td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Derivatives pricing, Greeks, Black-Scholes, interest rate models</td>
+            <td>~$60–180; older eds fine</td>
+            <td>Standard derivatives textbook across universities and banks globally. Every derivatives quant has read this.</td>
+          </tr>
+          <tr>
+            <td><strong>Stochastic Calculus for Finance I &amp; II</strong><br><span class="fn">Steven Shreve (2004)</span></td>
+            <td><span class="pill purple">Advanced</span></td>
+            <td>Discrete/continuous-time, Ito calculus, risk-neutral pricing, rigorous Black-Scholes</td>
+            <td>~$40–80 per volume</td>
+            <td>Gold standard for rigorous mathematical treatment. Required on FE path.</td>
+          </tr>
+          <tr>
+            <td><strong>Active Portfolio Management</strong><br><span class="fn">Grinold &amp; Kahn (2nd ed., 1999)</span></td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Information ratio, Fundamental Law of Active Management, factor models, portfolio construction</td>
+            <td>~$60–100</td>
+            <td>The intellectual foundation of quantitative equity investing. IR = IC × √BR is cited in virtually every quant research meeting.</td>
+          </tr>
+          <tr>
+            <td><strong>Advances in Financial Machine Learning</strong><br><span class="fn">Marcos Lopez de Prado (2018)</span></td>
+            <td><span class="pill blue">Intermediate–Advanced</span></td>
+            <td>ML for finance, purged CV, labeling, feature importance, backtesting biases</td>
+            <td>~$50–80</td>
+            <td>Most practically useful modern book for quant researchers applying ML. Purged cross-validation is now standard practice.</td>
+          </tr>
+          <tr>
+            <td><strong>The Econometrics of Financial Markets</strong><br><span class="fn">Campbell, Lo &amp; MacKinlay (1997)</span></td>
+            <td><span class="pill purple">Advanced</span></td>
+            <td>Return predictability, factor models, market microstructure, derivative pricing, term structure</td>
+            <td>~$80–120</td>
+            <td>Academic reference for financial econometrics. Chapter 2 on returns is required reading for any serious quant.</td>
+          </tr>
+          <tr>
+            <td><strong>Quantitative Risk Management</strong><br><span class="fn">McNeil, Frey &amp; Embrechts (2nd ed., 2015)</span></td>
+            <td><span class="pill blue">Intermediate–Advanced</span></td>
+            <td>VaR, CVaR, copulas, extreme value theory, credit risk</td>
+            <td>~$60–90</td>
+            <td>Authoritative risk measurement text. Introduces copulas and EVT which go well beyond VaR limitations.</td>
+          </tr>
+          <tr>
+            <td><strong>Analysis of Financial Time Series</strong><br><span class="fn">Ruey S. Tsay (3rd ed., 2010)</span></td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>ARIMA, GARCH, multivariate time series, high-frequency data, nonlinear models</td>
+            <td>~$50–80</td>
+            <td>Practical and thorough treatment of financial time series. Best GARCH coverage in any textbook.</td>
+          </tr>
+          <tr>
+            <td><strong>Machine Learning for Asset Managers</strong><br><span class="fn">Marcos Lopez de Prado (2020)</span></td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Hierarchical Risk Parity, denoising covariance matrices, feature selection, entropy features</td>
+            <td>~$40–60</td>
+            <td>Compact, practical companion to AFML. Denoising and detoning of correlation matrices is particularly valuable.</td>
+          </tr>
+          <tr>
+            <td><strong>Python for Finance</strong><br><span class="fn">Yves Hilpisch (2nd ed., 2019)</span></td>
+            <td><span class="pill green">Beginner–Intermediate</span></td>
+            <td>Python for finance, NumPy/pandas, derivatives pricing, algorithmic trading intro</td>
+            <td>~$50–80 / O'Reilly subscription</td>
+            <td>Bridges Python and finance concepts. Good first project book before diving into pure quant material.</td>
+          </tr>
+          <tr>
+            <td><strong>A First Course in Probability</strong><br><span class="fn">Sheldon Ross (10th ed., 2019)</span></td>
+            <td><span class="pill green">Beginner–Intermediate</span></td>
+            <td>Probability fundamentals, distributions, expectation, conditioning, CLT</td>
+            <td>~$50–90</td>
+            <td>Standard probability textbook. Foundation for every statistical method in quant finance. Interview questions draw heavily from this material.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:var(--heading);margin:24px 0 14px;">🎓 University Courses (Free)</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Course &amp; Institution</th><th>Level</th><th>Topics</th><th>URL</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>18.06 Linear Algebra</strong> — MIT OCW (Gilbert Strang)</td>
+            <td><span class="pill green">Foundation</span></td>
+            <td>Matrices, eigenvalues, SVD, orthogonality</td>
+            <td><a href="https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/">ocw.mit.edu</a></td>
+          </tr>
+          <tr>
+            <td><strong>18.650 Statistics for Applications</strong> — MIT OCW (Rigollet)</td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>MLE, hypothesis testing, regression, Bayesian statistics</td>
+            <td><a href="https://ocw.mit.edu/courses/18-650-statistics-for-applications-fall-2016/">ocw.mit.edu</a></td>
+          </tr>
+          <tr>
+            <td><strong>Stat 110: Probability</strong> — Harvard (Joe Blitzstein)</td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Probability theory, distributions, conditioning, expectation, limit theorems</td>
+            <td><a href="https://projects.iq.harvard.edu/stat110/">projects.iq.harvard.edu/stat110</a></td>
+          </tr>
+          <tr>
+            <td><strong>Essence of Linear Algebra</strong> — 3Blue1Brown (YouTube)</td>
+            <td><span class="pill green">Foundation</span></td>
+            <td>Visual intuition for vectors, matrices, eigenvalues, determinants</td>
+            <td><a href="https://www.youtube.com/@3blue1brown">youtube.com/@3blue1brown</a></td>
+          </tr>
+          <tr>
+            <td><strong>Financial Theory</strong> — Yale / Coursera (John Geanakoplos)</td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Asset pricing, risk, derivatives, financial equilibrium</td>
+            <td><a href="https://www.coursera.org/learn/financial-theory">coursera.org</a></td>
+          </tr>
+          <tr>
+            <td><strong>Introduction to Computational Finance and Financial Econometrics</strong> — U Washington / Coursera (Eric Zivot)</td>
+            <td><span class="pill blue">Intermediate</span></td>
+            <td>Time series, portfolio statistics, risk, R-based but concepts transfer</td>
+            <td><a href="https://www.coursera.org/instructor/ericzivot">coursera.org</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:var(--heading);margin:24px 0 14px;">📄 Essential Academic Papers</h3>
+    <div class="callout danger">
+      <div class="callout-icon">🚨</div>
+      <div><strong>Critical caveat:</strong> McLean &amp; Pontiff (2016) show that ~50% of published anomalies significantly decay after publication. Read anomaly papers as starting hypotheses, not proven strategies. The replication crisis in finance is real.</div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Paper</th><th>Authors &amp; Year</th><th>Why It Matters</th><th>Access</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>The Pricing of Options and Corporate Liabilities</td>
+            <td>Black &amp; Scholes (1973)</td>
+            <td>Foundational options pricing — every FE has read this</td>
+            <td>JSTOR; university access</td>
+          </tr>
+          <tr>
+            <td>Portfolio Selection</td>
+            <td>Markowitz (1952), <em>Journal of Finance</em></td>
+            <td>Origin of mean-variance optimization and the efficient frontier</td>
+            <td><a href="https://www.jstor.org/stable/2975974">JSTOR</a></td>
+          </tr>
+          <tr>
+            <td>Returns to Buying Winners and Selling Losers</td>
+            <td>Jegadeesh &amp; Titman (1993), <em>JoF</em></td>
+            <td>Seminal momentum paper; 12-1 momentum factor still extensively studied</td>
+            <td>SSRN / JSTOR</td>
+          </tr>
+          <tr>
+            <td>Common Risk Factors in Returns on Stocks and Bonds</td>
+            <td>Fama &amp; French (1993), <em>JFE</em></td>
+            <td>3-factor model (market, size, value) — basis for all subsequent factor research</td>
+            <td><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html">French Data Library</a></td>
+          </tr>
+          <tr>
+            <td>A Five-Factor Asset Pricing Model</td>
+            <td>Fama &amp; French (2015), <em>JFE</em></td>
+            <td>Extends 3-factor with profitability and investment factors</td>
+            <td>French Data Library (same link)</td>
+          </tr>
+          <tr>
+            <td>Generalized Autoregressive Conditional Heteroskedasticity</td>
+            <td>Bollerslev (1986), <em>Journal of Econometrics</em></td>
+            <td>Introduces GARCH — the standard model for volatility clustering</td>
+            <td>JSTOR / ScienceDirect</td>
+          </tr>
+          <tr>
+            <td>Optimal Control of Execution Costs</td>
+            <td>Almgren &amp; Chriss (2001), <em>Journal of Risk</em></td>
+            <td>Framework for optimal trade execution; essential for understanding market impact</td>
+            <td><a href="https://www.math.nyu.edu/~almgren/">NYU Almgren page</a></td>
+          </tr>
+          <tr>
+            <td>Does Academic Research Destroy Stock Return Predictability?</td>
+            <td>McLean &amp; Pontiff (2016), <em>JoF</em></td>
+            <td>Must-read: shows anomalies decay after publication. Read before trusting any backtest.</td>
+            <td>SSRN / Journal of Finance</td>
+          </tr>
+          <tr>
+            <td>Backtest Overfitting in Financial Research (Probability of Backtest Overfitting)</td>
+            <td>Bailey, Borwein, Lopez de Prado, Zhu (2017)</td>
+            <td>Quantifies how multiple testing inflates Sharpe ratios; introduces MinTRL formula</td>
+            <td><a href="https://ssrn.com/abstract=2308659">SSRN</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 style="color:var(--heading);margin:24px 0 14px;">📊 Free Financial Data Sources</h3>
+    <div class="grid-3">
+      <div class="card">
+        <h3>Price &amp; Market Data</h3>
+        <ul style="font-size:13px;padding-left:16px;">
+          <li><a href="https://pypi.org/project/yfinance/"><strong>yfinance</strong></a> — Yahoo Finance; OHLCV; adjusted; free</li>
+          <li><a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html"><strong>Fama-French Data Library</strong></a> — factor returns, portfolios; free</li>
+          <li><a href="https://data.nasdaq.com"><strong>Nasdaq Data Link</strong></a> — various datasets, some free</li>
+          <li><a href="https://www.alphavantage.co"><strong>Alpha Vantage</strong></a> — free tier for daily prices</li>
+          <li><a href="https://polygon.io"><strong>Polygon.io</strong></a> — equities, options; free tier</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Fundamentals &amp; Macro</h3>
+        <ul style="font-size:13px;padding-left:16px;">
+          <li><a href="https://fred.stlouisfed.org"><strong>FRED</strong></a> — Federal Reserve macro data; completely free</li>
+          <li><a href="https://www.sec.gov/edgar"><strong>SEC EDGAR</strong></a> — 10-K/10-Q filings; free</li>
+          <li><a href="https://simfin.com"><strong>Simfin</strong></a> — standardized fundamentals; free tier</li>
+          <li><a href="https://data.worldbank.org"><strong>World Bank Open Data</strong></a> — global macro; free</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Derivatives &amp; Tools</h3>
+        <ul style="font-size:13px;padding-left:16px;">
+          <li><a href="https://www.cboe.com"><strong>CBOE</strong></a> — VIX history, options stats; free</li>
+          <li><a href="https://iexcloud.io"><strong>IEX Cloud</strong></a> — US equity data; free sandbox</li>
+          <li><strong>CRSP</strong> — gold-standard survivorship-bias-free data; university access required</li>
+          <li><a href="https://pypi.org/project/arch/"><strong>arch (Python)</strong></a> — GARCH modeling package</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="color:var(--heading);margin:24px 0 14px;">🔧 Essential Python Libraries</h3>
+    <div class="grid-4">
+      <div class="card" style="padding:14px;">
+        <h3 style="font-size:13px;">Data &amp; Computation</h3>
+        <div style="font-size:12px;line-height:2;">
+          <code>numpy</code> · <code>pandas</code> · <code>scipy</code><br>
+          <code>statsmodels</code> · <code>polars</code>
+        </div>
+      </div>
+      <div class="card" style="padding:14px;">
+        <h3 style="font-size:13px;">Finance-Specific</h3>
+        <div style="font-size:12px;line-height:2;">
+          <code>yfinance</code> · <code>arch</code><br>
+          <code>pyfolio</code> · <code>vectorbt</code>
+        </div>
+      </div>
+      <div class="card" style="padding:14px;">
+        <h3 style="font-size:13px;">ML &amp; Optimization</h3>
+        <div style="font-size:12px;line-height:2;">
+          <code>scikit-learn</code> · <code>xgboost</code><br>
+          <code>lightgbm</code> · <code>cvxpy</code>
+        </div>
+      </div>
+      <div class="card" style="padding:14px;">
+        <h3 style="font-size:13px;">Workflow</h3>
+        <div style="font-size:12px;line-height:2;">
+          <code>jupyterlab</code> · <code>mlflow</code><br>
+          <code>plotly</code> · <code>pytest</code>
+        </div>
+      </div>
+    </div>
+  </div>

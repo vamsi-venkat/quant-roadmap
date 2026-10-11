@@ -1,0 +1,674 @@
+
+  <!-- ============================================================ -->
+  <!-- SECTION E: PROJECT LADDER -->
+  <!-- ============================================================ -->
+  <div class="section" id="section-e">
+    <div class="section-header">
+      <div class="section-letter c5">E</div>
+      <div class="section-title-block">
+        <h2>Project Ladder</h2>
+        <p>15 projects in increasing difficulty. Each includes research question, prerequisites, data, methodology, evaluation, and what makes it credible to a quant interviewer.</p>
+      </div>
+    </div>
+
+    <div class="callout danger">
+      <div class="callout-icon">🚨</div>
+      <div><strong>What separates real research from tutorial clones:</strong> A tutorial clone reproduces results from a blog post. Real research asks "Is this effect statistically robust after adjusting for multiple testing, transaction costs, and out-of-sample data?" Every project here should answer that question honestly — even if the answer is "No, the strategy doesn't work."</div>
+    </div>
+
+    <!-- PROJECT 1 -->
+    <div class="card project-card" id="proj-1">
+      <div class="project-header">
+        <span class="proj-num">01</span>
+        <div>
+          <h3>Financial Data Pipeline &amp; Exploratory Analysis</h3>
+          <div class="proj-tags">
+            <span class="pill green">Beginner</span>
+            <span class="pill">Python · pandas · yfinance</span>
+            <span class="pill blue">~15 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> What are the empirical statistical properties of daily equity returns, and how do they differ from the Gaussian assumption underlying classical finance theory?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Download 10+ years of OHLCV data for 20 large-cap stocks plus SPY using <code>yfinance</code></li>
+            <li>Handle splits, dividends, and missing data explicitly</li>
+            <li>Compute log-returns: <code>r_t = ln(P_t/P_{t-1})</code></li>
+            <li>Statistical description: mean, std, skewness, excess kurtosis, Jarque-Bera test for normality</li>
+            <li>Plot: histogram vs fitted Normal vs fitted Student-t, QQ-plot, rolling volatility</li>
+            <li>Autocorrelation of returns (ACF) vs autocorrelation of |returns|</li>
+            <li>Measure maximum drawdown, rolling Sharpe ratio</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Expected Findings &amp; Why They Matter</h4>
+          <ul style="font-size:13px;">
+            <li>Fat tails: kurtosis &gt; 3 — Black-Scholes underprices OTM options</li>
+            <li>Negative skewness in equity indices — asymmetric risk</li>
+            <li>Near-zero autocorrelation in returns (consistent with weak-form EMH) but strong autocorrelation in |returns| (volatility clustering)</li>
+            <li>Student-t distribution (ν ≈ 3–5 df) fits much better than Normal</li>
+          </ul>
+          <h4>What Makes It Interview-Credible</h4>
+          <ul style="font-size:13px;">
+            <li>State the Jarque-Bera test statistic and its p-value; explain what it tests</li>
+            <li>Discuss the <em>implications</em> of fat tails for risk management (VaR underestimation)</li>
+            <li>Include a proper data provenance section — where data came from, adjustments made</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-meta">
+        <strong>Deliverables:</strong> GitHub repo · Jupyter notebook with reproducible code · README explaining statistical findings · All charts as PNG
+      </div>
+    </div>
+
+    <!-- PROJECT 2 -->
+    <div class="card project-card" id="proj-2">
+      <div class="project-header">
+        <span class="proj-num">02</span>
+        <div>
+          <h3>Return, Volatility, Correlation, and Drawdown Analysis</h3>
+          <div class="proj-tags">
+            <span class="pill green">Beginner–Intermediate</span>
+            <span class="pill">NumPy · pandas · scipy</span>
+            <span class="pill blue">~20 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> How do volatility, correlation, and drawdowns behave across different market regimes, and what are the practical implications for portfolio construction?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Realized volatility: rolling 21-day std × √252; rolling 63-day</li>
+            <li>Compare realized vol, EWMA vol (λ = 0.94, RiskMetrics), and implied vol (VIX proxy)</li>
+            <li>Rolling correlation matrix: 60-day, 252-day windows — animate how correlations spike in crises</li>
+            <li>Compute maximum drawdown, drawdown duration, underwater curve</li>
+            <li>Conditional distributions: return distributions conditioned on VIX quintiles</li>
+            <li>Volatility-of-volatility measure (standard deviation of rolling vol)</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Key Insight to Demonstrate</h4>
+          <ul style="font-size:13px;">
+            <li>Correlation instability: correlations are high in stress — diversification fails when you need it most (Ang &amp; Chen 2002 finding)</li>
+            <li>Volatility mean-reversion: vol tends to revert; show it empirically via autocorrelation of vol^2</li>
+            <li>Drawdown analysis: duration and severity; difference between average and maximum drawdown</li>
+          </ul>
+          <h4>Pitfalls</h4>
+          <ul style="font-size:13px;">
+            <li>Using overlapping windows without Newey-West corrections inflates t-statistics</li>
+            <li>Reporting only maximum drawdown; also report recovery time</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-meta"><strong>Extension:</strong> Compute conditional Value-at-Risk (CVaR/ES) using historical simulation; compare to Gaussian VaR for 2008 and 2020 crash periods</div>
+    </div>
+
+    <!-- PROJECT 3 -->
+    <div class="card project-card" id="proj-3">
+      <div class="project-header">
+        <span class="proj-num">03</span>
+        <div>
+          <h3>Portfolio Construction and Risk Decomposition</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate</span>
+            <span class="pill">cvxpy · NumPy · statsmodels</span>
+            <span class="pill blue">~25 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Does Markowitz mean-variance optimization produce better out-of-sample portfolios than the 1/N equal-weight benchmark, and what drives the performance difference?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Select 30 stocks from different sectors; 15 years of data</li>
+            <li>Implement Markowitz optimizer with <code>cvxpy</code>: min-variance, tangency, maximum Diversification ratio</li>
+            <li>Apply shrinkage estimators for covariance: Ledoit-Wolf (scikit-learn); compare to sample covariance</li>
+            <li>Rolling walk-forward evaluation: 36-month estimation window, 1-month rebalance</li>
+            <li>Risk decomposition: marginal risk contribution, factor risk (market β, sector exposure)</li>
+            <li>Compare: MVO, equal-weight, inverse-vol weighted, maximum Sharpe</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Key Lesson (Don't Skip This)</h4>
+          <ul style="font-size:13px;">
+            <li>DeMiguel, Garlappi &amp; Uppal (2009) show 1/N beats MVO on many datasets — demonstrate why (estimation error)</li>
+            <li>Show how extreme Markowitz weights arise from small changes in expected return estimates</li>
+            <li>Ledoit-Wolf shrinkage reduces extreme weights; explain the bias-variance tradeoff</li>
+          </ul>
+          <h4>Evaluation Metrics</h4>
+          <ul style="font-size:13px;">
+            <li>OOS Sharpe, Sortino, Calmar, max drawdown, turnover, information ratio vs SPY</li>
+            <li>Bootstrap confidence intervals on the Sharpe ratio difference</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proj-meta"><strong>Reference:</strong> DeMiguel, Garlappi &amp; Uppal, "Optimal Versus Naive Diversification," RFS 2009 (SSRN freely available)</div>
+    </div>
+
+    <!-- PROJECT 4 -->
+    <div class="card project-card" id="proj-4">
+      <div class="project-header">
+        <span class="proj-num">04</span>
+        <div>
+          <h3>Backtesting Engine Built From Scratch</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate</span>
+            <span class="pill">Python OOP · pandas · pytest</span>
+            <span class="pill blue">~40 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> How do transaction costs, slippage, and position sizing assumptions alter strategy performance, and how can a backtesting framework prevent the most common biases?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Architecture</h4>
+          <ul style="font-size:13px;">
+            <li><strong>Event-driven design:</strong> DataHandler → SignalEngine → RiskManager → PortfolioManager → ExecutionHandler → Performance</li>
+            <li><strong>Cost model:</strong> fixed commission per trade, percentage bid-ask spread (configurable), market-impact model (linear price impact)</li>
+            <li><strong>Position sizing:</strong> equal-weight, volatility-scaled, Kelly criterion (fractional)</li>
+            <li><strong>Accounting:</strong> cash tracking, long/short positions, daily P&amp;L, unrealized vs realized, drawdown tracking</li>
+            <li><strong>Bias prevention:</strong> price arrays only accessible up to current timestamp; no peeking at future prices</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Tests to Write</h4>
+          <ul style="font-size:13px;">
+            <li>Buy-and-hold test: verify P&amp;L = (end price / start price - 1) minus costs</li>
+            <li>Look-ahead bias test: shift all signals by 1 day and verify performance degrades appropriately</li>
+            <li>Transaction cost test: zero-cost run vs 10bp cost run; measure performance delta</li>
+            <li>Survivorship bias test: run on S&amp;P 500 current constituents only vs historical constituents</li>
+          </ul>
+          <h4>Repository Structure</h4>
+          <pre style="font-size:11px;background:var(--bg-dark);padding:10px;border-radius:6px;">backtester/
+├── engine/
+│   ├── data_handler.py
+│   ├── portfolio.py
+│   ├── execution.py
+│   └── performance.py
+├── strategies/
+│   └── base_strategy.py
+├── tests/
+│   ├── test_accounting.py
+│   └── test_bias_prevention.py
+└── notebooks/</pre>
+        </div>
+      </div>
+      <div class="proj-meta"><strong>Why it's educationally essential:</strong> Building the engine yourself forces you to face every implicit assumption. Using Zipline or Backtrader hides these decisions. Interview question: "What assumptions does your backtester make?" — you should have 10 answers.</div>
+    </div>
+
+    <!-- PROJECT 5 -->
+    <div class="card project-card" id="proj-5">
+      <div class="project-header">
+        <span class="proj-num">05</span>
+        <div>
+          <h3>Momentum Strategy with Rigorous OOS Testing</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate</span>
+            <span class="pill">backtester (Project 4) · pandas</span>
+            <span class="pill blue">~30 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Does the 12-1 cross-sectional momentum anomaly (Jegadeesh &amp; Titman 1993) persist in recent data after transaction costs, and does it survive out-of-sample validation?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Implementation</h4>
+          <ul style="font-size:13px;">
+            <li>Universe: S&amp;P 500 historical constituents (handle survivorship bias — use point-in-time data from Wikipedia or Tiingo)</li>
+            <li>Signal: 12-month trailing return skipping the last month (12-1)</li>
+            <li>Portfolio: top and bottom quintile; long-short; monthly rebalance</li>
+            <li>Transaction costs: 10 bps one-way; measure annual turnover</li>
+            <li>OOS split: train 2000–2015, test 2016–present (strict date cutoff)</li>
+            <li>Variation study: test 6-1, 3-1, 12-3 formations; report ALL results (multiple testing!)</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Statistical Rigor</h4>
+          <ul style="font-size:13px;">
+            <li>Compute Newey-West t-statistic for mean monthly return (autocorrelation-corrected)</li>
+            <li>Bootstrap confidence intervals on Sharpe ratio (1000 block bootstrap samples)</li>
+            <li>Report: IS Sharpe, OOS Sharpe, t-stat, p-value, max drawdown, Calmar, annual turnover</li>
+            <li>Subsample stability: show performance by decade — is it stable?</li>
+            <li>Apply Bonferroni correction if testing multiple formation periods</li>
+          </ul>
+          <h4>Expected Honest Findings</h4>
+          <p style="font-size:13px;">Momentum has been weaker post-2010; crashes severely in reversals (2009, 2020). Be honest in your write-up about these limitations.</p>
+        </div>
+      </div>
+      <div class="proj-meta"><strong>Reference:</strong> Jegadeesh &amp; Titman (1993). Also read Israel &amp; Moskowitz (2013) "The Role of Shorting, Firm Size, and Time on Market Anomalies" for a realistic cost-adjusted analysis.</div>
+    </div>
+
+    <!-- PROJECT 6 -->
+    <div class="card project-card" id="proj-6">
+      <div class="project-header">
+        <span class="proj-num">06</span>
+        <div>
+          <h3>Mean Reversion Strategy</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate</span>
+            <span class="pill">statsmodels · backtester</span>
+            <span class="pill blue">~25 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Do short-term return reversals (Lehmann 1990; Lo &amp; MacKinlay 1990) produce tradable alpha after realistic transaction costs?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Weekly cross-sectional reversal: short last-week's winners, long losers</li>
+            <li>Test on US large-cap universe (Russell 1000 proxied by SPDR sector ETFs or individual stocks)</li>
+            <li>Vary holding periods: 1-week, 2-week reversal</li>
+            <li>Apply realistic bid-ask spreads (proportional to daily volume using Corwin-Schultz estimator or constant 5bps for large-caps)</li>
+            <li>Decompose: is alpha driven by bid-ask bounce, lead-lag, or true mispricing?</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Key Insight</h4>
+          <ul style="font-size:13px;">
+            <li>Short-term reversal is highly sensitive to transaction costs — this is the lesson</li>
+            <li>The gross signal is real; the net-of-cost signal is much smaller and regime-dependent</li>
+            <li>Discuss market impact: the more capital deployed, the worse execution quality</li>
+          </ul>
+          <h4>Pitfalls to Avoid</h4>
+          <ul style="font-size:13px;">
+            <li>Using closing prices for both signal and execution — use next open or TWAP estimate</li>
+            <li>Ignoring turnover — this strategy turns over portfolio every 1–2 weeks</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 7 -->
+    <div class="card project-card" id="proj-7">
+      <div class="project-header">
+        <span class="proj-num">07</span>
+        <div>
+          <h3>Pairs Trading with Cointegration Testing</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate–Advanced</span>
+            <span class="pill">statsmodels · arch · backtester</span>
+            <span class="pill blue">~35 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Can cointegrated stock pairs identified in-sample generate statistically significant risk-adjusted returns OOS, and what is the role of hedge ratio estimation error?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Universe: sector-matched pairs (e.g., XOM/CVX, KO/PEP, GS/MS)</li>
+            <li>Cointegration tests: Engle-Granger 2-step, Johansen trace test — implement both</li>
+            <li>Estimate hedge ratio via OLS; compare to Kalman filter dynamic hedge ratio</li>
+            <li>Spread: z_t = log(P1) - β·log(P2); standardize to z-score with rolling mean/std</li>
+            <li>Entry/exit: ±2σ entry, 0 exit; with stop at ±3σ</li>
+            <li>IS: 2010–2018 | OOS: 2019–present</li>
+            <li>Correct for multiple comparisons: if testing 100 pairs, apply FDR correction</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Critical Analysis</h4>
+          <ul style="font-size:13px;">
+            <li>How stable is cointegration? Test rolling cointegration over 2-year windows</li>
+            <li>What happens when the cointegrating relationship breaks? (thesis risk)</li>
+            <li>Transaction cost analysis: pairs trading requires frequent rebalancing</li>
+            <li>Report: number of trades, average holding period, OOS Sharpe, max drawdown per pair</li>
+          </ul>
+          <h4>Extensions</h4>
+          <ul style="font-size:13px;">
+            <li>Kalman filter for dynamic hedge ratio estimation</li>
+            <li>Extend to 3-asset cointegrating systems (Johansen vectors)</li>
+            <li>Ornstein-Uhlenbeck model for the spread: calibrate θ, μ, σ and compute optimal entry threshold analytically</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 8 -->
+    <div class="card project-card" id="proj-8">
+      <div class="project-header">
+        <span class="proj-num">08</span>
+        <div>
+          <h3>Fama–French Factor Analysis and Fama-MacBeth Regression</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate–Advanced</span>
+            <span class="pill">pandas · statsmodels · scipy</span>
+            <span class="pill blue">~30 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Do size, value, profitability, and investment factor exposures explain cross-sectional variation in expected stock returns, and what is the marginal contribution of each factor?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Implementation</h4>
+          <ul style="font-size:13px;">
+            <li>Download FF3 and FF5 factor returns from <a href="https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html">Ken French Data Library</a></li>
+            <li>Time-series regression: Rᵢ − Rf = α + β₁MKT + β₂SMB + β₃HML + εᵢ for each of 25 stock portfolios (FF25)</li>
+            <li>Fama-MacBeth 2-stage regression: (1) cross-sectional β estimation; (2) monthly cross-sectional return regression on β estimates; (3) time-series mean and t-stat of λ coefficients</li>
+            <li>Newey-West standard errors on λ (lags = 3)</li>
+            <li>Spanning test: does adding a new factor improve GRS test statistic?</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Analysis</h4>
+          <ul style="font-size:13px;">
+            <li>GRS (1989) test: joint test that all intercepts (alphas) are zero — implement and interpret</li>
+            <li>Compare FF3 vs FF5: does profitability and investment improve the model?</li>
+            <li>Check: is SMB premium stable across subperiods?</li>
+            <li>Discuss: value (HML) has been weak post-2007 — discuss structural vs sample variation explanation</li>
+          </ul>
+          <h4>Why This Is Interview-Essential</h4>
+          <p style="font-size:13px;">Fama-MacBeth regression is the standard procedure for cross-sectional asset pricing tests. Any QR role interviewer may ask: "How does Fama-MacBeth correct for cross-sectional correlation in the errors?" You should have a precise answer.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 9 -->
+    <div class="card project-card" id="proj-9">
+      <div class="project-header">
+        <span class="proj-num">09</span>
+        <div>
+          <h3>Black-Scholes Pricing, Greeks, and Implied Volatility Surface</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate–Advanced</span>
+            <span class="pill">scipy · numpy · matplotlib</span>
+            <span class="pill blue">~30 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> How does the market's implied volatility surface differ from the constant-volatility assumption of Black-Scholes, and what does this tell us about the model's limitations?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Implementation</h4>
+          <ul style="font-size:13px;">
+            <li>Implement Black-Scholes from scratch: C = S·N(d₁) − K·e^{−rT}·N(d₂)</li>
+            <li>Compute all Greeks analytically: Δ, Γ, Θ, ν (Vega), ρ</li>
+            <li>Numerical Greeks: finite difference; verify they match analytical values</li>
+            <li>Implied volatility solver: Newton-Raphson using Vega; handle edge cases (deep ITM/OTM)</li>
+            <li>Download SPY options chain via yfinance or Polygon; construct IV surface</li>
+            <li>Visualize volatility smile and term structure</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Key Analysis</h4>
+          <ul style="font-size:13px;">
+            <li>Volatility smile: OTM puts have higher IV than ATM — implies market prices large negative jumps</li>
+            <li>Term structure: short-dated IV vs long-dated IV; behavior around macro events</li>
+            <li>Put-call parity check: verify it holds numerically in your data</li>
+            <li>Discuss: what does a non-flat IV surface imply about the adequacy of GBM as a model for stock prices?</li>
+          </ul>
+          <h4>Extensions</h4>
+          <ul style="font-size:13px;">
+            <li>Implement Heston model variance swap formula</li>
+            <li>Dupire local vol surface extraction from market prices</li>
+            <li>Delta-hedging simulation: P&amp;L under real vs implied vol</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 10 -->
+    <div class="card project-card" id="proj-10">
+      <div class="project-header">
+        <span class="proj-num">10</span>
+        <div>
+          <h3>Monte Carlo Option Pricing and Variance Reduction</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate–Advanced</span>
+            <span class="pill">numpy · scipy</span>
+            <span class="pill blue">~25 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> How do different Monte Carlo variance reduction techniques affect the speed-accuracy tradeoff for option pricing, and when does MC have advantages over analytical solutions?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Implementation</h4>
+          <ul style="font-size:13px;">
+            <li>GBM path simulation: S(T) = S₀·exp((r − σ²/2)T + σ√T·Z), Z∼N(0,1)</li>
+            <li>European call/put pricing; verify against Black-Scholes closed-form</li>
+            <li>Variance reduction: (1) Antithetic variates; (2) Control variates; (3) Importance sampling</li>
+            <li>Convergence analysis: RMSE vs N_simulations; plot convergence curves for each method</li>
+            <li>Asian option (arithmetic average): MC is needed — no closed form</li>
+            <li>Barrier option pricing: up-and-out call</li>
+            <li>American option: Longstaff-Schwartz least-squares MC for early exercise</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Key Lessons</h4>
+          <ul style="font-size:13px;">
+            <li>MC error scales as 1/√N — to halve error, need 4× more simulations</li>
+            <li>Antithetic variates roughly halves variance for free; always use it</li>
+            <li>Control variate using geometric Asian as control for arithmetic Asian is textbook and powerful</li>
+            <li>Longstaff-Schwartz shows how to handle path-dependent early exercise — foundational for American options</li>
+          </ul>
+          <h4>Performance Testing</h4>
+          <ul style="font-size:13px;">
+            <li>Time your implementations; explore NumPy vectorization vs Python loops</li>
+            <li>Profile with <code>cProfile</code> to find bottlenecks</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 11 -->
+    <div class="card project-card" id="proj-11">
+      <div class="project-header">
+        <span class="proj-num">11</span>
+        <div>
+          <h3>Volatility Forecasting with GARCH Models</h3>
+          <div class="proj-tags">
+            <span class="pill blue">Intermediate–Advanced</span>
+            <span class="pill">arch · statsmodels · scipy</span>
+            <span class="pill blue">~30 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Which volatility model — realized volatility, EWMA, GARCH(1,1), GJR-GARCH, or EGARCH — produces the most accurate 1-day and 22-day ahead volatility forecasts?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Models to Implement</h4>
+          <ul style="font-size:13px;">
+            <li><strong>RV:</strong> rolling 21-day realized variance</li>
+            <li><strong>EWMA:</strong> σ²_t = λσ²_{t-1} + (1-λ)r²_{t-1}; tune λ via MLE</li>
+            <li><strong>GARCH(1,1):</strong> σ²_t = ω + αε²_{t-1} + βσ²_{t-1}; MLE estimation</li>
+            <li><strong>GJR-GARCH:</strong> adds asymmetric leverage effect (γ coefficient on negative innovations)</li>
+            <li><strong>EGARCH:</strong> Nelson (1991) — log specification ensures positive variance without constraints</li>
+            <li>Use <code>arch</code> library; then implement GARCH(1,1) MLE from scratch to understand it</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Evaluation Framework</h4>
+          <ul style="font-size:13px;">
+            <li>True volatility proxy: realized variance from 5-minute intraday returns (if available) or absolute daily returns squared</li>
+            <li>Forecast evaluation: MSE, QLIKE loss (preferred for volatility: asymmetric), Mincer-Zarnowitz regression</li>
+            <li>Diebold-Mariano test for forecast comparison</li>
+            <li>Rolling OOS evaluation: expand window, forecast 1 step ahead</li>
+          </ul>
+          <h4>Key Financial Result</h4>
+          <p style="font-size:13px;">GJR-GARCH typically outperforms GARCH(1,1) for equities due to leverage effect (negative returns increase future vol more than positive returns of same magnitude — Black 1976).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 12 -->
+    <div class="card project-card" id="proj-12">
+      <div class="project-header">
+        <span class="proj-num">12</span>
+        <div>
+          <h3>Market Microstructure and Limit Order Book Analysis</h3>
+          <div class="proj-tags">
+            <span class="pill purple">Advanced</span>
+            <span class="pill">Python · pandas · LOB data</span>
+            <span class="pill blue">~35 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> What empirical regularities exist in limit order book dynamics, and how do bid-ask spreads, order imbalance, and trade clustering relate to short-term price movements?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Data: Nasdaq BBO data via LOBSTER (<a href="https://lobsterdata.com">lobsterdata.com</a>) or IEX TOPS feed (free)</li>
+            <li>Bid-ask spread estimation if only daily data: Corwin-Schultz (2012) high-low estimator</li>
+            <li>Roll (1984) implied spread from return autocorrelation</li>
+            <li>Order flow imbalance: OFI = (bid volume change − ask volume change)</li>
+            <li>Regression: price change ~ OFI + lagged OFI (Cont, Kukanov &amp; Stoikov 2014)</li>
+            <li>Intraday patterns: spreads, volume, volatility by time of day</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Models</h4>
+          <ul style="font-size:13px;">
+            <li>Amihud (2002) illiquidity ratio: |r_t|/Volume_t — cross-sectional and time-series analysis</li>
+            <li>Kyle (1985) λ estimation: regress price change on signed volume</li>
+            <li>Hasbrouck (1991) VAR model for quote revisions and trades</li>
+          </ul>
+          <h4>What Makes This Credible</h4>
+          <p style="font-size:13px;">Most quant candidates skip microstructure. Demonstrating knowledge of Kyle's lambda, the Amihud ratio, and order flow imbalance immediately signals that you understand execution costs — a key concern for any live strategy.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 13 -->
+    <div class="card project-card" id="proj-13">
+      <div class="project-header">
+        <span class="proj-num">13</span>
+        <div>
+          <h3>Statistical Arbitrage with Strict Out-of-Sample Discipline</h3>
+          <div class="proj-tags">
+            <span class="pill purple">Advanced</span>
+            <span class="pill">sklearn · statsmodels · backtester</span>
+            <span class="pill blue">~45 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Can a multi-factor statistical arbitrage strategy using PCA-extracted latent factors generate statistically significant OOS alpha with realistic execution assumptions?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Methodology</h4>
+          <ul style="font-size:13px;">
+            <li>Universe: S&amp;P 500 constituents; 15 years daily data; handle survivorship bias</li>
+            <li>PCA on return matrix: extract top K factors; residual = idiosyncratic return</li>
+            <li>Mean-reverting signal: standardized residual (z-score) over rolling 60-day window</li>
+            <li>Portfolio: long top decile by positive z-score, short bottom decile</li>
+            <li>Risk constraints: sector-neutral, β-neutral (market exposure &lt; 0.1), position limits</li>
+            <li>Strict OOS: IS 2005–2018, OOS 2019–present; never touch OOS until final evaluation</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Rigor Requirements</h4>
+          <ul style="font-size:13px;">
+            <li>Walk-forward validation within IS period first</li>
+            <li>Report probability of backtest overfitting (PBO) using combinatorially symmetric cross-validation (Bailey et al. 2017)</li>
+            <li>Transaction costs: 5bps per side; measure monthly turnover</li>
+            <li>Deflated Sharpe Ratio (DSR) — adjust Sharpe for skewness, kurtosis, and multiple testing</li>
+            <li>Honest OOS assessment: IS Sharpe 1.2, OOS Sharpe 0.6 — still a realistic finding</li>
+          </ul>
+          <h4>Common Failure Mode</h4>
+          <p style="font-size:13px;">PCA factors are not stable over time. Regime changes cause factor rotations. Use rolling PCA or retrain periodically within walk-forward loop.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 14 -->
+    <div class="card project-card" id="proj-14">
+      <div class="project-header">
+        <span class="proj-num">14</span>
+        <div>
+          <h3>Machine Learning for Return Prediction with Leakage Controls</h3>
+          <div class="proj-tags">
+            <span class="pill purple">Advanced</span>
+            <span class="pill">xgboost · lightgbm · sklearn · mlflow</span>
+            <span class="pill blue">~50 hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Can gradient-boosted trees trained on lagged financial features generate statistically significant Information Coefficient (IC) for next-month stock returns, and does the IC survive purged walk-forward validation?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Features (All Strictly Lagged)</h4>
+          <ul style="font-size:13px;">
+            <li>Momentum: 1m, 3m, 6m, 12m return</li>
+            <li>Reversal: 1w, 2w return</li>
+            <li>Volatility: 21-day realized vol; GARCH vol estimate</li>
+            <li>Value: P/E, P/B, dividend yield (from EDGAR via simfin)</li>
+            <li>Quality: ROE, ROA, gross profitability, debt/equity</li>
+            <li>Technical: RSI-14, MACD, Bollinger band position</li>
+            <li>Each feature must be computable at time T using only data available at T</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Validation Discipline</h4>
+          <ul style="font-size:13px;">
+            <li><strong>Purged K-Fold CV:</strong> drop observations overlapping the test fold ± embargo period (Lopez de Prado Ch.7)</li>
+            <li><strong>Feature engineering leakage:</strong> rolling means computed only on past data; verify with shifted data test</li>
+            <li><strong>Target:</strong> 1-month forward return (realized next month, not available at prediction time)</li>
+            <li><strong>IC:</strong> Spearman rank correlation between predicted and realized returns; ICIR = mean(IC)/std(IC)</li>
+            <li>Compare: ICIR in IS vs ICIR in OOS; if OOS ICIR &lt; 0.3, signal is likely too weak</li>
+          </ul>
+          <h4>MLflow Experiment Tracking</h4>
+          <ul style="font-size:13px;">
+            <li>Log every hyperparameter, training window, OOS IC, and Sharpe to <code>mlflow</code></li>
+            <li>This prevents p-hacking and gives you an honest audit trail</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROJECT 15 -->
+    <div class="card project-card" id="proj-15">
+      <div class="project-header">
+        <span class="proj-num">15</span>
+        <div>
+          <h3>Complete Research Pipeline: Systematic Equity Strategy</h3>
+          <div class="proj-tags">
+            <span class="pill purple">Advanced — Capstone</span>
+            <span class="pill">Full stack: data → signal → portfolio → execution → report</span>
+            <span class="pill blue">~80+ hours</span>
+          </div>
+        </div>
+      </div>
+      <p><strong>Research Question:</strong> Can a systematic equity strategy combining momentum, quality, and low-volatility factors achieve a risk-adjusted excess return (Deflated Sharpe &gt; 1.0) after all costs in out-of-sample data?</p>
+      <div class="grid-2">
+        <div>
+          <h4>Pipeline Architecture</h4>
+          <ol style="font-size:13px;">
+            <li><strong>Universe construction:</strong> S&amp;P 500 historical constituents; liquidity filters; point-in-time</li>
+            <li><strong>Signal generation:</strong> each factor z-scored cross-sectionally; composite signal = weighted average</li>
+            <li><strong>Portfolio optimizer:</strong> mean-variance with signal as alpha input; risk model = Ledoit-Wolf covariance; constraints: long-only, max weight 3%, sector ±5% from benchmark</li>
+            <li><strong>Transaction cost model:</strong> linear market impact + proportional spread; turnover budget constraint</li>
+            <li><strong>Risk limits:</strong> stop-loss at −8% monthly, max β = 0.15 from neutral, max sector weight 20%</li>
+            <li><strong>Execution model:</strong> TWAP over first 2 hours of day; partial fills</li>
+            <li><strong>Walk-forward engine:</strong> 36-month IS window, 3-month OOS, refit every 6 months</li>
+          </ol>
+        </div>
+        <div>
+          <h4>Performance Attribution</h4>
+          <ul style="font-size:13px;">
+            <li>Brinson-Hood-Beebower attribution: allocation effect, selection effect, interaction</li>
+            <li>Factor attribution: how much of alpha is explained by FF5 factors?</li>
+            <li>Sharpe, Sortino, Calmar, max drawdown, avg drawdown duration, turnover, information ratio</li>
+            <li>Deflated Sharpe Ratio (Bailey &amp; Lopez de Prado 2012) — adjusts for multiple testing</li>
+          </ul>
+          <h4>Research Report Requirements</h4>
+          <ul style="font-size:13px;">
+            <li>1-page executive summary with hypothesis, method, key results (not cherry-picked)</li>
+            <li>Honest OOS assessment: where did it underperform? Why?</li>
+            <li>Regime analysis: performance during risk-off vs risk-on periods</li>
+            <li>Limitations section: data quality, survivorship bias mitigation, capacity estimate</li>
+            <li>All code reproducible with one command: <code>make backtest</code></li>
+          </ul>
+          <h4>Why This Is Capstone-Quality</h4>
+          <p style="font-size:13px;">This project integrates everything: econometrics, optimization, execution, risk management, and scientific reporting. A well-executed version of this — with honest OOS results — is more impressive to quant interviewers than any result that looks too good.</p>
+        </div>
+      </div>
+      <div class="proj-meta"><strong>Target deliverable:</strong> Public GitHub repo · Full research report PDF · Reproducible Docker environment · Presentation deck (5 slides max: hypothesis, methodology, results, risks, next steps)</div>
+    </div>
+
+  </div>
